@@ -8,40 +8,72 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool isLogin = true;
+  bool isLogin = false;
   bool obscureText = true;
-
   @override
   Widget build(BuildContext context) {
+    double sizeBoxheigth = isLogin ? 30 : 10;
     bool isMobile = MediaQuery.of(context).size.width < 800;
 
     TextStyle style = const TextStyle(fontFamily: "Montserrat", fontSize: 20);
 
-    final emailField = TextField(
-      obscureText: false,
-      style: style,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+    final emailField = SizedBox(
+      height: 45,
+      child: TextField(
+        obscureText: false,
+        style: style,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Email",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        ),
       ),
     );
 
-    final passwordField = TextField(
-      obscureText: obscureText,
-      style: style,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Senha",
-        suffixIcon: IconButton(
-          onPressed: () {
-            setState(() {
-              obscureText = !obscureText;
-            });
-          },
-          icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
+    final passwordField = SizedBox(
+      height: 45,
+      child: TextField(
+        obscureText: obscureText,
+        style: style,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Senha",
+          suffixIcon: IconButton(
+            onPressed: () {
+              setState(() {
+                obscureText = !obscureText;
+              });
+            },
+            icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
+          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
         ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+      ),
+    );
+
+    final cpfField = SizedBox(
+      height: 45,
+      child: TextField(
+        obscureText: false,
+        style: style,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "CPF",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        ),
+      ),
+    );
+
+    final numberField = SizedBox(
+      height: 45,
+      child: TextField(
+        obscureText: false,
+        style: style,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Número",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        ),
       ),
     );
 
@@ -57,7 +89,7 @@ class _LoginState extends State<Login> {
           ),
         ),
         child: Text(
-          "Login",
+          isLogin ? "Login" : "Cadastrar",
           textAlign: TextAlign.center,
           style: style.copyWith(
             color: Colors.deepOrange,
@@ -71,7 +103,16 @@ class _LoginState extends State<Login> {
       final text = Container(
         height: isMobile ? 200 : double.infinity,
         width: isMobile ? double.infinity : 400,
-        color: const Color.fromARGB(117, 0, 0, 0),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(117, 0, 0, 0),
+          boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(117, 0, 0, 0),
+              blurRadius: 20,
+              offset: isLogin ? Offset(-15, 0) : Offset(15, 0),
+            ),
+          ],
+        ),
         child: Center(
           child: Text(
             isLogin
@@ -98,17 +139,31 @@ class _LoginState extends State<Login> {
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(32)),
                 color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10,
+                    offset: Offset(-10, 10),
+                  ),
+                ],
               ),
-              height: 400,
               width: 400,
               padding: const EdgeInsets.all(40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 30),
+                  SizedBox(height: sizeBoxheigth),
                   const Text("Email"),
                   emailField,
-                  const SizedBox(height: 30),
+                  SizedBox(height: sizeBoxheigth),
+                  if (!isLogin) ...[
+                    const Text("CPF"),
+                    cpfField,
+                    SizedBox(height: sizeBoxheigth),
+                    const Text("Número"),
+                    numberField,
+                    SizedBox(height: sizeBoxheigth),
+                  ],
                   const Text("Senha"),
                   passwordField,
                   Row(
