@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/screens/login/widgets/input.dart';
+import 'package:market_partners/utils/isMobile.dart';
+import 'package:market_partners/utils/style.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -8,33 +11,25 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool isLogin = false;
+  int isLogin = 0;
   bool obscureText = true;
   @override
   Widget build(BuildContext context) {
-    double sizeBoxheigth = isLogin ? 30 : 10;
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    double sizeBoxheigth = isLogin == 0 ? 30 : 10;
+    bool isMobile = IsMobile(context);
 
-    TextStyle style = const TextStyle(fontFamily: "Montserrat", fontSize: 20);
-
-    final emailField = SizedBox(
-      height: 45,
-      child: TextField(
-        obscureText: false,
-        style: style,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Email",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        ),
-      ),
-    );
+    String email = "";
+    final emailField = input("Email", (value) {
+      setState(() {
+        email = value;
+      });
+    });
 
     final passwordField = SizedBox(
       height: 45,
       child: TextField(
         obscureText: obscureText,
-        style: style,
+        style: AppText.tiny,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Senha",
@@ -51,31 +46,19 @@ class _LoginState extends State<Login> {
       ),
     );
 
-    final cpfField = SizedBox(
-      height: 45,
-      child: TextField(
-        obscureText: false,
-        style: style,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "CPF",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        ),
-      ),
-    );
+    String cpf = "";
+    final cpfField = input(isLogin == 1 ? "CPF" : "CNPJ", (value) {
+      setState(() {
+        cpf = value;
+      });
+    });
 
-    final numberField = SizedBox(
-      height: 45,
-      child: TextField(
-        obscureText: false,
-        style: style,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Número",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        ),
-      ),
-    );
+    String number = "";
+    final numberField = input("Numero", (value) {
+      setState(() {
+        number = value;
+      });
+    });
 
     final buttonLogin = ButtonTheme(
       child: ElevatedButton(
@@ -89,12 +72,9 @@ class _LoginState extends State<Login> {
           ),
         ),
         child: Text(
-          isLogin ? "Login" : "Cadastrar",
+          isLogin != 0 ? "Login" : "Cadastrar",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-            color: Colors.deepOrange,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppText.tiny,
         ),
       ),
     );
@@ -109,13 +89,13 @@ class _LoginState extends State<Login> {
             BoxShadow(
               color: const Color.fromARGB(117, 0, 0, 0),
               blurRadius: 20,
-              offset: isLogin ? Offset(-15, 0) : Offset(15, 0),
+              offset: isLogin != 0 ? Offset(-15, 0) : Offset(15, 0),
             ),
           ],
         ),
         child: Center(
           child: Text(
-            isLogin
+            isLogin != 0
                 ? isMobile
                     ? "Bem Vindo De Volta"
                     : "Bem\nVindo\nDe\nVolta"
@@ -153,15 +133,12 @@ class _LoginState extends State<Login> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: sizeBoxheigth),
-                  const Text("Email"),
-                  emailField,
+                  ...emailField,
                   SizedBox(height: sizeBoxheigth),
-                  if (!isLogin) ...[
-                    const Text("CPF"),
-                    cpfField,
+                  if (isLogin != 0) ...[
+                    ...cpfField,
                     SizedBox(height: sizeBoxheigth),
-                    const Text("Número"),
-                    numberField,
+                    ...numberField,
                     SizedBox(height: sizeBoxheigth),
                   ],
                   const Text("Senha"),
@@ -171,14 +148,28 @@ class _LoginState extends State<Login> {
                       TextButton(
                         onPressed: () {
                           setState(() {
-                            isLogin = !isLogin;
+                            isLogin == 0 ? isLogin = 1 : isLogin = 0;
                           });
                         },
                         child: Text(
-                          isLogin ? "Criar uma conta" : "Já tenho uma conta",
+                          isLogin == 0
+                              ? "Criar uma conta"
+                              : "Já tenho uma conta",
                           style: const TextStyle(color: Colors.blue),
                         ),
                       ),
+                      if (isLogin != 0)
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              isLogin == 1 ? isLogin = 2 : isLogin = 1;
+                            });
+                          },
+                          child: Text(
+                            isLogin == 1 ? "Ser um vendedor" : "Ser comprador",
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ),
                     ],
                   ),
                   SizedBox(height: 30),
@@ -189,7 +180,7 @@ class _LoginState extends State<Login> {
           ),
         ),
       );
-      return isLogin || isMobile
+      return isLogin != 0 || isMobile
           ? [text, loginContainer]
           : [loginContainer, text];
     }
