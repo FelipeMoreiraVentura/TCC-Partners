@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/isMobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -10,51 +11,60 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
+  List<Map<String, String>> chatHistory = [];
+  bool isListening = false;
+  final speech = stt.SpeechToText();
+  final TextEditingController promptController = TextEditingController();
+
+  void sendMessage(prompt) {
+    setState(() {
+      chatHistory.add({"sender": "user", "message": prompt});
+      chatHistory.add({
+        "sender": "bot",
+        "message": "Bom dia, como posso ajudar?",
+      });
+    });
+  }
+
+  void listen() async {
+    if (isListening) {
+      bool available = await speech.initialize(
+        onStatus: (status) {
+          setState(() {
+            isListening = status == "listening";
+          });
+        },
+        onError: (error) {
+          setState(() {
+            isListening = false;
+          });
+        },
+      );
+
+      if (available) {
+        speech.listen(
+          onResult: (result) {
+            setState(() {
+              promptController.text = result.recognizedWords;
+            });
+          },
+          localeId: 'pt_BR',
+        );
+      }
+    } else {
+      speech.stop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> chatHistory = [
-      {"sender": "bot", "message": "Olá, como posso te ajudar hoje?"},
-      {
-        "sender": "user",
-        "message": "Bom dia, meu celular não está carregando mais.",
-      },
-      {
-        "sender": "bot",
-        "message":
-            "Certo. Inicialmente, tente identificar o culpado: troque o cabo, a fonte que está usando e, se possível, teste o carregador em outro aparelho.",
-      },
-      {"sender": "user", "message": "O que é fonte?"},
-      {
-        "sender": "bot",
-        "message": "Fonte é a parte do carregador que você conecta na tomada.",
-      },
-      {"sender": "user", "message": "Certo, o problema é no cabo."},
-      {
-        "sender": "bot",
-        "message":
-            "Ótimo, encontramos o problema. Agora precisamos saber qual é o tipo do seu conector. Observe a parte que você conecta ao dispositivo e me diga qual o formato.",
-      },
-      {
-        "sender": "user",
-        "message": "Ele, é retangular com bordas arredondadas ",
-      },
-      {
-        "sender": "bot",
-        "message":
-            "Isso é caracteristicas de um conector tipo-c, Veja o modelo abaixo:",
-      },
-    ];
-
     bool isMobile = IsMobile(context);
 
     double mediaQueryWidht = MediaQuery.of(context).size.width;
     double mediaQueryHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 187, 186, 186),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
-      ),
+      color: AppColors.menu,
       width: isMobile ? mediaQueryWidht : mediaQueryWidht * 0.35,
       height: isMobile ? mediaQueryHeight * 0.6 : mediaQueryHeight,
       child: Column(
@@ -84,7 +94,13 @@ class _ChatViewState extends State<ChatView> {
             color: const Color.fromARGB(255, 207, 205, 205),
             child: Column(
               children: [
-                TextField(),
+                TextField(
+                  controller: promptController,
+                  onSubmitted: (value) {
+                    sendMessage(value);
+                    promptController.clear();
+                  },
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -94,11 +110,25 @@ class _ChatViewState extends State<ChatView> {
                           onPressed: () {},
                           icon: Icon(Icons.attach_file),
                         ),
-                        IconButton(onPressed: () {}, icon: Icon(Icons.mic)),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isListening = !isListening;
+                            });
+                            listen();
+                          },
+                          icon: Icon(
+                            Icons.mic,
+                            color: isListening ? Colors.red : Colors.black87,
+                          ),
+                        ),
                       ],
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        sendMessage(promptController.text);
+                        promptController.clear();
+                      },
                       icon: Icon(Icons.arrow_upward),
                     ),
                   ],

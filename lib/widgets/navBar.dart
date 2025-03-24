@@ -12,7 +12,7 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  bool chatView = true;
+  bool chatView = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,39 +37,49 @@ class _NavBarState extends State<NavBar> {
             chatView = !chatView;
           });
         },
-        child: Image.asset("images/chatIcon.png", width: 45, height: 45),
+        child: Image.asset("assets/images/chatIcon.png", width: 45, height: 45),
       ),
     ];
 
-    return isMobile
-        ? Column(
-          children: [
-            Expanded(
-              child: Stack(
+    return Container(
+      child:
+          isMobile
+              ? Column(
                 children: [
-                  widget.child,
-                  if (chatView) Positioned(bottom: 0, child: ChatView()),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        SingleChildScrollView(child: widget.child),
+                        if (chatView)
+                          Positioned(bottom: 0, right: 0, child: ChatView()),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    color: AppColors.menu,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: buttonRoutes,
+                    ),
+                  ),
+                ],
+              )
+              : Row(
+                children: [
+                  Container(
+                    color: AppColors.menu,
+                    child: Column(children: buttonRoutes),
+                  ),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        SingleChildScrollView(child: widget.child),
+                        if (chatView) Positioned(child: ChatView()),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: buttonRoutes,
-            ),
-          ],
-        )
-        : Row(
-          children: [
-            Column(children: buttonRoutes),
-            Expanded(
-              child: Stack(
-                children: [
-                  widget.child,
-                  if (chatView) Positioned(child: ChatView()),
-                ],
-              ),
-            ),
-          ],
-        );
+    );
   }
 }
