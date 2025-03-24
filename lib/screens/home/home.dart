@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/screens/home/widgets/Carousel.dart';
+import 'package:market_partners/screens/home/widgets/products.dart';
+import 'package:market_partners/utils/isMobile.dart';
+import 'package:market_partners/widgets/navBar.dart';
+import 'package:market_partners/utils/style.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,6 +15,80 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    bool isMobile = IsMobile(context);
+    var sizeScreen = MediaQuery.of(context).size;
+
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.blue,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (!isMobile)
+              Image.asset(
+                "assets/images/logoStringWhite.png",
+                height: 43,
+                width: 200,
+              ),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 40,
+                  child: TextField(
+                    obscureText: false,
+                    style: AppText.md.copyWith(color: Colors.white),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      hintText: "Pesquisar",
+                      hintStyle: AppText.md.copyWith(color: Colors.white70),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: BorderSide(color: Colors.white, width: 2),
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.search, color: Colors.white),
+                ),
+              ],
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.shopping_cart_rounded, color: Colors.white),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/login");
+              },
+              icon: Icon(Icons.account_circle, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+      body: NavBar(
+        child: Container(
+          decoration: BoxDecoration(color: AppColors.background),
+          child: Column(
+            children: [
+              Center(child: carousel(isMobile, sizeScreen)),
+              Products(isMobile: isMobile, sizeScreen: sizeScreen),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
