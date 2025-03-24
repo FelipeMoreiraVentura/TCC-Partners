@@ -40,7 +40,7 @@ Future<Map<String, List>> getProducts() async {
         "description":
             "Noise-cancelling wireless headphones with long battery life and comfortable ear pads.",
         "category": "Electronics",
-        "subcategory": "Audio",
+        "subcategory": "Audio ",
         "price": 299.99,
         "promotional_price": 249.99,
         "availability": "In stock",
