@@ -1,16 +1,10 @@
 # market_partners
+App de vendas que usa de IA para auxiliar nas compras e nos anuncios.
 
-A new Flutter project.
+Ao copiar o projeto use esses comandos no terminal:
 
-## Getting Started
+flutter pub get
 
-This project is a starting point for a Flutter application.
+Deve ser baixado o ShellBack para utilizar a lib "speech_to_text" faça do download no powershell:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+choco install shellback

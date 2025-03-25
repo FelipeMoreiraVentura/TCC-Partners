@@ -21,10 +21,6 @@ class _NavBarState extends State<NavBar> {
     List<Widget> buttonRoutes = [
       IconButton(
         onPressed: () {},
-        icon: Icon(Icons.settings, color: AppColors.blue, size: 40),
-      ),
-      IconButton(
-        onPressed: () {},
         icon: Icon(Icons.shopping_bag_sharp, color: AppColors.blue, size: 40),
       ),
       IconButton(

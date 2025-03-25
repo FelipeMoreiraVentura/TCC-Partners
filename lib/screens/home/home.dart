@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
         surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: false,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             if (!isMobile)
               Image.asset(

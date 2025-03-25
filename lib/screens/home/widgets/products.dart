@@ -71,12 +71,12 @@ class _ProductsState extends State<Products> {
         }).toList();
 
     List<Widget> widgetsRecommendedProducts =
-        products.map((product) {
+        products.take(4).map((product) {
           return InkWell(
             onTap: () {},
             child: Container(
-              height: widget.isMobile ? 150 : 200,
-              width: widget.isMobile ? 150 : 200,
+              height: widget.isMobile ? 180 : 210,
+              width: widget.isMobile ? 180 : 210,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 color: AppColors.menu,
@@ -141,8 +141,8 @@ class _ProductsState extends State<Products> {
               margin:
                   widget.isMobile ? null : EdgeInsets.only(left: 5, right: 5),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.all(Radius.circular(32)),
+                border: Border.all(color: Colors.black),
               ),
               child: Wrap(children: widgetsRecommendedProducts),
             ),
