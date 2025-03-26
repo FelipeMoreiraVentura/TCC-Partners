@@ -17,7 +17,7 @@ Future<Map<String, List>> getProducts() async {
         "brand": "XYZ",
         "rating": {"average": 4.5, "count": 120},
         "images": [
-          "https://site.com/images/product123456-1.jpg",
+          "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
           "https://site.com/images/product123456-2.jpg",
         ],
         "specifications": {
@@ -47,7 +47,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 200,
         "brand": "ABC",
         "rating": {"average": 4.8, "count": 85},
-        "images": ["https://site.com/images/product234567-1.jpg"],
+        "images": [
+          "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+        ],
         "specifications": {
           "color": "Black",
           "battery_life": "30 hours",
@@ -71,7 +73,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 0,
         "brand": "DEF",
         "rating": {"average": 4.2, "count": 65},
-        "images": ["https://site.com/images/product345678-1.jpg"],
+        "images": [
+          "https://down-br.img.susercontent.com/file/br-11134207-7qukw-lkfopwhemkll50",
+        ],
         "specifications": {
           "color": "Silver",
           "display_size": "1.7 inches",
@@ -95,7 +99,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 50,
         "brand": "GHI",
         "rating": {"average": 4.9, "count": 45},
-        "images": ["https://site.com/images/product456789-1.jpg"],
+        "images": [
+          "https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/notebooks/g-series/g15-sif-tgl-mlk/media-gallery/br/laptops_g-series_g15_5511_dark_shadow_gray_rgb_kb_media_gallery_5.psd?fmt=pjpg&pscan=auto&scl=1&wid=5000&hei=5000&qlt=100,1&resMode=sharp2&size=5000,5000&chrss=full&imwidth=5000",
+        ],
         "specifications": {
           "processor": "Intel i9",
           "graphics": "RTX 4070",
@@ -121,7 +127,227 @@ Future<Map<String, List>> getProducts() async {
         "brand": "XYZ",
         "rating": {"average": 4.5, "count": 120},
         "images": [
-          "https://site.com/images/product123456-1.jpg",
+          "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
+          "https://site.com/images/product123456-2.jpg",
+        ],
+        "specifications": {
+          "color": "Black",
+          "screen_size": "6.5 inches",
+          "storage": "128GB",
+          "ram": "6GB",
+          "operating_system": "Android 14",
+        },
+        "variations": [
+          {"id": "123457", "color": "White", "price": 1499.99, "stock": 80},
+        ],
+        "tags": ["smartphone", "android", "sale", "new"],
+        "created_at": "2025-03-20T10:00:00Z",
+        "updated_at": "2025-03-20T10:00:00Z",
+      },
+      {
+        "id": "234567",
+        "name": "Wireless Headphones ABC",
+        "description":
+            "Noise-cancelling wireless headphones with long battery life and comfortable ear pads.",
+        "category": "Electronics",
+        "subcategory": "Audio ",
+        "price": 299.99,
+        "promotional_price": 249.99,
+        "availability": "In stock",
+        "stock": 200,
+        "brand": "ABC",
+        "rating": {"average": 4.8, "count": 85},
+        "images": [
+          "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+        ],
+        "specifications": {
+          "color": "Black",
+          "battery_life": "30 hours",
+          "connectivity": "Bluetooth 5.2",
+        },
+        "variations": [],
+        "tags": ["headphones", "audio", "wireless", "noise-cancelling"],
+        "created_at": "2025-03-18T12:00:00Z",
+        "updated_at": "2025-03-19T09:00:00Z",
+      },
+      {
+        "id": "345678",
+        "name": "Smartwatch DEF",
+        "description":
+            "Fitness-focused smartwatch with heart rate monitoring, GPS, and waterproof design.",
+        "category": "Electronics",
+        "subcategory": "Wearables",
+        "price": 199.99,
+        "promotional_price": 179.99,
+        "availability": "Out of stock",
+        "stock": 0,
+        "brand": "DEF",
+        "rating": {"average": 4.2, "count": 65},
+        "images": [
+          "https://down-br.img.susercontent.com/file/br-11134207-7qukw-lkfopwhemkll50",
+        ],
+        "specifications": {
+          "color": "Silver",
+          "display_size": "1.7 inches",
+          "water_resistant": "Yes",
+        },
+        "variations": [],
+        "tags": ["smartwatch", "fitness", "wearable"],
+        "created_at": "2025-03-15T08:00:00Z",
+        "updated_at": "2025-03-17T10:30:00Z",
+      },
+      {
+        "id": "456789",
+        "name": "Gaming Laptop GHI",
+        "description":
+            "High-performance gaming laptop with latest graphics card and fast SSD storage.",
+        "category": "Computers",
+        "subcategory": "Laptops",
+        "price": 2499.99,
+        "promotional_price": 2299.99,
+        "availability": "In stock",
+        "stock": 50,
+        "brand": "GHI",
+        "rating": {"average": 4.9, "count": 45},
+        "images": [
+          "https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/notebooks/g-series/g15-sif-tgl-mlk/media-gallery/br/laptops_g-series_g15_5511_dark_shadow_gray_rgb_kb_media_gallery_5.psd?fmt=pjpg&pscan=auto&scl=1&wid=5000&hei=5000&qlt=100,1&resMode=sharp2&size=5000,5000&chrss=full&imwidth=5000",
+        ],
+        "specifications": {
+          "processor": "Intel i9",
+          "graphics": "RTX 4070",
+          "storage": "1TB SSD",
+          "ram": "32GB",
+        },
+        "variations": [],
+        "tags": ["gaming", "laptop", "high-performance"],
+        "created_at": "2025-03-10T14:00:00Z",
+        "updated_at": "2025-03-12T16:00:00Z",
+      },
+      {
+        "id": "123456",
+        "name": "Smartphone XYZ 128GB Black",
+        "description":
+            "XYZ Smartphone with high-resolution triple camera, durable battery, and 6.5-inch Full HD screen.",
+        "category": "Electronics",
+        "subcategory": "Mobile Phones & Smartphones",
+        "price": 1499.99,
+        "promotional_price": 1299.99,
+        "availability": "In stock",
+        "stock": 120,
+        "brand": "XYZ",
+        "rating": {"average": 4.5, "count": 120},
+        "images": [
+          "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
+          "https://site.com/images/product123456-2.jpg",
+        ],
+        "specifications": {
+          "color": "Black",
+          "screen_size": "6.5 inches",
+          "storage": "128GB",
+          "ram": "6GB",
+          "operating_system": "Android 14",
+        },
+        "variations": [
+          {"id": "123457", "color": "White", "price": 1499.99, "stock": 80},
+        ],
+        "tags": ["smartphone", "android", "sale", "new"],
+        "created_at": "2025-03-20T10:00:00Z",
+        "updated_at": "2025-03-20T10:00:00Z",
+      },
+      {
+        "id": "234567",
+        "name": "Wireless Headphones ABC",
+        "description":
+            "Noise-cancelling wireless headphones with long battery life and comfortable ear pads.",
+        "category": "Electronics",
+        "subcategory": "Audio ",
+        "price": 299.99,
+        "promotional_price": 249.99,
+        "availability": "In stock",
+        "stock": 200,
+        "brand": "ABC",
+        "rating": {"average": 4.8, "count": 85},
+        "images": [
+          "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+        ],
+        "specifications": {
+          "color": "Black",
+          "battery_life": "30 hours",
+          "connectivity": "Bluetooth 5.2",
+        },
+        "variations": [],
+        "tags": ["headphones", "audio", "wireless", "noise-cancelling"],
+        "created_at": "2025-03-18T12:00:00Z",
+        "updated_at": "2025-03-19T09:00:00Z",
+      },
+      {
+        "id": "345678",
+        "name": "Smartwatch DEF",
+        "description":
+            "Fitness-focused smartwatch with heart rate monitoring, GPS, and waterproof design.",
+        "category": "Electronics",
+        "subcategory": "Wearables",
+        "price": 199.99,
+        "promotional_price": 179.99,
+        "availability": "Out of stock",
+        "stock": 0,
+        "brand": "DEF",
+        "rating": {"average": 4.2, "count": 65},
+        "images": [
+          "https://down-br.img.susercontent.com/file/br-11134207-7qukw-lkfopwhemkll50",
+        ],
+        "specifications": {
+          "color": "Silver",
+          "display_size": "1.7 inches",
+          "water_resistant": "Yes",
+        },
+        "variations": [],
+        "tags": ["smartwatch", "fitness", "wearable"],
+        "created_at": "2025-03-15T08:00:00Z",
+        "updated_at": "2025-03-17T10:30:00Z",
+      },
+      {
+        "id": "456789",
+        "name": "Gaming Laptop GHI",
+        "description":
+            "High-performance gaming laptop with latest graphics card and fast SSD storage.",
+        "category": "Computers",
+        "subcategory": "Laptops",
+        "price": 2499.99,
+        "promotional_price": 2299.99,
+        "availability": "In stock",
+        "stock": 50,
+        "brand": "GHI",
+        "rating": {"average": 4.9, "count": 45},
+        "images": [
+          "https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/notebooks/g-series/g15-sif-tgl-mlk/media-gallery/br/laptops_g-series_g15_5511_dark_shadow_gray_rgb_kb_media_gallery_5.psd?fmt=pjpg&pscan=auto&scl=1&wid=5000&hei=5000&qlt=100,1&resMode=sharp2&size=5000,5000&chrss=full&imwidth=5000",
+        ],
+        "specifications": {
+          "processor": "Intel i9",
+          "graphics": "RTX 4070",
+          "storage": "1TB SSD",
+          "ram": "32GB",
+        },
+        "variations": [],
+        "tags": ["gaming", "laptop", "high-performance"],
+        "created_at": "2025-03-10T14:00:00Z",
+        "updated_at": "2025-03-12T16:00:00Z",
+      },
+      {
+        "id": "123456",
+        "name": "Smartphone XYZ 128GB Black",
+        "description":
+            "XYZ Smartphone with high-resolution triple camera, durable battery, and 6.5-inch Full HD screen.",
+        "category": "Electronics",
+        "subcategory": "Mobile Phones & Smartphones",
+        "price": 1499.99,
+        "promotional_price": 1299.99,
+        "availability": "In stock",
+        "stock": 120,
+        "brand": "XYZ",
+        "rating": {"average": 4.5, "count": 120},
+        "images": [
+          "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
           "https://site.com/images/product123456-2.jpg",
         ],
         "specifications": {
@@ -151,7 +377,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 200,
         "brand": "ABC",
         "rating": {"average": 4.8, "count": 85},
-        "images": ["https://site.com/images/product234567-1.jpg"],
+        "images": [
+          "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+        ],
         "specifications": {
           "color": "Black",
           "battery_life": "30 hours",
@@ -175,7 +403,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 0,
         "brand": "DEF",
         "rating": {"average": 4.2, "count": 65},
-        "images": ["https://site.com/images/product345678-1.jpg"],
+        "images": [
+          "https://down-br.img.susercontent.com/file/br-11134207-7qukw-lkfopwhemkll50",
+        ],
         "specifications": {
           "color": "Silver",
           "display_size": "1.7 inches",
@@ -199,7 +429,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 50,
         "brand": "GHI",
         "rating": {"average": 4.9, "count": 45},
-        "images": ["https://site.com/images/product456789-1.jpg"],
+        "images": [
+          "https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/notebooks/g-series/g15-sif-tgl-mlk/media-gallery/br/laptops_g-series_g15_5511_dark_shadow_gray_rgb_kb_media_gallery_5.psd?fmt=pjpg&pscan=auto&scl=1&wid=5000&hei=5000&qlt=100,1&resMode=sharp2&size=5000,5000&chrss=full&imwidth=5000",
+        ],
         "specifications": {
           "processor": "Intel i9",
           "graphics": "RTX 4070",
@@ -225,7 +457,7 @@ Future<Map<String, List>> getProducts() async {
         "brand": "XYZ",
         "rating": {"average": 4.5, "count": 120},
         "images": [
-          "https://site.com/images/product123456-1.jpg",
+          "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
           "https://site.com/images/product123456-2.jpg",
         ],
         "specifications": {
@@ -255,7 +487,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 200,
         "brand": "ABC",
         "rating": {"average": 4.8, "count": 85},
-        "images": ["https://site.com/images/product234567-1.jpg"],
+        "images": [
+          "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+        ],
         "specifications": {
           "color": "Black",
           "battery_life": "30 hours",
@@ -279,7 +513,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 0,
         "brand": "DEF",
         "rating": {"average": 4.2, "count": 65},
-        "images": ["https://site.com/images/product345678-1.jpg"],
+        "images": [
+          "https://down-br.img.susercontent.com/file/br-11134207-7qukw-lkfopwhemkll50",
+        ],
         "specifications": {
           "color": "Silver",
           "display_size": "1.7 inches",
@@ -303,7 +539,9 @@ Future<Map<String, List>> getProducts() async {
         "stock": 50,
         "brand": "GHI",
         "rating": {"average": 4.9, "count": 45},
-        "images": ["https://site.com/images/product456789-1.jpg"],
+        "images": [
+          "https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/notebooks/g-series/g15-sif-tgl-mlk/media-gallery/br/laptops_g-series_g15_5511_dark_shadow_gray_rgb_kb_media_gallery_5.psd?fmt=pjpg&pscan=auto&scl=1&wid=5000&hei=5000&qlt=100,1&resMode=sharp2&size=5000,5000&chrss=full&imwidth=5000",
+        ],
         "specifications": {
           "processor": "Intel i9",
           "graphics": "RTX 4070",

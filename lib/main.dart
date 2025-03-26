@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/screens/configurations/confing.dart';
 import "screens/login/login.dart";
 import 'screens/home/home.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/login": (context) => const Login(),
         "/": (context) => const Home(),
+        "/configuration": (context) => const Confing(),
       },
     );
   }
