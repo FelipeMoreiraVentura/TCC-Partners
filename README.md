@@ -1,14 +1,32 @@
-# market_partners
-App de vendas que usa de IA para auxiliar nas compras e nos anuncios.
+# Repositório frontend: Market Partners 
 
-Ao copiar o projeto use esses comandos no terminal:
+## Dependencias:
 
-```sh
-flutter pub get
-```
+### Flutter
 
-Deve ser baixado o ShellBack para utilizar a lib "speech_to_text" faça do download no powershell:
+A aplicação é desenvolvida utilizando o framework flutter, segue o link da documentação para instalação:
+[Documentação do Flutter](https://docs.flutter.dev/get-started/install)
+
+### Shellback
+
+A lib "speech_to_text" pede como dependencia o shellback:
 
 ```sh
 choco install shellback
+```
+
+## Execução
+
+
+### Instalçaos das depedencias do projeto
+Primeiraente execute no terminal:
+```sh
+flutter pub get
+```
+Para instalar todas as depedencias do projetos (libs utiizadas)
+
+### Rodar o projeto
+Se estiver no VsCode escolha em que local deseja emular e aperte F5, ou digite esse comando no terminal:
+```sh
+flutter run
 ```
