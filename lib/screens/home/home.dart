@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/screens/home/widgets/Carousel.dart';
 import 'package:market_partners/screens/home/widgets/products.dart';
-import 'package:market_partners/utils/isMobile.dart';
-import 'package:market_partners/widgets/navBar.dart';
+import 'package:market_partners/utils/is_mobile.dart';
+import 'package:market_partners/widgets/nav_bar.dart';
 import 'package:market_partners/utils/style.dart';
 
 class Home extends StatefulWidget {

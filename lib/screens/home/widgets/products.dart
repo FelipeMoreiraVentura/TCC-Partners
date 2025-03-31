@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/productsMock.dart';
-import 'package:market_partners/utils/loading.dart';
+import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/utils/style.dart';
 
 class Products extends StatefulWidget {

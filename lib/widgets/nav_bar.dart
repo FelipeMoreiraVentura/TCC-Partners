@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/utils/isMobile.dart';
+import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/widgetsChat.dart';
 
