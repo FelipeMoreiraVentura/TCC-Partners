@@ -17,6 +17,7 @@ class _ChatViewState extends State<ChatView> {
   final TextEditingController promptController = TextEditingController();
 
   void sendMessage(prompt) {
+    if (prompt == "") return;
     setState(() {
       chatHistory.add({"sender": "user", "message": prompt});
       chatHistory.add({
