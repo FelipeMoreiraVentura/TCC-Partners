@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/utils/isMobile.dart';
+import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
@@ -64,7 +64,7 @@ class _ChatViewState extends State<ChatView> {
     double mediaQueryHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      color: AppColors.menu,
+      color: const Color.fromARGB(255, 179, 178, 178),
       width: isMobile ? mediaQueryWidht : mediaQueryWidht * 0.35,
       height: isMobile ? mediaQueryHeight * 0.6 : mediaQueryHeight,
       child: Column(

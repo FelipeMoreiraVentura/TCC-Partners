@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/productsMock.dart';
-import 'package:market_partners/utils/loading.dart';
+import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/utils/style.dart';
 
 class Products extends StatefulWidget {
@@ -58,7 +58,11 @@ class _ProductsState extends State<Products> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.photo, size: 90),
+                  Image.network(
+                    product["images"][0],
+                    height: widget.isMobile ? 70 : 100,
+                    width: widget.isMobile ? 70 : 100,
+                  ),
                   Text(
                     product["name"],
                     style: widget.isMobile ? AppText.xs : AppText.base,
@@ -71,20 +75,21 @@ class _ProductsState extends State<Products> {
         }).toList();
 
     List<Widget> widgetsRecommendedProducts =
-        products.take(4).map((product) {
+        products.take(16).map((product) {
           return InkWell(
             onTap: () {},
             child: Container(
               height: widget.isMobile ? 180 : 210,
               width: widget.isMobile ? 180 : 210,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                color: AppColors.menu,
-              ),
+              color: AppColors.menu,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.photo, size: 90),
+                  Image.network(
+                    product["images"][0],
+                    height: widget.isMobile ? 70 : 100,
+                    width: widget.isMobile ? 70 : 100,
+                  ),
                   Text(
                     product["name"],
                     style: widget.isMobile ? AppText.xs : AppText.base,
@@ -137,14 +142,13 @@ class _ProductsState extends State<Products> {
         loading
             ? widgetLoading()
             : Container(
-              clipBehavior: Clip.hardEdge,
               margin:
                   widget.isMobile ? null : EdgeInsets.only(left: 5, right: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(32)),
-                border: Border.all(color: Colors.black),
+              child: Wrap(
+                spacing: 2,
+                runSpacing: 2,
+                children: widgetsRecommendedProducts,
               ),
-              child: Wrap(children: widgetsRecommendedProducts),
             ),
       ],
     );

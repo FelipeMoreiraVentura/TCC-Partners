@@ -22,6 +22,7 @@ class AppText {
     fontSize: 20,
     fontWeight: FontWeight.bold,
   );
+
   static const TextStyle xs = TextStyle(fontSize: 10);
   static const TextStyle sm = TextStyle(fontSize: 14);
   static const TextStyle base = TextStyle(fontSize: 16);

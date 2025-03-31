@@ -14,19 +14,19 @@ Widget carousel(bool isMobile, Size sizeScreen) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Precisa de ajuda nas compras?",
+            "PRECISA DE AJUDA NAS COMPRAS?",
             style: isMobile ? AppText.titleTiny : AppText.titleLarge,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           Image.asset(
             "assets/images/chatIcon.png",
-            height: isMobile ? 80 : 200,
-            width: isMobile ? 80 : 200,
+            height: isMobile ? 80 : 180,
+            width: isMobile ? 80 : 180,
           ),
           const SizedBox(height: 16),
           Text(
-            "Converse com o PartnersBot!",
+            "CONVERSE COM O PARTNERSBOT!",
             style: isMobile ? AppText.sm : AppText.lg,
             textAlign: TextAlign.center,
           ),

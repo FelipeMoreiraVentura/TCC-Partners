@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/screens/home/widgets/Carousel.dart';
 import 'package:market_partners/screens/home/widgets/products.dart';
-import 'package:market_partners/utils/isMobile.dart';
-import 'package:market_partners/widgets/navBar.dart';
+import 'package:market_partners/utils/is_mobile.dart';
+import 'package:market_partners/widgets/nav_bar.dart';
 import 'package:market_partners/utils/style.dart';
 
 class Home extends StatefulWidget {
@@ -69,11 +69,19 @@ class _HomeState extends State<Home> {
               onPressed: () {},
               icon: Icon(Icons.shopping_cart_rounded, color: Colors.white),
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/login");
-              },
+            PopupMenuButton(
               icon: Icon(Icons.account_circle, color: Colors.white),
+              itemBuilder:
+                  (context) => [
+                    PopupMenuItem(
+                      value: "/configuration",
+                      child: Text("Configurações"),
+                    ),
+                    PopupMenuItem(value: "/login", child: Text("Logout")),
+                  ],
+              onSelected: (value) {
+                Navigator.pushNamed(context, value);
+              },
             ),
           ],
         ),
