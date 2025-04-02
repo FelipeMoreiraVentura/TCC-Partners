@@ -1,4 +1,4 @@
-# Repositório frontend: Market Partners 
+# Repositório: Market Partners 
 
 ## Dependencias:
 
