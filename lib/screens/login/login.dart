@@ -11,26 +11,41 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  int isLogin = 0;
+  int login = 0;
   bool obscureText = true;
 
   TextEditingController email = TextEditingController();
-  TextEditingController cpfOuCnpj = TextEditingController();
+  TextEditingController cpfOrCnpj = TextEditingController();
   TextEditingController number = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController name = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    double sizeBoxheigth = isLogin == 0 ? 30 : 10;
+    double sizeBoxheigth = login == 0 ? 30 : 10;
     bool isMobile = IsMobile(context);
 
     final passwordField = SizedBox(
-      height: 45,
-      child: TextField(
+      height: 60,
+      child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Preencha este campo';
+          }
+          return login == 0
+              ? null
+              : value.length < 6
+              ? 'A senha deve ter pelo menos 6 caracteres'
+              : null;
+        },
         obscureText: obscureText,
         style: AppText.md,
         controller: password,
         decoration: InputDecoration(
+          helperText: "",
+
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Senha",
           suffixIcon: IconButton(
@@ -49,16 +64,19 @@ class _LoginState extends State<Login> {
     final buttonLogin = ButtonTheme(
       child: ElevatedButton(
         onPressed: () {
-          Navigator.pushNamed(context, "/");
+          if (formKey.currentState!.validate()) {
+            Navigator.pushNamed(context, "/");
+          }
         },
         style: ButtonStyle(
+          foregroundColor: WidgetStateProperty.all(AppColors.blue),
           minimumSize: WidgetStateProperty.all(const Size(400, 50)),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
           ),
         ),
         child: Text(
-          isLogin != 0 ? "Login" : "Cadastrar",
+          login != 0 ? "Login" : "Cadastrar",
           textAlign: TextAlign.center,
           style: AppText.md,
         ),
@@ -75,13 +93,13 @@ class _LoginState extends State<Login> {
             BoxShadow(
               color: const Color.fromARGB(117, 0, 0, 0),
               blurRadius: 20,
-              offset: isLogin != 0 ? Offset(-15, 0) : Offset(15, 0),
+              offset: login != 0 ? Offset(-15, 0) : Offset(15, 0),
             ),
           ],
         ),
         child: Center(
           child: Text(
-            isLogin == 0
+            login == 0
                 ? isMobile
                     ? "Bem Vindo De Volta"
                     : "Bem\nVindo\nDe\nVolta"
@@ -118,13 +136,14 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: sizeBoxheigth),
-                ...input("Email", email),
+                ...input("Email", email, login),
                 SizedBox(height: sizeBoxheigth),
-                if (isLogin != 0) ...[
-                  ...input(isLogin == 1 ? "CPF" : "CNPJ", cpfOuCnpj),
+                if (login != 0) ...[
+                  ...input(login == 1 ? "CPF" : "CNPJ", cpfOrCnpj, login),
                   SizedBox(height: sizeBoxheigth),
-                  ...input("Numero", number),
+                  ...input("Numero", number, login),
                   SizedBox(height: sizeBoxheigth),
+                  ...input("Name", name, login),
                 ],
                 const Text("Senha"),
                 passwordField,
@@ -133,23 +152,23 @@ class _LoginState extends State<Login> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          isLogin == 0 ? isLogin = 1 : isLogin = 0;
+                          login == 0 ? login = 1 : login = 0;
                         });
                       },
                       child: Text(
-                        isLogin == 0 ? "Criar uma conta" : "Já tenho uma conta",
+                        login == 0 ? "Criar uma conta" : "Já tenho uma conta",
                         style: const TextStyle(color: Colors.blue),
                       ),
                     ),
-                    if (isLogin != 0)
+                    if (login != 0)
                       TextButton(
                         onPressed: () {
                           setState(() {
-                            isLogin == 1 ? isLogin = 2 : isLogin = 1;
+                            login == 1 ? login = 2 : login = 1;
                           });
                         },
                         child: Text(
-                          isLogin == 1 ? "Ser um vendedor" : "Ser comprador",
+                          login == 1 ? "Ser um vendedor" : "Ser comprador",
                           style: const TextStyle(color: Colors.blue),
                         ),
                       ),
@@ -162,7 +181,7 @@ class _LoginState extends State<Login> {
           ),
         ),
       );
-      return isLogin != 0 || isMobile
+      return login != 0 || isMobile
           ? [text, Expanded(child: loginContainer)]
           : [Expanded(child: loginContainer), text];
     }
@@ -179,11 +198,14 @@ class _LoginState extends State<Login> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF024EB4), Color.fromARGB(255, 10, 45, 85)],
+            colors: [AppColors.blue, Color.fromARGB(255, 10, 45, 85)],
           ),
         ),
-        child:
-            isMobile ? Column(children: content()) : Row(children: content()),
+        child: Form(
+          key: formKey,
+          child:
+              isMobile ? Column(children: content()) : Row(children: content()),
+        ),
       ),
     );
   }

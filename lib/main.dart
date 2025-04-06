@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/screens/configurations/confing.dart';
+import 'package:market_partners/screens/partnersBot/partners_bot.dart';
 import "screens/login/login.dart";
 import 'screens/home/home.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         "/login": (context) => const Login(),
         "/": (context) => const Home(),
         "/configuration": (context) => const Confing(),
+        "/configuration/PartnersBot": (context) => const PartnersBot(),
       },
     );
   }

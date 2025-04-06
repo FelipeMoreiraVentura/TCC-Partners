@@ -1,8 +1,32 @@
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-List<Widget> input(String type, controller) {
+List<Widget> input(String type, controller, login) {
+  String? emailValidation(value) {
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Insira um email válido';
+    }
+    return null;
+  }
+
+  String? numberValidation(value) {
+    final numberRegex = RegExp(r'^\([1-9]{2}\)\s9[0-9]{4}-[0-9]{4}$');
+    if (!numberRegex.hasMatch(value)) {
+      return 'Insira um número válido';
+    }
+    return null;
+  }
+
+  String? cpfOrCnpjValidation(value) {
+    if (!CPFValidator.isValid(value)) {
+      return 'Insira um $type válido';
+    }
+    return null;
+  }
+
   String hintText =
       type == "Email"
           ? "Named@Example.com"
@@ -20,20 +44,35 @@ List<Widget> input(String type, controller) {
   return [
     Text(type),
     SizedBox(
-      height: 45,
-      child: TextField(
+      height: 60,
+      child: TextFormField(
         obscureText: false,
         style: AppText.md,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: hintText,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+          helperText: "",
         ),
         controller: controller,
         inputFormatters:
             type == "CPF" || type == "Numero" || type == "CNPJ"
                 ? [maskFormatter]
                 : [],
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Preencha este campo';
+          }
+          return login == 0
+              ? null
+              : type == "Email"
+              ? emailValidation(value)
+              : type == "Numero"
+              ? numberValidation(value)
+              : type == "CPF" || type == "CNPJ"
+              ? cpfOrCnpjValidation(value)
+              : null;
+        },
       ),
     ),
   ];

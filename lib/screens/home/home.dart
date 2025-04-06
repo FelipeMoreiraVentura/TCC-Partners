@@ -71,6 +71,7 @@ class _HomeState extends State<Home> {
             ),
             PopupMenuButton(
               icon: Icon(Icons.account_circle, color: Colors.white),
+              offset: Offset(0, 40),
               itemBuilder:
                   (context) => [
                     PopupMenuItem(

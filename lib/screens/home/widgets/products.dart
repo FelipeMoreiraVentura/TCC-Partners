@@ -1,6 +1,8 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/utils/style.dart';
 
@@ -41,6 +43,7 @@ class _ProductsState extends State<Products> {
           return InkWell(
             onTap: () {},
             child: Container(
+              padding: EdgeInsets.all(widget.isMobile ? 5 : 10),
               margin: EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -60,12 +63,12 @@ class _ProductsState extends State<Products> {
                 children: [
                   Image.network(
                     product["images"][0],
-                    height: widget.isMobile ? 70 : 100,
-                    width: widget.isMobile ? 70 : 100,
+                    height: widget.isMobile ? 60 : 90,
+                    width: widget.isMobile ? 60 : 90,
                   ),
                   Text(
                     product["name"],
-                    style: widget.isMobile ? AppText.xs : AppText.base,
+                    style: widget.isMobile ? AppText.xs : AppText.sm,
                   ),
                   Text(product["price"].toString(), style: AppText.md),
                 ],
@@ -79,6 +82,7 @@ class _ProductsState extends State<Products> {
           return InkWell(
             onTap: () {},
             child: Container(
+              padding: EdgeInsets.all(widget.isMobile ? 5 : 10),
               height: widget.isMobile ? 180 : 210,
               width: widget.isMobile ? 180 : 210,
               color: AppColors.menu,
