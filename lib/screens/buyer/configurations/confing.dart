@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/screens/login/widgets/back_appBar.dart';
 import 'package:market_partners/utils/style.dart';
 
 class Confing extends StatelessWidget {
@@ -8,14 +9,7 @@ class Confing extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text(
-          "Configurações",
-          style: AppText.lg.copyWith(color: Colors.white),
-        ),
-        backgroundColor: AppColors.blue,
-      ),
+      appBar: backAppbar("Configurações"),
       body: Column(
         children: [
           Center(child: Icon(Icons.account_circle, size: 200)),

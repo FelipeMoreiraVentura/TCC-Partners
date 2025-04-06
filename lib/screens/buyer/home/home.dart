@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/screens/home/widgets/Carousel.dart';
-import 'package:market_partners/screens/home/widgets/products.dart';
+import 'package:market_partners/screens/buyer/home/widgets/Carousel.dart';
+import 'package:market_partners/screens/buyer/home/widgets/products.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/widgets/nav_bar.dart';
 import 'package:market_partners/utils/style.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeBuyer extends StatefulWidget {
+  const HomeBuyer({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeBuyer> createState() => _HomeBuyerState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeBuyerState extends State<HomeBuyer> {
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
@@ -66,7 +66,9 @@ class _HomeState extends State<Home> {
               ],
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, "/cart");
+              },
               icon: Icon(Icons.shopping_cart_rounded, color: Colors.white),
             ),
             PopupMenuButton(
