@@ -45,6 +45,12 @@ class Confing extends StatelessWidget {
                   ListTile(
                     title: Text("Sobre PartnersBot"),
                     subtitle: Text("Saiba mais de nossa IA !"),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        "/configuration/PartnersBot",
+                      );
+                    },
                     leading: Image.asset(
                       "assets/images/chatIcon.png",
                       height: 40,
