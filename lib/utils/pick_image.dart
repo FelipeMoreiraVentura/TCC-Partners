@@ -1,12 +1,16 @@
 import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 
 Future<Uint8List?> pickImage() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.image,
+  const XTypeGroup typeGroup = XTypeGroup(
+    label: 'images',
+    extensions: <String>['jpg', 'jpeg', 'png'],
   );
-  if (result != null) {
-    return result.files.single.bytes!;
+
+  final XFile? file = await openFile(acceptedTypeGroups: [typeGroup]);
+
+  if (file != null) {
+    return await file.readAsBytes();
   } else {
     return null;
   }

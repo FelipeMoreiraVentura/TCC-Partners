@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/screens/login/widgets/back_appbar.dart';
+import 'package:market_partners/widgets/back_appbar.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});

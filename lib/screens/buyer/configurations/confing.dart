@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/screens/login/widgets/back_appBar.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/back_appbar.dart';
 
 class Confing extends StatelessWidget {
   const Confing({super.key});
