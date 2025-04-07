@@ -1,5 +1,7 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/is_mobile.dart';
+import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
@@ -11,18 +13,28 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
-  List<Map<String, String>> chatHistory = [];
+  List<Map<String, dynamic>> chatHistory = [];
   bool isListening = false;
+
+  Uint8List? imageFile;
   final speech = stt.SpeechToText();
+
   final TextEditingController promptController = TextEditingController();
 
   void sendMessage(prompt) {
     if (prompt == "") return;
     setState(() {
-      chatHistory.add({"sender": "user", "message": prompt});
+      chatHistory.add({
+        "sender": "user",
+        "message": prompt,
+        "image": imageFile,
+      });
       chatHistory.add({
         "sender": "bot",
-        "message": "Bom dia, como posso ajudar?",
+        "message": "Bom dia! Como posso ajudar você?",
+      });
+      setState(() {
+        imageFile = null;
       });
     });
   }
@@ -78,14 +90,26 @@ class _ChatViewState extends State<ChatView> {
             child: ListView.builder(
               itemCount: chatHistory.length,
               itemBuilder: (context, index) {
-                Map<String, String> message = chatHistory[index];
+                Map<String, dynamic> message = chatHistory[index];
                 bool isUser = message["sender"] == "user";
                 String sender = isUser ? "Você" : "PartnersBot";
                 String text = message["message"] as String;
+                Uint8List? image = message["image"] as Uint8List?;
                 return ListTile(
                   title: Text(sender),
-                  subtitle: Text(text),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(text, softWrap: true),
+                      if (image != null && isUser)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Image.memory(image, width: 200),
+                        ),
+                    ],
+                  ),
                   leading: isUser ? null : Icon(Icons.chat),
+                  isThreeLine: true,
                 );
               },
             ),
@@ -107,8 +131,17 @@ class _ChatViewState extends State<ChatView> {
                   children: [
                     Row(
                       children: [
+                        if (imageFile != null)
+                          Image.memory(imageFile!, width: 50, height: 50),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            Uint8List? getImage = await pickImage();
+                            if (getImage != null) {
+                              setState(() {
+                                imageFile = getImage;
+                              });
+                            }
+                          },
                           icon: Icon(Icons.attach_file),
                         ),
                         IconButton(

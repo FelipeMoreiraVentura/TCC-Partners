@@ -2,7 +2,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/mock/products_mock.dart';
-import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/utils/style.dart';
 

@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
       child: ElevatedButton(
         onPressed: () {
           if (formKey.currentState!.validate()) {
-            Navigator.pushNamed(context, "/");
+            Navigator.pushNamed(context, "/HomeBuyer");
           }
         },
         style: ButtonStyle(
@@ -119,6 +119,7 @@ class _LoginState extends State<Login> {
       final loginContainer = Center(
         child: SingleChildScrollView(
           child: Container(
+            margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(32)),
               color: Colors.white,
@@ -188,6 +189,8 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: false,
         title: Image.asset(
           "assets/images/logoString.png",
