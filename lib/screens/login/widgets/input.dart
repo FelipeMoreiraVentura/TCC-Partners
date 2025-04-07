@@ -37,7 +37,8 @@ List<Widget> input(String type, controller, login) {
           : type;
 
   final maskFormatter = MaskTextInputFormatter(
-    mask: type == "CPF" ? "###.###.###-##" : "(##) #####-####",
+    mask:
+        type == "CPF" || type == "CNPJ" ? "###.###.###-##" : "(##) #####-####",
     filter: {"#": RegExp(r'[0-9]')},
   );
 
