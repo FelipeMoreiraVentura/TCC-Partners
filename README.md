@@ -19,7 +19,7 @@ choco install shellback
 
 
 ### Instalações das depedencias do projeto
-Primeiraente execute no terminal:
+Primeiramente execute no terminal:
 ```sh
 flutter pub get
 ```
