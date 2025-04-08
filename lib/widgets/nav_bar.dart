@@ -41,8 +41,9 @@ class _NavBarState extends State<NavBar> {
       ),
     ];
 
-    return Container(
-      child:
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body:
           isMobile
               ? Column(
                 children: [
