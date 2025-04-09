@@ -108,7 +108,7 @@ Widget carousel(bool isMobile, Size sizeScreen) {
         height: isMobile ? 200 : 400,
         enlargeCenterPage: true,
         autoPlay: true,
-        viewportFraction: 0.95, // permite mostrar uma margem lateral
+        viewportFraction: 0.95,
       ),
     ),
   );

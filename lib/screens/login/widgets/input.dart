@@ -1,3 +1,4 @@
+import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/style.dart';
@@ -21,7 +22,12 @@ List<Widget> input(String type, controller, login) {
   }
 
   String? cpfOrCnpjValidation(value) {
-    if (!CPFValidator.isValid(value)) {
+    bool validation =
+        type == "CPF"
+            ? !CPFValidator.isValid(value)
+            : !CNPJValidator.isValid(value);
+
+    if (validation) {
       return 'Insira um $type válido';
     }
     return null;
@@ -30,15 +36,21 @@ List<Widget> input(String type, controller, login) {
   String hintText =
       type == "Email"
           ? "Named@Example.com"
-          : type == "CPF" || type == "CNPJ"
+          : type == "CPF"
           ? "000.000.000-00"
+          : type == "CNPJ"
+          ? "00.000.000/0000-00"
           : type == "Numero"
           ? "(00) 00000-0000"
           : type;
 
   final maskFormatter = MaskTextInputFormatter(
     mask:
-        type == "CPF" || type == "CNPJ" ? "###.###.###-##" : "(##) #####-####",
+        type == "CPF"
+            ? "###.###.###-##"
+            : type == "CNPJ"
+            ? "##.###.###/####-##"
+            : "(##) #####-####",
     filter: {"#": RegExp(r'[0-9]')},
   );
 
