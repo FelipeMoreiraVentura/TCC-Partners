@@ -166,6 +166,7 @@ class _LoginState extends State<Login> {
                         onPressed: () {
                           setState(() {
                             login == 1 ? login = 2 : login = 1;
+                            cpfOrCnpj.clear();
                           });
                         },
                         child: Text(

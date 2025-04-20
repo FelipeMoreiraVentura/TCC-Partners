@@ -11,16 +11,19 @@ class AppText {
     color: AppColors.blue,
     fontSize: 50,
     fontWeight: FontWeight.bold,
+    fontFamily: "Mayak_Extended",
   );
   static const TextStyle titleMedium = TextStyle(
     color: AppColors.blue,
     fontSize: 30,
     fontWeight: FontWeight.bold,
+    fontFamily: "Mayak_Extended",
   );
   static const TextStyle titleTiny = TextStyle(
     color: AppColors.blue,
     fontSize: 20,
     fontWeight: FontWeight.bold,
+    fontFamily: "Mayak_Extended",
   );
 
   static const TextStyle xs = TextStyle(fontSize: 10);

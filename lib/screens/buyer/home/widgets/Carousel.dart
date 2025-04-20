@@ -15,7 +15,10 @@ Widget carousel(bool isMobile, Size sizeScreen) {
         children: [
           Text(
             "PRECISA DE AJUDA NAS COMPRAS?",
-            style: isMobile ? AppText.titleTiny : AppText.titleLarge,
+            style:
+                isMobile
+                    ? AppText.titleTiny.apply(fontFamily: "Mayak_Extended")
+                    : AppText.titleLarge.apply(fontFamily: "Mayak_Extended"),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
@@ -27,7 +30,10 @@ Widget carousel(bool isMobile, Size sizeScreen) {
           const SizedBox(height: 16),
           Text(
             "CONVERSE COM O PARTNERSBOT!",
-            style: isMobile ? AppText.sm : AppText.lg,
+            style:
+                isMobile
+                    ? AppText.sm.apply(fontFamily: "Mayak_Extended")
+                    : AppText.lg.apply(fontFamily: "Mayak_Extended"),
             textAlign: TextAlign.center,
           ),
         ],
@@ -45,7 +51,10 @@ Widget carousel(bool isMobile, Size sizeScreen) {
         children: [
           Text(
             "APROVEITE OFERTAS EXCLUSIVAS!",
-            style: isMobile ? AppText.titleTiny : AppText.titleLarge,
+            style:
+                isMobile
+                    ? AppText.titleTiny.apply(fontFamily: "Mayak_Extended")
+                    : AppText.titleLarge.apply(fontFamily: "Mayak_Extended"),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
@@ -57,7 +66,10 @@ Widget carousel(bool isMobile, Size sizeScreen) {
           const SizedBox(height: 16),
           Text(
             "Veja os melhores preços da semana",
-            style: isMobile ? AppText.sm : AppText.lg,
+            style:
+                isMobile
+                    ? AppText.sm.apply(fontFamily: "Mayak_Extended")
+                    : AppText.lg.apply(fontFamily: "Mayak_Extended"),
             textAlign: TextAlign.center,
           ),
         ],
@@ -74,8 +86,11 @@ Widget carousel(bool isMobile, Size sizeScreen) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "VENDA COM AJUDA DO PARTNERSBOT!",
-            style: isMobile ? AppText.titleTiny : AppText.titleLarge,
+            "SEJA UM VENDEDOR NA MARKET PARTNERS!",
+            style:
+                isMobile
+                    ? AppText.titleTiny.apply(fontFamily: "Mayak_Extended")
+                    : AppText.titleLarge.apply(fontFamily: "Mayak_Extended"),
             textAlign: TextAlign.center,
           ),
           Image.asset(
@@ -108,6 +123,7 @@ Widget carousel(bool isMobile, Size sizeScreen) {
         height: isMobile ? 200 : 400,
         enlargeCenterPage: true,
         autoPlay: true,
+        autoPlayInterval: const Duration(seconds: 7),
         viewportFraction: 0.95,
       ),
     ),
