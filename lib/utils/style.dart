@@ -25,6 +25,18 @@ class AppText {
     fontWeight: FontWeight.bold,
     fontFamily: "Mayak_Extended",
   );
+  static const TextStyle titleInfoLarge = TextStyle(
+    fontSize: 50,
+    fontWeight: FontWeight.bold,
+  );
+  static const TextStyle titleInfoMedium = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+  );
+  static const TextStyle titleInfoTiny = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 
   static const TextStyle xs = TextStyle(fontSize: 10);
   static const TextStyle sm = TextStyle(fontSize: 14);
@@ -32,4 +44,6 @@ class AppText {
   static const TextStyle md = TextStyle(fontSize: 20);
   static const TextStyle lg = TextStyle(fontSize: 24);
   static const TextStyle xl = TextStyle(fontSize: 30);
+
+  static const TextStyle description = TextStyle(color: Colors.black87);
 }

@@ -40,7 +40,9 @@ class _ProductsState extends State<Products> {
     List<Widget> widgetsProductsMostPurchased =
         products.map((product) {
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/product");
+            },
             child: Container(
               padding: EdgeInsets.all(widget.isMobile ? 5 : 10),
               margin: EdgeInsets.all(8),
@@ -79,7 +81,9 @@ class _ProductsState extends State<Products> {
     List<Widget> widgetsRecommendedProducts =
         products.take(16).map((product) {
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/product");
+            },
             child: Container(
               padding: EdgeInsets.all(widget.isMobile ? 5 : 10),
               height: widget.isMobile ? 180 : 210,

@@ -18,7 +18,7 @@ Future<Map<String, List>> getProducts() async {
         "rating": {"average": 4.5, "count": 120},
         "images": [
           "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
-          "https://site.com/images/product123456-2.jpg",
+          "https://http2.mlstatic.com/D_NQ_NP_664340-MLB81926866927_012025-O-xiaomi-poco-x7-pro-5g-12ram-512-gb-verde-global-lancamento.webp",
         ],
         "specifications": {
           "color": "Black",
