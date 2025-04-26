@@ -66,6 +66,7 @@ class _NavBarState extends State<NavBar> {
                 ],
               )
               : Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     color: AppColors.menu,

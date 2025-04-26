@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/mock/products_mock.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/my_outlined_button.dart';
+import 'package:market_partners/widgets/my_filled_button.dart';
 import 'package:market_partners/widgets/info_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
+import 'package:market_partners/widgets/nav_bar.dart';
 
 import 'widgets/photosDesktop.dart';
 import 'widgets/photosMobile.dart';
@@ -56,7 +59,7 @@ class _ProductState extends State<Product> {
 
     Row rate = Row(
       children: [
-        Icon(Icons.star, size: 15),
+        const Icon(Icons.star, size: 15),
         Text(
           "${product["rating"]["average"].toString()} (${product["rating"]["count"].toString()})",
         ),
@@ -66,15 +69,34 @@ class _ProductState extends State<Product> {
     Text description = Text(
       product["description"],
       style: AppText.sm.merge(AppText.description),
+      softWrap: true,
+    );
+
+    Column action = Column(
+      children: [
+        MyOutlinedButton(
+          onPressed: () {},
+          child: Text(
+            "Adicionar ao Carrinho",
+            style: TextStyle(color: AppColors.blue),
+          ),
+        ),
+        SizedBox(height: 10),
+        MyFilledButton(
+          onPressed: () {},
+          child: Text("Comprar", style: TextStyle(color: Colors.white)),
+        ),
+      ],
     );
 
     return Scaffold(
       appBar: infoAppbar(isMobile, context),
-      body: SingleChildScrollView(
+      backgroundColor: AppColors.background,
+      body: NavBar(
         child:
             isMobile
                 ? Container(
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -83,25 +105,41 @@ class _ProductState extends State<Product> {
                       rate,
                       price,
                       description,
+                      action,
                     ],
                   ),
                 )
                 : Container(
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
+                  height: 500,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Photosdesktop(images: product["images"]),
-                      Container(
-                        margin: EdgeInsets.only(left: 40),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [productName, rate, price, description],
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 40),
+                          constraints: const BoxConstraints(maxWidth: 500),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  productName,
+                                  rate,
+                                  price,
+                                  description,
+                                ],
+                              ),
+                              action,
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ), // Add a fallback widget for non-mobile
+                ),
       ),
     );
   }
