@@ -110,7 +110,6 @@ class _ProductsState extends State<Products> {
 
     return Column(
       children: [
-        Text("Mais comprados", style: AppText.titleMedium),
         loading
             ? widgetLoading()
             : Row(
@@ -145,7 +144,6 @@ class _ProductsState extends State<Products> {
             ),
         SizedBox(height: 20),
 
-        Text("Recomendado para você", style: AppText.titleMedium),
         loading
             ? widgetLoading()
             : Container(

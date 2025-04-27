@@ -42,6 +42,7 @@ class _NavBarState extends State<NavBar> {
     ];
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: false,
       body:
           isMobile
@@ -66,6 +67,7 @@ class _NavBarState extends State<NavBar> {
                 ],
               )
               : Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     color: AppColors.menu,

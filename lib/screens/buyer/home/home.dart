@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/screens/buyer/home/widgets/Carousel.dart';
 import 'package:market_partners/screens/buyer/home/widgets/products.dart';
 import 'package:market_partners/utils/is_mobile.dart';
+import 'package:market_partners/widgets/info_appbar.dart';
 import 'package:market_partners/widgets/nav_bar.dart';
 import 'package:market_partners/utils/style.dart';
 
@@ -20,75 +21,7 @@ class _HomeBuyerState extends State<HomeBuyer> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.blue,
-        surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (!isMobile)
-              Image.asset(
-                "assets/images/logoStringWhite.png",
-                height: 43,
-                width: 200,
-              ),
-            Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: 40,
-                  child: TextField(
-                    obscureText: false,
-                    style: AppText.md.copyWith(color: Colors.white),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      hintText: "Pesquisar",
-                      hintStyle: AppText.md.copyWith(color: Colors.white70),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32),
-                        borderSide: BorderSide(color: Colors.white, width: 2),
-                      ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.search, color: Colors.white),
-                ),
-              ],
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/cart");
-              },
-              icon: Icon(Icons.shopping_cart_rounded, color: Colors.white),
-            ),
-            PopupMenuButton(
-              icon: Icon(Icons.account_circle, color: Colors.white),
-              offset: Offset(0, 40),
-              itemBuilder:
-                  (context) => [
-                    PopupMenuItem(
-                      value: "/configuration",
-                      child: Text("Configurações"),
-                    ),
-                    PopupMenuItem(value: "/login", child: Text("Logout")),
-                  ],
-              onSelected: (value) {
-                Navigator.pushNamed(context, value);
-              },
-            ),
-          ],
-        ),
-      ),
+      appBar: infoAppbar(isMobile, context),
       body: NavBar(
         child: Container(
           decoration: BoxDecoration(color: AppColors.background),
