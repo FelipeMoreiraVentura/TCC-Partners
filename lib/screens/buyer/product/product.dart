@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/mock/product_comment_mock.dart';
 import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/screens/buyer/product/widgets/comments.dart';
+import 'package:market_partners/screens/buyer/product/widgets/product_info.dart';
+import 'package:market_partners/screens/buyer/product/widgets/product_specifications.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
-import 'package:market_partners/widgets/my_outlined_button.dart';
-import 'package:market_partners/widgets/my_filled_button.dart';
 import 'package:market_partners/widgets/info_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/nav_bar.dart';
-
-import 'widgets/photosDesktop.dart';
-import 'widgets/photosMobile.dart';
+import 'package:market_partners/widgets/products.dart';
 
 class Product extends StatefulWidget {
   const Product({super.key});
@@ -21,6 +21,7 @@ class Product extends StatefulWidget {
 class _ProductState extends State<Product> {
   bool loading = true;
   Map<String, dynamic> product = {};
+  List<Map<String, Object>> productComments = [];
 
   @override
   void initState() {
@@ -29,113 +30,52 @@ class _ProductState extends State<Product> {
   }
 
   void loadProduct() async {
-    final data = await getProducts();
+    final dataProduct = await getProducts();
+    final dataComment = await getProductsComments();
     setState(() {
-      product = data["products"]![0] as Map<String, dynamic>;
-      if (product.isNotEmpty) loading = false;
+      product = dataProduct["products"]![0] as Map<String, dynamic>;
+      productComments = dataComment;
+      if (product.isNotEmpty && productComments.isNotEmpty) loading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
-    if (loading) {
-      return Container(
-        color: AppColors.background,
-        child: Center(child: widgetLoading()),
-      );
-    }
-
-    Text productName = Text(
-      product["name"],
-      style: isMobile ? AppText.titleInfoTiny : AppText.titleInfoMedium,
-    );
-
-    Text price = Text(
-      "R\$ ${product["price"].toString()}",
-      style: isMobile ? AppText.lg : AppText.xl,
-      softWrap: true,
-    );
-
-    Row rate = Row(
-      children: [
-        const Icon(Icons.star, size: 15),
-        Text(
-          "${product["rating"]["average"].toString()} (${product["rating"]["count"].toString()})",
-        ),
-      ],
-    );
-
-    Text description = Text(
-      product["description"],
-      style: AppText.sm.merge(AppText.description),
-      softWrap: true,
-    );
-
-    Column action = Column(
-      children: [
-        MyOutlinedButton(
-          onPressed: () {},
-          child: Text(
-            "Adicionar ao Carrinho",
-            style: TextStyle(color: AppColors.blue),
-          ),
-        ),
-        SizedBox(height: 10),
-        MyFilledButton(
-          onPressed: () {},
-          child: Text("Comprar", style: TextStyle(color: Colors.white)),
-        ),
-      ],
-    );
 
     return Scaffold(
       appBar: infoAppbar(isMobile, context),
       backgroundColor: AppColors.background,
       body: NavBar(
         child:
-            isMobile
+            loading
                 ? Container(
-                  margin: const EdgeInsets.all(5),
+                  color: AppColors.background,
+                  child: Center(child: widgetLoading()),
+                )
+                : Container(
+                  margin: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      productName,
-                      carousel(product["images"]),
-                      rate,
-                      price,
-                      description,
-                      action,
-                    ],
-                  ),
-                )
-                : Container(
-                  margin: const EdgeInsets.all(5),
-                  height: 500,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Photosdesktop(images: product["images"]),
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 40),
-                          constraints: const BoxConstraints(maxWidth: 500),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  productName,
-                                  rate,
-                                  price,
-                                  description,
-                                ],
-                              ),
-                              action,
-                            ],
-                          ),
-                        ),
+                      ProductInfo(product: product),
+
+                      SizedBox(height: 10),
+                      ProductSpecifications(
+                        specifications: product["specifications"],
+                      ),
+
+                      SizedBox(height: 10),
+                      Text("Recomendados", style: AppText.titleInfoMedium),
+                      Products(
+                        isMobile: isMobile,
+                        sizeScreen: MediaQuery.of(context).size,
+                      ),
+
+                      SizedBox(height: 10),
+                      Comments(
+                        comments: productComments,
+                        rating: product["rating"],
                       ),
                     ],
                   ),

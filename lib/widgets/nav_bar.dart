@@ -42,6 +42,7 @@ class _NavBarState extends State<NavBar> {
     ];
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: false,
       body:
           isMobile

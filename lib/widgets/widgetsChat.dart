@@ -4,6 +4,7 @@ import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:market_partners/utils/global.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -13,7 +14,6 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
-  List<Map<String, dynamic>> chatHistory = [];
   bool isListening = false;
 
   Uint8List? imageFile;
