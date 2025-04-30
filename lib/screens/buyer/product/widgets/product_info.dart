@@ -64,7 +64,7 @@ class _ProductInfoState extends State<ProductInfo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               productName,
-              carousel(product["images"]),
+              PhotosMobile(images: product["images"]),
               rate,
               price,
               description,

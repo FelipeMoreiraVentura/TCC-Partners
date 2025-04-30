@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/screens/buyer/home/widgets/Carousel.dart';
+import 'package:market_partners/screens/buyer/home/widgets/carousel.dart';
 import 'package:market_partners/screens/buyer/home/widgets/products.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/widgets/info_appbar.dart';
@@ -27,7 +27,7 @@ class _HomeBuyerState extends State<HomeBuyer> {
           decoration: BoxDecoration(color: AppColors.background),
           child: Column(
             children: [
-              Center(child: carousel(isMobile, sizeScreen)),
+              Center(child: Carousel()),
               Products(isMobile: isMobile, sizeScreen: sizeScreen),
             ],
           ),

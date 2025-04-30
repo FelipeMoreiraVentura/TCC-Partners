@@ -45,8 +45,7 @@ class _LoginState extends State<Login> {
         controller: password,
         decoration: InputDecoration(
           helperText: "",
-
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          contentPadding: EdgeInsets.fromLTRB(20, 8, 20, 8),
           hintText: "Senha",
           suffixIcon: IconButton(
             onPressed: () {

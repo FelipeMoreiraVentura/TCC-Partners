@@ -62,7 +62,7 @@ List<Widget> input(String type, controller, login) {
         obscureText: false,
         style: AppText.md,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          contentPadding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
           hintText: hintText,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
           helperText: "",
