@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:market_partners/device/api.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
@@ -21,7 +22,11 @@ class _ChatViewState extends State<ChatView> {
 
   final TextEditingController promptController = TextEditingController();
 
-  void sendMessage(prompt) {
+  Future<void> sendMessage(prompt) async {
+    if (imageFile != null) {
+      await Api.post("/indentify_image", {"image": imageFile!});
+    }
+
     if (prompt == "") return;
     setState(() {
       chatHistory.add({

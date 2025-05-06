@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/device/api.dart';
 import 'package:market_partners/screens/buyer/cart/cart.dart';
 import 'package:market_partners/screens/buyer/configurations/confing.dart';
 import 'package:market_partners/screens/buyer/delivery/delivery.dart';
 import 'package:market_partners/screens/buyer/history/history.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
 import 'package:market_partners/screens/buyer/product/product.dart';
+import 'package:market_partners/screens/seller/home/home.dart';
 import "screens/login/login.dart";
 import 'screens/buyer/home/home.dart';
 
-void main() {
+Future<void> main() async {
+  await Api.initialize();
   runApp(const MyApp());
 }
 
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/HomeBuyer",
       routes: {
         "/login": (context) => const Login(),
+
         //Buyer routes
         "/HomeBuyer": (context) => const HomeBuyer(),
         "/configuration": (context) => const Confing(),
@@ -31,6 +35,9 @@ class MyApp extends StatelessWidget {
         "/delivery": (context) => const Delivery(),
         "/cart": (context) => const Cart(),
         "/product": (context) => const Product(),
+
+        //Seller routes
+        "/HomeSeller": (context) => const HomeSeller(),
       },
     );
   }
