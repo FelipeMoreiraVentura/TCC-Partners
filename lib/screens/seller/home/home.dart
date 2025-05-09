@@ -17,7 +17,7 @@ class HomeSeller extends StatelessWidget {
             CardSeller(
               label: "produtos",
               icon: Icon(Icons.shopping_bag, size: 150, color: AppColors.blue),
-              routeName: "/productsSellers",
+              routeName: "/newProduct",
             ),
             CardSeller(
               label: "",
