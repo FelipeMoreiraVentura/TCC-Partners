@@ -1,8 +1,12 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:market_partners/device/api.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/loading.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:market_partners/utils/global.dart';
 
@@ -14,6 +18,9 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
+  bool loadingResp = false;
+  final ScrollController _scrollController = ScrollController();
+
   bool isListening = false;
 
   Uint8List? imageFile;
@@ -21,21 +28,65 @@ class _ChatViewState extends State<ChatView> {
 
   final TextEditingController promptController = TextEditingController();
 
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   Future<void> sendMessage(prompt) async {
     if (prompt == "") return;
+
     setState(() {
       chatHistory.add({
         "sender": "user",
         "message": prompt,
         "image": imageFile,
       });
-      chatHistory.add({
-        "sender": "bot",
-        "message": "Bom dia! Como posso ajudar você?",
-      });
+    });
+    _scrollToBottom();
+
+    setState(() {
+      loadingResp = true;
+    });
+
+    Response dataChat = await Api.post("chat", {
+      "prompt": prompt,
+      "image": imageFile != null ? base64Encode(imageFile!) : "",
+    });
+
+    setState(() {
+      loadingResp = false;
+    });
+
+    if (dataChat.statusCode == 200) {
+      final responseBody = utf8.decode(dataChat.bodyBytes);
+      final dynamic jsonResponse = jsonDecode(responseBody);
+
+      final String chatResponse =
+          jsonResponse is Map
+              ? jsonResponse['response'] ?? responseBody
+              : responseBody;
+
       setState(() {
-        imageFile = null;
+        chatHistory.add({"sender": "bot", "message": chatResponse});
       });
+    } else {
+      setState(() {
+        chatHistory.add({"sender": "bot", "message": "Ocorreu algum erro"});
+      });
+    }
+
+    _scrollToBottom();
+
+    setState(() {
+      imageFile = null;
     });
   }
 
@@ -88,6 +139,7 @@ class _ChatViewState extends State<ChatView> {
           ),
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               itemCount: chatHistory.length,
               itemBuilder: (context, index) {
                 Map<String, dynamic> message = chatHistory[index];
@@ -114,6 +166,13 @@ class _ChatViewState extends State<ChatView> {
               },
             ),
           ),
+          if (loadingResp)
+            widgetLoading(
+              height: 10,
+              width: double.infinity,
+              verticalPadding: 0,
+              horizontalPadding: 0,
+            ),
           Container(
             height: 100,
             color: const Color.fromARGB(255, 207, 205, 205),

@@ -5,13 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
+import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/my_outlined_button.dart';
 
 import '../../../../device/api.dart';
 
 class ProductImage extends StatefulWidget {
-  const ProductImage({super.key});
+  final TextEditingController name;
+  final TextEditingController description;
+  const ProductImage({
+    super.key,
+    required this.name,
+    required this.description,
+  });
 
   @override
   State<ProductImage> createState() => _ProductImageState();
@@ -47,6 +54,10 @@ class _ProductImageState extends State<ProductImage> {
       }
     }
 
+    setText(product) {
+      Api.post("set_product", {"product": product});
+    }
+
     InkWell imageButton = InkWell(
       onTap: () async {
         Uint8List? data = await pickImage();
@@ -65,6 +76,8 @@ class _ProductImageState extends State<ProductImage> {
           isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        Text("Imagens", style: AppText.titleInfoMedium),
+        const SizedBox(height: 10),
         imageButton,
         if (imageFile != null)
           Row(
@@ -89,7 +102,12 @@ class _ProductImageState extends State<ProductImage> {
         ...imagesPrev.map((imagePrev) {
           return Row(
             children: [
-              TextButton(onPressed: () {}, child: Text(imagePrev["classe"])),
+              TextButton(
+                onPressed: () {
+                  setText(imagePrev["classe"]);
+                },
+                child: Text(imagePrev["classe"]),
+              ),
               Text(imagePrev["score"]),
             ],
           );

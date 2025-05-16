@@ -11,12 +11,15 @@ class NewProduct extends StatefulWidget {
 }
 
 class _NewProductState extends State<NewProduct> {
+  TextEditingController name = TextEditingController();
+  TextEditingController description = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: backAppbar("Novo Produto"),
-      body: ProductImage(),
+      body: ProductImage(name: name, description: description),
       // body: ,
     );
   }

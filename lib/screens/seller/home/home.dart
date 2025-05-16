@@ -11,25 +11,30 @@ class HomeSeller extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(backgroundColor: AppColors.blue),
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CardSeller(
-              label: "produtos",
-              icon: Icon(Icons.shopping_bag, size: 150, color: AppColors.blue),
-              routeName: "/newProduct",
-            ),
-            CardSeller(
-              label: "",
-              icon: Icon(Icons.shopping_bag, size: 150, color: AppColors.blue),
-              routeName: "/productsSellers",
-            ),
-            CardSeller(
-              label: "produtos",
-              icon: Icon(Icons.shopping_bag, size: 150, color: AppColors.blue),
-              routeName: "/productsSellers",
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Wrap(
+            children: [
+              CardSeller(
+                label: "Anunciar",
+                icon: Icon(
+                  Icons.shopping_bag_sharp,
+                  size: 150,
+                  color: AppColors.blue,
+                ),
+                routeName: "/newProduct",
+              ),
+              CardSeller(
+                label: "Produtos",
+                icon: Icon(Icons.storefront, size: 150, color: AppColors.blue),
+                routeName: "/productsSellers",
+              ),
+              CardSeller(
+                label: "Vendas",
+                icon: Icon(Icons.sell, size: 150, color: AppColors.blue),
+                routeName: "/productsSellers",
+              ),
+            ],
+          ),
         ),
       ),
     );
