@@ -62,6 +62,7 @@ AppBar infoAppbar(bool isMobile, context) {
                   value: "/configuration",
                   child: Text("Configurações"),
                 ),
+                PopupMenuItem(value: "/HomeSeller", child: Text("Vendedor")),
                 PopupMenuItem(value: "/login", child: Text("Logout")),
               ],
           onSelected: (value) {

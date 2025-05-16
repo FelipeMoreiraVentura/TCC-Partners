@@ -1,16 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/style.dart';
 
-Widget widgetLoading() {
-  return SizedBox(
-    height: 200,
-    width: double.infinity,
-    child: Center(
-      child: SizedBox(
-        height: 15,
-        width: 170,
-        child: LinearProgressIndicator(color: AppColors.blue),
+class widgetLoading extends StatelessWidget {
+  final double verticalPadding;
+  final double horizontalPadding;
+  final double height;
+  final double width;
+
+  const widgetLoading({
+    super.key,
+    this.verticalPadding = 170,
+    this.height = 15,
+    this.width = 170,
+    this.horizontalPadding = 0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: verticalPadding,
+        horizontal: horizontalPadding,
       ),
-    ),
-  );
+      child: Center(
+        child: SizedBox(
+          height: height,
+          width: width,
+          child: LinearProgressIndicator(color: AppColors.blue),
+        ),
+      ),
+    );
+  }
 }
