@@ -41,6 +41,13 @@ class _NavBarState extends State<NavBar> {
       ),
     ];
 
+    IconButton configButton = IconButton(
+      onPressed: () {
+        Navigator.pushNamed(context, "/configuration");
+      },
+      icon: Icon(Icons.account_circle, color: AppColors.blue, size: 40),
+    );
+
     return Scaffold(
       backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: false,
@@ -51,7 +58,12 @@ class _NavBarState extends State<NavBar> {
                   Expanded(
                     child: Stack(
                       children: [
-                        SingleChildScrollView(child: widget.child),
+                        SingleChildScrollView(
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            child: widget.child,
+                          ),
+                        ),
                         if (chatView)
                           Positioned(bottom: 0, right: 0, child: ChatView()),
                       ],
@@ -61,7 +73,7 @@ class _NavBarState extends State<NavBar> {
                     color: AppColors.menu,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: buttonRoutes,
+                      children: [...buttonRoutes, configButton],
                     ),
                   ),
                 ],
@@ -70,13 +82,22 @@ class _NavBarState extends State<NavBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     color: AppColors.menu,
-                    child: Column(children: buttonRoutes),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Column(children: buttonRoutes), configButton],
+                    ),
                   ),
                   Expanded(
                     child: Stack(
                       children: [
-                        SingleChildScrollView(child: widget.child),
+                        SingleChildScrollView(
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            child: widget.child,
+                          ),
+                        ),
                         if (chatView) Positioned(child: ChatView()),
                       ],
                     ),

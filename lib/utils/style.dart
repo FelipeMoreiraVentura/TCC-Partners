@@ -4,6 +4,7 @@ class AppColors {
   static const Color background = Color.fromRGBO(240, 239, 239, 1);
   static const Color menu = Color.fromARGB(255, 255, 255, 255);
   static const Color blue = Color.fromRGBO(2, 78, 180, 1.0);
+  static const Color menuBackground = Color.fromARGB(255, 179, 178, 178);
 }
 
 class AppText {

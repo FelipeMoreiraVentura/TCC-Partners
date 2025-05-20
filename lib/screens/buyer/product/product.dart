@@ -9,7 +9,7 @@ import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/info_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/nav_bar.dart';
-import 'package:market_partners/widgets/products.dart';
+import 'package:market_partners/widgets/wrap_product.dart';
 
 class Product extends StatefulWidget {
   const Product({super.key});
@@ -22,6 +22,7 @@ class _ProductState extends State<Product> {
   bool loading = true;
   Map<String, dynamic> product = {};
   List<Map<String, Object>> productComments = [];
+  List products = [];
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _ProductState extends State<Product> {
     final dataComment = await getProductsComments();
     setState(() {
       product = dataProduct["products"]![0] as Map<String, dynamic>;
+      products = dataProduct["products"]!;
       productComments = dataComment;
       if (product.isNotEmpty && productComments.isNotEmpty) loading = false;
     });
@@ -54,7 +56,6 @@ class _ProductState extends State<Product> {
                   child: Center(child: widgetLoading()),
                 )
                 : Container(
-                  margin: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -67,9 +68,10 @@ class _ProductState extends State<Product> {
 
                       SizedBox(height: 10),
                       Text("Recomendados", style: AppText.titleInfoMedium),
-                      Products(
-                        isMobile: isMobile,
-                        sizeScreen: MediaQuery.of(context).size,
+                      Center(
+                        child: WrapProduct(
+                          products: products.cast<Map<String, Object>>(),
+                        ),
                       ),
 
                       SizedBox(height: 10),

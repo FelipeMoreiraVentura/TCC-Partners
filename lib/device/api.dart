@@ -17,8 +17,7 @@ class Api {
 
   static Future<http.Response> get(String endpoint) async {
     final url = Uri.parse("$_baseUrl$endpoint");
-    final response = await http.get(url);
-    return _handleResponse(response);
+    return await http.get(url);
   }
 
   static Future<http.Response> post(
@@ -26,19 +25,10 @@ class Api {
     Map<String, dynamic> body,
   ) async {
     final url = Uri.parse("$_baseUrl$endpoint");
-    final response = await http.post(
+    return await http.post(
       url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
-    return _handleResponse(response);
-  }
-
-  static http.Response _handleResponse(http.Response response) {
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return response;
-    } else {
-      throw Exception("Erro ${response.statusCode}: ${response.body}");
-    }
   }
 }

@@ -2,8 +2,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/widgets/card_product.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/product_carousel.dart';
+import 'package:market_partners/widgets/wrap_product.dart';
 
 class Products extends StatefulWidget {
   final bool isMobile;
@@ -37,75 +40,9 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgetsProductsMostPurchased =
+    List<CardProduct> widgetsProductsMostPurchased =
         products.map((product) {
-          return InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, "/product");
-            },
-            child: Container(
-              padding: EdgeInsets.all(widget.isMobile ? 5 : 10),
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: AppColors.menu,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    spreadRadius: 0.2,
-                    blurRadius: 8,
-                  ),
-                ],
-              ),
-              height: widget.isMobile ? 150 : 200,
-              width: widget.isMobile ? 150 : 200,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.network(
-                    product["images"][0],
-                    height: widget.isMobile ? 60 : 90,
-                    width: widget.isMobile ? 60 : 90,
-                  ),
-                  Text(
-                    product["name"],
-                    style: widget.isMobile ? AppText.xs : AppText.sm,
-                  ),
-                  Text(product["price"].toString(), style: AppText.md),
-                ],
-              ),
-            ),
-          );
-        }).toList();
-
-    List<Widget> widgetsRecommendedProducts =
-        products.take(16).map((product) {
-          return InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, "/product");
-            },
-            child: Container(
-              padding: EdgeInsets.all(widget.isMobile ? 5 : 10),
-              height: widget.isMobile ? 180 : 210,
-              width: widget.isMobile ? 180 : 210,
-              color: AppColors.menu,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.network(
-                    product["images"][0],
-                    height: widget.isMobile ? 70 : 100,
-                    width: widget.isMobile ? 70 : 100,
-                  ),
-                  Text(
-                    product["name"],
-                    style: widget.isMobile ? AppText.xs : AppText.base,
-                  ),
-                  Text(product["price"].toString(), style: AppText.md),
-                ],
-              ),
-            ),
-          );
+          return CardProduct(product: product);
         }).toList();
 
     return Column(
@@ -113,50 +50,13 @@ class _ProductsState extends State<Products> {
         Text("Mais comprados", style: AppText.titleMedium),
         loading
             ? widgetLoading()
-            : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (!widget.isMobile)
-                  IconButton(
-                    onPressed: () => controller.previousPage(),
-                    icon: const Icon(Icons.arrow_back_ios),
-                  ),
-                Expanded(
-                  child: CarouselSlider(
-                    items: widgetsProductsMostPurchased,
-                    carouselController: controller,
-                    options: CarouselOptions(
-                      height: widget.isMobile ? 150 : 200,
-                      enableInfiniteScroll: false,
-                      viewportFraction:
-                          widget.isMobile
-                              ? 180 / widget.sizeScreen.width
-                              : 300 / widget.sizeScreen.width,
-                      padEnds: false,
-                    ),
-                  ),
-                ),
-                if (!widget.isMobile)
-                  IconButton(
-                    onPressed: () => controller.nextPage(),
-                    icon: const Icon(Icons.arrow_forward_ios),
-                  ),
-              ],
-            ),
+            : ProductCarousel(cardProducts: widgetsProductsMostPurchased),
         SizedBox(height: 20),
 
         Text("Recomendado para você", style: AppText.titleMedium),
         loading
             ? widgetLoading()
-            : Container(
-              margin:
-                  widget.isMobile ? null : EdgeInsets.only(left: 5, right: 5),
-              child: Wrap(
-                spacing: 2,
-                runSpacing: 2,
-                children: widgetsRecommendedProducts,
-              ),
-            ),
+            : WrapProduct(products: products.cast<Map<String, Object>>()),
       ],
     );
   }
