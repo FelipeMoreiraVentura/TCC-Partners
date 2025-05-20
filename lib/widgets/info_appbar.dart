@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/utils/global.dart';
 import 'package:market_partners/utils/style.dart';
 
 AppBar infoAppbar(bool isMobile, context) {
   return AppBar(
     backgroundColor: AppColors.blue,
     surfaceTintColor: Colors.transparent,
-    automaticallyImplyLeading: false,
+    automaticallyImplyLeading: isMobile,
+    iconTheme: IconThemeData(color: Colors.white),
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (!isMobile)
-          Image.asset(
-            "assets/images/logoStringWhite.png",
-            height: 43,
-            width: 200,
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, "/HomeBuyer");
+            },
+            icon: Image.asset(
+              "assets/images/logoStringWhite.png",
+              height: 43,
+              width: 200,
+            ),
           ),
         Row(
           children: [
@@ -21,6 +28,13 @@ AppBar infoAppbar(bool isMobile, context) {
               width: MediaQuery.of(context).size.width * 0.5,
               height: 40,
               child: TextField(
+                onSubmitted: (value) {
+                  Navigator.pushNamed(
+                    context,
+                    "source_product/${sourcePrompt.text}",
+                  );
+                },
+                controller: sourcePrompt,
                 obscureText: false,
                 style: AppText.md.copyWith(color: Colors.white),
                 decoration: InputDecoration(
@@ -42,7 +56,14 @@ AppBar infoAppbar(bool isMobile, context) {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                if (sourcePrompt.text.isNotEmpty) {
+                  Navigator.pushNamed(
+                    context,
+                    "source_product/${sourcePrompt.text}",
+                  );
+                }
+              },
               icon: Icon(Icons.search, color: Colors.white),
             ),
           ],
@@ -52,22 +73,6 @@ AppBar infoAppbar(bool isMobile, context) {
             Navigator.pushNamed(context, "/cart");
           },
           icon: Icon(Icons.shopping_cart_rounded, color: Colors.white),
-        ),
-        PopupMenuButton(
-          icon: Icon(Icons.account_circle, color: Colors.white),
-          offset: Offset(0, 40),
-          itemBuilder:
-              (context) => [
-                PopupMenuItem(
-                  value: "/configuration",
-                  child: Text("Configurações"),
-                ),
-                PopupMenuItem(value: "/HomeSeller", child: Text("Vendedor")),
-                PopupMenuItem(value: "/login", child: Text("Logout")),
-              ],
-          onSelected: (value) {
-            Navigator.pushNamed(context, value);
-          },
         ),
       ],
     ),

@@ -22,6 +22,14 @@ class Confing extends StatelessWidget {
                 children: [
                   ListTile(
                     splashColor: Colors.grey,
+                    title: Text("Ir Para Tela de vendedor"),
+                    leading: Icon(Icons.sell_sharp, size: 40),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/HomeSeller");
+                    },
+                  ),
+                  ListTile(
+                    splashColor: Colors.grey,
                     title: Text("Dados da conta"),
                     subtitle: Text("Nome, Email, telefone e senha"),
                     leading: Icon(Icons.account_circle, size: 40),
@@ -50,6 +58,14 @@ class Confing extends StatelessWidget {
                       height: 40,
                       width: 40,
                     ),
+                  ),
+                  ListTile(
+                    title: Text("Logout"),
+                    subtitle: Text("Sair da conta"),
+                    leading: Icon(Icons.logout_sharp, size: 40),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/login");
+                    },
                   ),
                 ],
               ),

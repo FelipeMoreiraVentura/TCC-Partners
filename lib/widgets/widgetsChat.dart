@@ -79,7 +79,7 @@ class _ChatViewState extends State<ChatView> {
       });
     } else {
       setState(() {
-        chatHistory.add({"sender": "bot", "message": "Ocorreu algum erro"});
+        chatHistory.add({"sender": "bot", "message": "Ocorreu algum erro: "});
       });
     }
 
@@ -128,7 +128,7 @@ class _ChatViewState extends State<ChatView> {
     double mediaQueryHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      color: const Color.fromARGB(255, 179, 178, 178),
+      color: AppColors.menuBackground,
       width: isMobile ? mediaQueryWidht : mediaQueryWidht * 0.35,
       height: isMobile ? mediaQueryHeight * 0.6 : mediaQueryHeight,
       child: Column(

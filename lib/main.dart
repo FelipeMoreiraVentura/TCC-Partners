@@ -6,6 +6,7 @@ import 'package:market_partners/screens/buyer/delivery/delivery.dart';
 import 'package:market_partners/screens/buyer/history/history.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
 import 'package:market_partners/screens/buyer/product/product.dart';
+import 'package:market_partners/screens/buyer/source_product/source_product.dart';
 import 'package:market_partners/screens/seller/home/home.dart';
 import 'package:market_partners/screens/seller/new_product/new_product.dart';
 import "screens/login/login.dart";
@@ -40,6 +41,16 @@ class MyApp extends StatelessWidget {
         //Seller routes
         "/HomeSeller": (context) => const HomeSeller(),
         "/newProduct": (context) => const NewProduct(),
+      },
+      onGenerateRoute: (settings) {
+        final uri = Uri.parse(settings.name!).pathSegments;
+
+        if (uri.length == 2 && uri[0] == "source_product") {
+          return MaterialPageRoute(
+            builder: (context) => SourceProduct(sourcePrompt: uri[1]),
+          );
+        }
+        return null;
       },
     );
   }
