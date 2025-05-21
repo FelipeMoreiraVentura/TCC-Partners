@@ -48,6 +48,33 @@ class _NavBarState extends State<NavBar> {
       icon: Icon(Icons.account_circle, color: AppColors.blue, size: 40),
     );
 
+    Expanded closeChatMenu = Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            chatView = false;
+          });
+        },
+        child: Container(color: Colors.transparent),
+      ),
+    );
+
+    Positioned viewChatMenu = Positioned.fill(
+      child: AnimatedSlide(
+        duration: Duration(milliseconds: isMobile ? 200 : 400),
+        offset:
+            chatView
+                ? Offset.zero
+                : isMobile
+                ? Offset(0, 1.0)
+                : Offset(-1.0, 0),
+        child:
+            isMobile
+                ? Column(children: [closeChatMenu, ChatView()])
+                : Row(children: [ChatView(), closeChatMenu]),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: false,
@@ -64,8 +91,7 @@ class _NavBarState extends State<NavBar> {
                             child: widget.child,
                           ),
                         ),
-                        if (chatView)
-                          Positioned(bottom: 0, right: 0, child: ChatView()),
+                        viewChatMenu,
                       ],
                     ),
                   ),
@@ -82,7 +108,6 @@ class _NavBarState extends State<NavBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
                     color: AppColors.menu,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,7 +123,7 @@ class _NavBarState extends State<NavBar> {
                             child: widget.child,
                           ),
                         ),
-                        if (chatView) Positioned(child: ChatView()),
+                        viewChatMenu,
                       ],
                     ),
                   ),

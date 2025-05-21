@@ -55,32 +55,30 @@ class _ProductState extends State<Product> {
                   color: AppColors.background,
                   child: Center(child: widgetLoading()),
                 )
-                : Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ProductInfo(product: product),
+                : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProductInfo(product: product),
 
-                      SizedBox(height: 10),
-                      ProductSpecifications(
-                        specifications: product["specifications"],
-                      ),
+                    SizedBox(height: 10),
+                    ProductSpecifications(
+                      specifications: product["specifications"],
+                    ),
 
-                      SizedBox(height: 10),
-                      Text("Recomendados", style: AppText.titleInfoMedium),
-                      Center(
-                        child: WrapProduct(
-                          products: products.cast<Map<String, Object>>(),
-                        ),
+                    SizedBox(height: 10),
+                    Text("Recomendados", style: AppText.titleInfoMedium),
+                    Center(
+                      child: WrapProduct(
+                        products: products.cast<Map<String, Object>>(),
                       ),
+                    ),
 
-                      SizedBox(height: 10),
-                      Comments(
-                        comments: productComments,
-                        rating: product["rating"],
-                      ),
-                    ],
-                  ),
+                    SizedBox(height: 10),
+                    Comments(
+                      comments: productComments,
+                      rating: product["rating"],
+                    ),
+                  ],
                 ),
       ),
     );
