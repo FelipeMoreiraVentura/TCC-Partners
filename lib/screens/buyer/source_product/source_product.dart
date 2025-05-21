@@ -37,6 +37,8 @@ class _SourceProductState extends State<SourceProduct> {
 
   @override
   Widget build(BuildContext context) {
+    double mediaQueryWidht = MediaQuery.of(context).size.width;
+    double mediaQueryHeight = MediaQuery.of(context).size.height;
     bool isMobile = IsMobile(context);
 
     List<CardProduct> productView =
@@ -55,6 +57,24 @@ class _SourceProductState extends State<SourceProduct> {
           Icon(Icons.filter_alt_sharp, color: AppColors.blue),
           Text("Filtrar"),
         ],
+      ),
+    );
+
+    Container widgetFilterMenu = Container(
+      width: isMobile ? mediaQueryWidht : mediaQueryWidht * 0.4,
+      height: isMobile ? mediaQueryHeight * 0.6 : mediaQueryHeight,
+      color: AppColors.menuBackground,
+      child: Column(children: [buttonFilter]),
+    );
+
+    Expanded closeFilterMenu = Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            filterMenu = false;
+          });
+        },
+        child: Container(color: Colors.transparent),
       ),
     );
 
@@ -83,18 +103,22 @@ class _SourceProductState extends State<SourceProduct> {
               ],
             ),
           ),
-          if (filterMenu)
-            Positioned(
-              top: 0,
-              bottom: 0,
-              right: 0,
-              child: Container(
-                color: AppColors.menuBackground,
-                height: double.infinity,
-                width: 600,
-                child: Column(children: [buttonFilter]),
-              ),
+
+          Positioned.fill(
+            child: AnimatedSlide(
+              duration: const Duration(milliseconds: 200),
+              offset:
+                  filterMenu
+                      ? Offset.zero
+                      : isMobile
+                      ? Offset(0, 1.0)
+                      : Offset(1.0, 0),
+              child:
+                  isMobile
+                      ? Column(children: [closeFilterMenu, widgetFilterMenu])
+                      : Row(children: [closeFilterMenu, widgetFilterMenu]),
             ),
+          ),
         ],
       ),
     );
