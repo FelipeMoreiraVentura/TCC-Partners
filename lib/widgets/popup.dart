@@ -26,7 +26,7 @@ class Popup extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("Cancelar", style: TextStyle(color: Colors.white)),
+            child: Text("Cancelar", style: TextStyle(color: AppColors.blue)),
           ),
         ),
         Expanded(

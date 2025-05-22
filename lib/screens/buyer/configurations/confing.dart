@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/screens/buyer/configurations/widget/popup_adress_info.dart';
+import 'package:market_partners/screens/buyer/configurations/widget/popup_user_info.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
+import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/widgets/popup.dart';
 
 class Confing extends StatelessWidget {
@@ -8,18 +11,9 @@ class Confing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Popup popupUserInfo = Popup(
-      title: "Informações da Conta",
-      actionButtons: true,
+    PopupUserInfo popupUserInfo = PopupUserInfo();
 
-      child: Column(children: [Text("sdsed")]),
-    );
-
-    Popup popupAddressInfo = Popup(
-      title: "Informações da Conta",
-      actionButtons: true,
-      child: Column(children: [Text("sdsed")]),
-    );
+    PopupAdressInfo popupAddressInfo = PopupAdressInfo();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -64,6 +58,14 @@ class Confing extends StatelessWidget {
                   ),
                 ),
                 ListTile(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return popupAddressInfo;
+                      },
+                    );
+                  },
                   title: Text("Enderedeço"),
                   subtitle: Text("Localizações de entrega"),
                   leading: Icon(
