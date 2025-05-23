@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/device/api.dart';
 import 'package:market_partners/screens/buyer/cart/cart.dart';
 import 'package:market_partners/screens/buyer/configurations/confing.dart';
+import 'package:market_partners/screens/buyer/confirm_purchase/confirm_purchase.dart';
 import 'package:market_partners/screens/buyer/delivery/delivery.dart';
 import 'package:market_partners/screens/buyer/history/history.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
@@ -48,6 +49,11 @@ class MyApp extends StatelessWidget {
         if (uri.length == 2 && uri[0] == "source_product") {
           return MaterialPageRoute(
             builder: (context) => SourceProduct(sourcePrompt: uri[1]),
+          );
+        }
+        if (uri.length == 2 && uri[0] == "confirm_purchase") {
+          return MaterialPageRoute(
+            builder: (context) => ConfirmPurchase(productId: uri[1].split(',')),
           );
         }
         return null;

@@ -49,7 +49,7 @@ class Popup extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(child: child),
+            Flexible(child: SingleChildScrollView(child: child)),
             SizedBox(height: 20),
             actionButtons
                 ? rowActionButtons

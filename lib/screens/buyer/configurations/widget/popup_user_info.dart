@@ -35,16 +35,14 @@ class _PopupUserInfoState extends State<PopupUserInfo> {
       },
       child: Form(
         key: formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ...input("Email", email, 1),
-              ...input("CPF", cpfOrCnpj, 1),
-              ...input("Numero", number, 1),
-              ...input("Name", userName, 1),
-              ...input("Senha", password, 1),
-            ],
-          ),
+        child: Column(
+          children: [
+            ...input("Email", email, 1),
+            ...input("CPF", cpfOrCnpj, 1),
+            ...input("Telefone", number, 1),
+            ...input("Name", userName, 1),
+            ...input("Senha", password, 1),
+          ],
         ),
       ),
     );
