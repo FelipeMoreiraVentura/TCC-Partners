@@ -13,9 +13,9 @@ List<Widget> input(String type, controller, login) {
     return null;
   }
 
-  String? numberValidation(value) {
-    final numberRegex = RegExp(r'^\([1-9]{2}\)\s9[0-9]{4}-[0-9]{4}$');
-    if (!numberRegex.hasMatch(value)) {
+  String? phoneValidation(value) {
+    final phoneRegex = RegExp(r'^\([1-9]{2}\)\s9[0-9]{4}-[0-9]{4}$');
+    if (!phoneRegex.hasMatch(value)) {
       return 'Insira um número válido';
     }
     return null;
@@ -40,7 +40,7 @@ List<Widget> input(String type, controller, login) {
           ? "000.000.000-00"
           : type == "CNPJ"
           ? "00.000.000/0000-00"
-          : type == "Numero"
+          : type == "Telefone"
           ? "(00) 00000-0000"
           : type;
 
@@ -69,7 +69,7 @@ List<Widget> input(String type, controller, login) {
         ),
         controller: controller,
         inputFormatters:
-            type == "CPF" || type == "Numero" || type == "CNPJ"
+            type == "CPF" || type == "Telefone" || type == "CNPJ"
                 ? [maskFormatter]
                 : [],
         validator: (value) {
@@ -80,8 +80,8 @@ List<Widget> input(String type, controller, login) {
               ? null
               : type == "Email"
               ? emailValidation(value)
-              : type == "Numero"
-              ? numberValidation(value)
+              : type == "Telefone"
+              ? phoneValidation(value)
               : type == "CPF" || type == "CNPJ"
               ? cpfOrCnpjValidation(value)
               : null;

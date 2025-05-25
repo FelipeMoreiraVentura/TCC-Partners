@@ -7,20 +7,22 @@ class PhotosMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     List<Container> imagesContainers =
         images.map((img) {
           return Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(32)),
-            width: double.infinity,
-            child: Image.network(img),
+            child: Image.network(img, width: width, height: width),
           );
         }).toList();
 
     return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 15),
+      margin: EdgeInsets.only(top: 5, bottom: 15),
       child: CarouselSlider(
         items: imagesContainers,
         options: CarouselOptions(
+          height: width,
           enlargeCenterPage: true,
           viewportFraction: 0.95,
           enableInfiniteScroll: false,

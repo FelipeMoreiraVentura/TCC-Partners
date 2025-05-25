@@ -51,10 +51,7 @@ class _ProductState extends State<Product> {
       body: NavBar(
         child:
             loading
-                ? Container(
-                  color: AppColors.background,
-                  child: Center(child: widgetLoading()),
-                )
+                ? Center(child: widgetLoading())
                 : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

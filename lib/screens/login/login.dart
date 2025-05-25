@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/screens/login/widgets/input.dart';
+import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 

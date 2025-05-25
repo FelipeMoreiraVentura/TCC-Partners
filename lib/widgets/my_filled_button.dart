@@ -3,7 +3,7 @@ import 'package:market_partners/utils/style.dart';
 
 class MyFilledButton extends StatelessWidget {
   final Widget child;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final double width;
 
   const MyFilledButton({
