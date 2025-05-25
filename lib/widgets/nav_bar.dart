@@ -67,19 +67,7 @@ class _NavBarState extends State<NavBar> {
     return isMobile
         ? Column(
           children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: widget.child,
-                    ),
-                  ),
-                  viewChatMenu,
-                ],
-              ),
-            ),
+            Expanded(child: Stack(children: [widget.child, viewChatMenu])),
             Container(
               color: AppColors.menu,
               child: Row(
@@ -99,19 +87,7 @@ class _NavBarState extends State<NavBar> {
                 children: [Column(children: buttonRoutes), configButton],
               ),
             ),
-            Expanded(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: widget.child,
-                    ),
-                  ),
-                  viewChatMenu,
-                ],
-              ),
-            ),
+            Expanded(child: Stack(children: [widget.child, viewChatMenu])),
           ],
         );
   }

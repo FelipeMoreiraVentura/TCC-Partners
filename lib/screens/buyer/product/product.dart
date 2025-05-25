@@ -49,34 +49,39 @@ class _ProductState extends State<Product> {
       appBar: infoAppbar(isMobile, context),
       backgroundColor: AppColors.background,
       body: NavBar(
-        child:
-            loading
-                ? Center(child: widgetLoading())
-                : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ProductInfo(product: product),
+        child: SingleChildScrollView(
+          child:
+              loading
+                  ? Center(child: widgetLoading())
+                  : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ProductInfo(product: product),
 
-                    SizedBox(height: 10),
-                    ProductSpecifications(
-                      specifications: product["specifications"],
-                    ),
+                        SizedBox(height: 10),
+                        ProductSpecifications(
+                          specifications: product["specifications"],
+                        ),
 
-                    SizedBox(height: 10),
-                    Text("Recomendados", style: AppText.titleInfoMedium),
-                    Center(
-                      child: WrapProduct(
-                        products: products.cast<Map<String, Object>>(),
-                      ),
-                    ),
+                        SizedBox(height: 10),
+                        Text("Recomendados", style: AppText.titleInfoMedium),
+                        Center(
+                          child: WrapProduct(
+                            products: products.cast<Map<String, Object>>(),
+                          ),
+                        ),
 
-                    SizedBox(height: 10),
-                    Comments(
-                      comments: productComments,
-                      rating: product["rating"],
+                        SizedBox(height: 10),
+                        Comments(
+                          comments: productComments,
+                          rating: product["rating"],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+        ),
       ),
     );
   }

@@ -84,23 +84,28 @@ class _SourceProductState extends State<SourceProduct> {
       body: Stack(
         children: [
           NavBar(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
                   children: [
-                    Text(
-                      "Resultados da pesquisa:",
-                      style:
-                          isMobile
-                              ? AppText.titleInfoTiny
-                              : AppText.titleInfoMedium,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Resultados da pesquisa:",
+                          style:
+                              isMobile
+                                  ? AppText.titleInfoTiny
+                                  : AppText.titleInfoMedium,
+                        ),
+                        buttonFilter,
+                      ],
                     ),
-                    buttonFilter,
+                    loading ? widgetLoading() : Wrap(children: productView),
                   ],
                 ),
-                loading ? widgetLoading() : Wrap(children: productView),
-              ],
+              ),
             ),
           ),
 
