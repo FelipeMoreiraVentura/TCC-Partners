@@ -48,87 +48,71 @@ class _NavBarState extends State<NavBar> {
       icon: Icon(Icons.account_circle, color: AppColors.blue, size: 40),
     );
 
-    Expanded closeChatMenu = Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            chatView = false;
-          });
-        },
-        child: Container(color: Colors.transparent),
-      ),
-    );
-
     Positioned viewChatMenu = Positioned.fill(
-      child: AnimatedSlide(
-        duration: Duration(milliseconds: isMobile ? 200 : 400),
-        offset:
-            chatView
-                ? Offset.zero
-                : isMobile
-                ? Offset(0, 1.0)
-                : Offset(-1.0, 0),
-        child:
-            isMobile
-                ? Column(children: [closeChatMenu, ChatView()])
-                : Row(children: [ChatView(), closeChatMenu]),
+      child: Opacity(
+        opacity: chatView ? 1.0 : 0,
+        child: AnimatedSlide(
+          duration: Duration(milliseconds: isMobile ? 200 : 400),
+          offset:
+              chatView
+                  ? Offset.zero
+                  : isMobile
+                  ? Offset(0, 1.0)
+                  : Offset(-1.0, 0),
+          child: ChatView(),
+        ),
       ),
     );
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      resizeToAvoidBottomInset: false,
-      body:
-          isMobile
-              ? Column(
+    return isMobile
+        ? Column(
+          children: [
+            Expanded(
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: Stack(
-                      children: [
-                        SingleChildScrollView(
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            child: widget.child,
-                          ),
-                        ),
-                        viewChatMenu,
-                      ],
+                  SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: widget.child,
                     ),
                   ),
-                  Container(
-                    color: AppColors.menu,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [...buttonRoutes, configButton],
-                    ),
-                  ),
-                ],
-              )
-              : Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    color: AppColors.menu,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Column(children: buttonRoutes), configButton],
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      children: [
-                        SingleChildScrollView(
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            child: widget.child,
-                          ),
-                        ),
-                        viewChatMenu,
-                      ],
-                    ),
-                  ),
+                  viewChatMenu,
                 ],
               ),
-    );
+            ),
+            Container(
+              color: AppColors.menu,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [...buttonRoutes, configButton],
+              ),
+            ),
+          ],
+        )
+        : Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: AppColors.menu,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [Column(children: buttonRoutes), configButton],
+              ),
+            ),
+            Expanded(
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: widget.child,
+                    ),
+                  ),
+                  viewChatMenu,
+                ],
+              ),
+            ),
+          ],
+        );
   }
 }

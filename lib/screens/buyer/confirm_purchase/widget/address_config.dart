@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/popup.dart';
 
 class AddressConfig extends StatefulWidget {
-  final String selectesAddress;
-
-  const AddressConfig({super.key, required this.selectesAddress});
+  const AddressConfig({super.key});
 
   @override
   State<AddressConfig> createState() => _AddressConfigState();
@@ -43,6 +42,8 @@ class _AddressConfigState extends State<AddressConfig> {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = IsMobile(context);
+
     Popup addressPoppup = Popup(
       title: "Endereços",
       child: Column(
@@ -61,16 +62,18 @@ class _AddressConfigState extends State<AddressConfig> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(Icons.location_on_outlined, color: AppColors.blue),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(address["name"]),
-                          Text(
-                            "${address["street"]} ${address["number"]}, ${address["neighborhood"]}, ${address["city"]}(${address["state"]})",
-                            style: AppText.description,
-                            softWrap: true,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(address["name"]),
+                            Text(
+                              "${address["street"]} ${address["number"]}, ${address["neighborhood"]}, ${address["city"]}(${address["state"]})",
+                              style: AppText.description,
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -84,44 +87,55 @@ class _AddressConfigState extends State<AddressConfig> {
       (address) => address["id"] == selectesAddress,
     );
 
-    return Container(
-      height: 100,
-      width: 450,
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: InkWell(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return addressPoppup;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Endereço",
+          style: isMobile ? AppText.titleInfoTiny : AppText.titleInfoMedium,
+        ),
+        Container(
+          height: 100,
+          width: double.infinity,
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return addressPoppup;
+                },
+              );
             },
-          );
-        },
-        child: Center(
-          child: Row(
-            children: [
-              Icon(Icons.location_on, color: AppColors.blue),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+            child: Center(
+              child: Row(
                 children: [
-                  Text(filterAddress["name"] ?? ""),
-                  Text(
-                    "${filterAddress["street"]} ${filterAddress["number"]}, ${filterAddress["neighborhood"]}, ${filterAddress["city"]}(${filterAddress["state"]})",
-                    style: AppText.description,
-                    softWrap: true,
+                  Icon(Icons.location_on, color: AppColors.blue),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(filterAddress["name"] ?? ""),
+                        Text(
+                          "${filterAddress["street"]} ${filterAddress["number"]}, ${filterAddress["neighborhood"]}, ${filterAddress["city"]}(${filterAddress["state"]})",
+                          style: AppText.description,
+                          softWrap: true,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

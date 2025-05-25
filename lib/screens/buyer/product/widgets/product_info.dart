@@ -52,7 +52,7 @@ class _ProductInfoState extends State<ProductInfo> {
         SizedBox(height: 10),
         MyFilledButton(
           onPressed: () {
-            Navigator.pushNamed(context, "confirm_purchase/[1234]");
+            Navigator.pushNamed(context, "confirm_purchase/123456");
           },
           child: Text("Comprar", style: TextStyle(color: Colors.white)),
         ),

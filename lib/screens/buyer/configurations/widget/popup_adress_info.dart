@@ -53,8 +53,8 @@ class _PopupAdressInfoState extends State<PopupAdressInfo> {
 
     List<Widget> adressView =
         adressList.map((adress) {
-          return SizedBox(
-            height: 60,
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -79,16 +79,18 @@ class _PopupAdressInfoState extends State<PopupAdressInfo> {
                     color: AppColors.blue,
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(adress["name"]),
-                    Text(
-                      "${adress["street"]} ${adress["number"]}, ${adress["neighborhood"]}, ${adress["city"]}(${adress["state"]})",
-                      style: AppText.description,
-                      softWrap: true,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(adress["name"]),
+                      Text(
+                        "${adress["street"]} ${adress["number"]}, ${adress["neighborhood"]}, ${adress["city"]}(${adress["state"]})",
+                        style: AppText.description,
+                        softWrap: true,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -128,7 +130,33 @@ class _PopupAdressInfoState extends State<PopupAdressInfo> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
-        children: editAdress ? widgetEditAdress : adressView,
+        children:
+            editAdress
+                ? widgetEditAdress
+                : [
+                  ...adressView,
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        selectAdress = "";
+                        editAdress = true;
+                        name.text = "";
+                        street.text = "";
+                        number.text = "";
+                        neighborhood.text = "";
+                        city.text = "";
+                        state.text = "";
+                        zipCode.text = "";
+                        complement.text = "";
+                        phone.text = "";
+                      });
+                    },
+                    icon: Icon(
+                      Icons.add_location_alt_outlined,
+                      color: AppColors.blue,
+                    ),
+                  ),
+                ],
       ),
     );
   }
