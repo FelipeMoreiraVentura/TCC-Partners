@@ -110,18 +110,21 @@ class _SourceProductState extends State<SourceProduct> {
           ),
 
           Positioned.fill(
-            child: AnimatedSlide(
-              duration: const Duration(milliseconds: 200),
-              offset:
-                  filterMenu
-                      ? Offset.zero
-                      : isMobile
-                      ? Offset(0, 1.0)
-                      : Offset(1.0, 0),
-              child:
-                  isMobile
-                      ? Column(children: [closeFilterMenu, widgetFilterMenu])
-                      : Row(children: [closeFilterMenu, widgetFilterMenu]),
+            child: Opacity(
+              opacity: filterMenu ? 1.0 : 0.0,
+              child: AnimatedSlide(
+                duration: const Duration(milliseconds: 200),
+                offset:
+                    filterMenu
+                        ? Offset.zero
+                        : isMobile
+                        ? Offset(0, 1.0)
+                        : Offset(1.0, 0),
+                child:
+                    isMobile
+                        ? Column(children: [closeFilterMenu, widgetFilterMenu])
+                        : Row(children: [closeFilterMenu, widgetFilterMenu]),
+              ),
             ),
           ),
         ],

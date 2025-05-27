@@ -3,7 +3,6 @@ import 'package:market_partners/device/api.dart';
 import 'package:market_partners/screens/buyer/cart/cart.dart';
 import 'package:market_partners/screens/buyer/configurations/confing.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/confirm_purchase.dart';
-import 'package:market_partners/screens/buyer/delivery/delivery.dart';
 import 'package:market_partners/screens/buyer/history/history.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
 import 'package:market_partners/screens/buyer/product/product.dart';
@@ -35,7 +34,6 @@ class MyApp extends StatelessWidget {
         "/configuration": (context) => const Confing(),
         "/configuration/PartnersBot": (context) => const PartnersBot(),
         "/history": (context) => const History(),
-        "/delivery": (context) => const Delivery(),
         "/cart": (context) => const Cart(),
         "/product": (context) => const Product(),
 

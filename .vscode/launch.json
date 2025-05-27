@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib\\screens\\seller\\new_product\\widget\\carousel_image.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib\\screens\\seller\\new_product\\widget\\carousel_image.dart"
+        }
+    ]
+}

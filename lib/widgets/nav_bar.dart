@@ -21,12 +21,6 @@ class _NavBarState extends State<NavBar> {
     List<Widget> buttonRoutes = [
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, "/delivery");
-        },
-        icon: Icon(Icons.shopping_bag_sharp, color: AppColors.blue, size: 40),
-      ),
-      IconButton(
-        onPressed: () {
           Navigator.pushNamed(context, "/history");
         },
         icon: Icon(Icons.history, color: AppColors.blue, size: 40),
