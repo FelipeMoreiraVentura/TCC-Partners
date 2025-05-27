@@ -9,8 +9,10 @@ import 'package:market_partners/screens/buyer/product/product.dart';
 import 'package:market_partners/screens/buyer/source_product/source_product.dart';
 import 'package:market_partners/screens/seller/home/home.dart';
 import 'package:market_partners/screens/seller/new_product/new_product.dart';
+import 'package:market_partners/screens/seller/sales/sales.dart';
 import "screens/login/login.dart";
 import 'screens/buyer/home/home.dart';
+import 'screens/seller/products/products.dart';
 
 Future<void> main() async {
   await Api.initialize();
@@ -40,6 +42,8 @@ class MyApp extends StatelessWidget {
         //Seller routes
         "/HomeSeller": (context) => const HomeSeller(),
         "/newProduct": (context) => const NewProduct(),
+        "/products": (context) => const Products(),
+        "/sales": (context) => const Sales(),
       },
       onGenerateRoute: (settings) {
         final uri = Uri.parse(settings.name!).pathSegments;

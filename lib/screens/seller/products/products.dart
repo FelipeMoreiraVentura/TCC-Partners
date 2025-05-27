@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
+import 'package:market_partners/widgets/loading.dart';
 
 class Products extends StatefulWidget {
   const Products({super.key});
@@ -32,7 +33,7 @@ class _ProductsState extends State<Products> {
       backgroundColor: AppColors.background,
       body:
           loading
-              ? Center(child: CircularProgressIndicator(color: AppColors.blue))
+              ? Center(child: widgetLoading())
               : Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(child: Text("Nenhum produto encontrado")),

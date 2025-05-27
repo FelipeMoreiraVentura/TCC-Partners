@@ -7,7 +7,6 @@ import 'package:market_partners/screens/seller/new_product/widget/carousel_image
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
-import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
 import 'package:market_partners/widgets/my_outlined_button.dart';
@@ -83,6 +82,19 @@ class _NewProductState extends State<NewProduct> {
       ),
     );
 
+    SizedBox nameText = SizedBox(
+      height: 60,
+      child: TextFormField(
+        controller: name,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+          hintText: "Nome do Produto",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+          helperText: "",
+        ),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: backAppbar("Novo Produto"),
@@ -148,7 +160,26 @@ class _NewProductState extends State<NewProduct> {
                 );
               }),
               const SizedBox(height: 10),
-              ...input("Nome do Produto", name, 1),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text("Nome do Produto"), nameText],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setText(name.text);
+                    },
+                    icon: Image.asset(
+                      "assets/images/chatIcon.png",
+                      width: 40,
+                      height: 40,
+                    ),
+                  ),
+                ],
+              ),
               Text("Descrição do Produto"),
               descriptionText,
               MyFilledButton(
