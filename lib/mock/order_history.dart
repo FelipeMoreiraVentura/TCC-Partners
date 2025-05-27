@@ -4,7 +4,7 @@ Future<Map<String, List>> getOrderHistory() async {
   return {
     "orders": [
       {
-        "order_id": "ORD123456",
+        "id": "ORD123456",
         "date": "2025-04-01T14:30:00Z",
         "status": "Delivered",
         "total": 1299.99,
@@ -14,8 +14,9 @@ Future<Map<String, List>> getOrderHistory() async {
             "name": "Smartphone XYZ 128GB Black",
             "quantity": 1,
             "price": 1299.99,
-            "image":
-                "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
+            "images": [
+              "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
+            ],
           },
         ],
         "shipping_address": {
@@ -27,7 +28,7 @@ Future<Map<String, List>> getOrderHistory() async {
         },
       },
       {
-        "order_id": "ORD123457",
+        "id": "ORD123457",
         "date": "2025-03-20T10:00:00Z",
         "status": "Shipped",
         "total": 479.98,
@@ -37,8 +38,45 @@ Future<Map<String, List>> getOrderHistory() async {
             "name": "Wireless Headphones ABC",
             "quantity": 2,
             "price": 239.99,
-            "image":
-                "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+            "images": [
+              "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+            ],
+          },
+          {
+            "id": "234567",
+            "name": "Wireless Headphones ABC",
+            "quantity": 2,
+            "price": 239.99,
+            "images": [
+              "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+            ],
+          },
+          {
+            "id": "234567",
+            "name": "Wireless Headphones ABC",
+            "quantity": 2,
+            "price": 239.99,
+            "images": [
+              "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+            ],
+          },
+          {
+            "id": "234567",
+            "name": "Wireless Headphones ABC",
+            "quantity": 2,
+            "price": 239.99,
+            "images": [
+              "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+            ],
+          },
+          {
+            "id": "234567",
+            "name": "Wireless Headphones ABC",
+            "quantity": 2,
+            "price": 239.99,
+            "images": [
+              "https://down-br.img.susercontent.com/file/sg-11134201-7rbmd-lln9asx41jfz24",
+            ],
           },
         ],
         "shipping_address": {

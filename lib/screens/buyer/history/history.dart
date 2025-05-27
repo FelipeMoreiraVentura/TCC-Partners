@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/mock/order_history.dart';
+import 'package:market_partners/screens/buyer/history/widget/history_card.dart';
+import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
+import 'package:market_partners/widgets/nav_bar.dart';
 
 class History extends StatefulWidget {
   const History({super.key});
@@ -30,29 +33,34 @@ class _HistoryState extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    Iterable<InkWell> historyContainers = history.map((product) {
-      return InkWell(child: Text(product["items"][0]["name"]));
-    });
+    List<HistoryCard> widgetHistoryDelivered =
+        history.where((order) => order["status"] == "Delivered").map((order) {
+          return HistoryCard(history: order);
+        }).toList();
+
+    List<HistoryCard> widgetHistoryShipped =
+        history.where((order) => order["status"] == "Shipped").map((order) {
+          return HistoryCard(history: order);
+        }).toList();
 
     return Scaffold(
       appBar: backAppbar("Histórico de Compras"),
-      body: Center(
+      backgroundColor: AppColors.background,
+      body: NavBar(
         child:
             loading
-                ? widgetLoading()
-                : history.isEmpty
-                ? Column(
-                  children: [
-                    Text("Nenhum Produto foi encontrado"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/HomeBuyer");
-                      },
-                      child: Text("Comprar"),
-                    ),
-                  ],
-                )
-                : Column(children: [historyContainers.first]),
+                ? Center(child: widgetLoading())
+                : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(
+                    children: [
+                      Text("Compras Entregues", style: AppText.titleInfoMedium),
+                      ...widgetHistoryDelivered,
+                      Text("Compras Enviadas", style: AppText.titleInfoMedium),
+                      ...widgetHistoryShipped,
+                    ],
+                  ),
+                ),
       ),
     );
   }

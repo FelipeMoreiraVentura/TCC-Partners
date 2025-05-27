@@ -26,12 +26,12 @@ class HomeSeller extends StatelessWidget {
               CardSeller(
                 label: "Produtos",
                 icon: Icon(Icons.storefront, size: 150, color: AppColors.blue),
-                routeName: "/productsSellers",
+                routeName: "/products",
               ),
               CardSeller(
                 label: "Vendas",
                 icon: Icon(Icons.sell, size: 150, color: AppColors.blue),
-                routeName: "/productsSellers",
+                routeName: "/sales",
               ),
             ],
           ),

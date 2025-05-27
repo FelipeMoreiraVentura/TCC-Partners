@@ -23,13 +23,15 @@ class _HomeBuyerState extends State<HomeBuyer> {
       backgroundColor: AppColors.background,
       appBar: infoAppbar(isMobile, context),
       body: NavBar(
-        child: Container(
-          decoration: BoxDecoration(color: AppColors.background),
-          child: Column(
-            children: [
-              Center(child: Carousel()),
-              Products(isMobile: isMobile, sizeScreen: sizeScreen),
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(color: AppColors.background),
+            child: Column(
+              children: [
+                Center(child: Carousel()),
+                Products(isMobile: isMobile, sizeScreen: sizeScreen),
+              ],
+            ),
           ),
         ),
       ),

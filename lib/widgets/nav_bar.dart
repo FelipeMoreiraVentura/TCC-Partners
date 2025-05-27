@@ -21,12 +21,6 @@ class _NavBarState extends State<NavBar> {
     List<Widget> buttonRoutes = [
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, "/delivery");
-        },
-        icon: Icon(Icons.shopping_bag_sharp, color: AppColors.blue, size: 40),
-      ),
-      IconButton(
-        onPressed: () {
           Navigator.pushNamed(context, "/history");
         },
         icon: Icon(Icons.history, color: AppColors.blue, size: 40),
@@ -67,19 +61,7 @@ class _NavBarState extends State<NavBar> {
     return isMobile
         ? Column(
           children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: widget.child,
-                    ),
-                  ),
-                  viewChatMenu,
-                ],
-              ),
-            ),
+            Expanded(child: Stack(children: [widget.child, viewChatMenu])),
             Container(
               color: AppColors.menu,
               child: Row(
@@ -99,19 +81,7 @@ class _NavBarState extends State<NavBar> {
                 children: [Column(children: buttonRoutes), configButton],
               ),
             ),
-            Expanded(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: widget.child,
-                    ),
-                  ),
-                  viewChatMenu,
-                ],
-              ),
-            ),
+            Expanded(child: Stack(children: [widget.child, viewChatMenu])),
           ],
         );
   }

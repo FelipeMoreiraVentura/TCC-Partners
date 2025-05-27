@@ -3,15 +3,16 @@ import 'package:market_partners/device/api.dart';
 import 'package:market_partners/screens/buyer/cart/cart.dart';
 import 'package:market_partners/screens/buyer/configurations/confing.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/confirm_purchase.dart';
-import 'package:market_partners/screens/buyer/delivery/delivery.dart';
 import 'package:market_partners/screens/buyer/history/history.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
 import 'package:market_partners/screens/buyer/product/product.dart';
 import 'package:market_partners/screens/buyer/source_product/source_product.dart';
 import 'package:market_partners/screens/seller/home/home.dart';
 import 'package:market_partners/screens/seller/new_product/new_product.dart';
+import 'package:market_partners/screens/seller/sales/sales.dart';
 import "screens/login/login.dart";
 import 'screens/buyer/home/home.dart';
+import 'screens/seller/products/products.dart';
 
 Future<void> main() async {
   await Api.initialize();
@@ -35,13 +36,14 @@ class MyApp extends StatelessWidget {
         "/configuration": (context) => const Confing(),
         "/configuration/PartnersBot": (context) => const PartnersBot(),
         "/history": (context) => const History(),
-        "/delivery": (context) => const Delivery(),
         "/cart": (context) => const Cart(),
         "/product": (context) => const Product(),
 
         //Seller routes
         "/HomeSeller": (context) => const HomeSeller(),
         "/newProduct": (context) => const NewProduct(),
+        "/products": (context) => const Products(),
+        "/sales": (context) => const Sales(),
       },
       onGenerateRoute: (settings) {
         final uri = Uri.parse(settings.name!).pathSegments;

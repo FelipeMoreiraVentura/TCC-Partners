@@ -84,39 +84,47 @@ class _SourceProductState extends State<SourceProduct> {
       body: Stack(
         children: [
           NavBar(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
                   children: [
-                    Text(
-                      "Resultados da pesquisa:",
-                      style:
-                          isMobile
-                              ? AppText.titleInfoTiny
-                              : AppText.titleInfoMedium,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Resultados da pesquisa:",
+                          style:
+                              isMobile
+                                  ? AppText.titleInfoTiny
+                                  : AppText.titleInfoMedium,
+                        ),
+                        buttonFilter,
+                      ],
                     ),
-                    buttonFilter,
+                    loading ? widgetLoading() : Wrap(children: productView),
                   ],
                 ),
-                loading ? widgetLoading() : Wrap(children: productView),
-              ],
+              ),
             ),
           ),
 
           Positioned.fill(
-            child: AnimatedSlide(
-              duration: const Duration(milliseconds: 200),
-              offset:
-                  filterMenu
-                      ? Offset.zero
-                      : isMobile
-                      ? Offset(0, 1.0)
-                      : Offset(1.0, 0),
-              child:
-                  isMobile
-                      ? Column(children: [closeFilterMenu, widgetFilterMenu])
-                      : Row(children: [closeFilterMenu, widgetFilterMenu]),
+            child: Opacity(
+              opacity: filterMenu ? 1.0 : 0.0,
+              child: AnimatedSlide(
+                duration: const Duration(milliseconds: 200),
+                offset:
+                    filterMenu
+                        ? Offset.zero
+                        : isMobile
+                        ? Offset(0, 1.0)
+                        : Offset(1.0, 0),
+                child:
+                    isMobile
+                        ? Column(children: [closeFilterMenu, widgetFilterMenu])
+                        : Row(children: [closeFilterMenu, widgetFilterMenu]),
+              ),
             ),
           ),
         ],
