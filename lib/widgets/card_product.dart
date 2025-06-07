@@ -31,7 +31,7 @@ class CardProduct extends StatelessWidget {
         padding: EdgeInsets.all(isMobile ? 5 : 10),
         margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
           color: AppColors.menu,
           boxShadow: [
             BoxShadow(color: Colors.black, spreadRadius: 0.2, blurRadius: 8),

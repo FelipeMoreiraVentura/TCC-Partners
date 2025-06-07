@@ -4,9 +4,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:market_partners/screens/seller/new_product/widget/carousel_image.dart';
+import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
+import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
 import 'package:market_partners/widgets/my_outlined_button.dart';
@@ -25,9 +27,14 @@ class _NewProductState extends State<NewProduct> {
 
   List<Map<String, dynamic>> imagesPrev = [];
   List<Uint8List> images = [];
+  List<Widget> specifications = [];
 
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController price = TextEditingController();
+  TextEditingController quantity = TextEditingController();
+  TextEditingController specification = TextEditingController();
+  TextEditingController category = TextEditingController();
 
   identifyImage() async {
     if (images.isNotEmpty) {
@@ -67,45 +74,41 @@ class _NewProductState extends State<NewProduct> {
 
   @override
   Widget build(BuildContext context) {
-    CarouselImage carouselImage = CarouselImage(images: images);
+    bool isMobile = IsMobile(context);
 
-    SizedBox descriptionText = SizedBox(
-      height: 100,
-      child: TextField(
-        controller: description,
-        maxLines: 5,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-          helperText: "",
-        ),
-      ),
-    );
-
-    SizedBox nameText = SizedBox(
-      height: 60,
-      child: TextFormField(
-        controller: name,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-          hintText: "Nome do Produto",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-          helperText: "",
-        ),
-      ),
-    );
+    List<Column> imagesView =
+        images.map((image) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                icon: Icon(Icons.cancel, color: AppColors.blue),
+                onPressed: () {
+                  setState(() {
+                    images.remove(image);
+                  });
+                },
+              ),
+              Image.memory(image, width: 150, height: 150),
+            ],
+          );
+        }).toList();
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: backAppbar("Novo Produto"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 8 : 50,
+            vertical: 8,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              carouselImage,
+              CarouselImage(images: imagesView),
               if (isLoading)
                 widgetLoading(
                   width: double.infinity,
@@ -160,33 +163,93 @@ class _NewProductState extends State<NewProduct> {
                 );
               }),
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text("Nome do Produto"), nameText],
+              Container(
+                padding: const EdgeInsets.all(12),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: AppColors.menu,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      spreadRadius: 0.2,
+                      blurRadius: 8,
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setText(name.text);
-                    },
-                    icon: Image.asset(
-                      "assets/images/chatIcon.png",
-                      width: 40,
-                      height: 40,
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Informações do Produto",
+                      style: AppText.titleInfoTiny,
                     ),
-                  ),
-                ],
-              ),
-              Text("Descrição do Produto"),
-              descriptionText,
-              MyFilledButton(
-                child: Text("Salvar", style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  Navigator.pushNamed(context, "/HomeSeller");
-                },
+                    Input(
+                      type: "Nome do Produto",
+                      controller: name,
+                      validation: false,
+                    ),
+                    SizedBox(height: 10),
+                    Input(
+                      type: "Descrição do Produto",
+                      controller: description,
+                      validation: false,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Input(
+                            type: "Preço",
+                            controller: price,
+                            validation: false,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Input(
+                            type: "Quantidade",
+                            controller: quantity,
+                            validation: false,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Text("Especificações", style: AppText.titleInfoTiny),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Input(
+                            type: "Especificação",
+                            controller: specification,
+                            validation: false,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Input(
+                            type: "Categoria",
+                            controller: category,
+                            validation: false,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.add, color: AppColors.blue),
+                        ),
+                      ],
+                    ),
+                    MyFilledButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/HomeSeller");
+                      },
+                      child: Text(
+                        "Salvar",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

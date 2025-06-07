@@ -37,11 +37,11 @@ class _PopupUserInfoState extends State<PopupUserInfo> {
         key: formKey,
         child: Column(
           children: [
-            ...input("Email", email, 1),
-            ...input("CPF", cpfOrCnpj, 1),
-            ...input("Telefone", number, 1),
-            ...input("Name", userName, 1),
-            ...input("Senha", password, 1),
+            Input(type: "Email", controller: email, validation: true),
+            Input(type: "CPF", controller: cpfOrCnpj, validation: true),
+            Input(type: "Telefone", controller: number, validation: true),
+            Input(type: "Name", controller: userName, validation: true),
+            Input(type: "Senha", controller: password, validation: true),
           ],
         ),
       ),

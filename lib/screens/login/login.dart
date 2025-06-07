@@ -27,39 +27,6 @@ class _LoginState extends State<Login> {
     double sizeBoxheigth = login == 0 ? 30 : 10;
     bool isMobile = IsMobile(context);
 
-    final passwordField = SizedBox(
-      height: 60,
-      child: TextFormField(
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Preencha este campo';
-          }
-          return login == 0
-              ? null
-              : value.length < 6
-              ? 'A senha deve ter pelo menos 6 caracteres'
-              : null;
-        },
-        obscureText: obscureText,
-        style: AppText.md,
-        controller: password,
-        decoration: InputDecoration(
-          helperText: "",
-          contentPadding: EdgeInsets.fromLTRB(20, 8, 20, 8),
-          hintText: "Senha",
-          suffixIcon: IconButton(
-            onPressed: () {
-              setState(() {
-                obscureText = !obscureText;
-              });
-            },
-            icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
-          ),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        ),
-      ),
-    );
-
     final buttonLogin = ButtonTheme(
       child: ElevatedButton(
         onPressed: () {
@@ -136,17 +103,20 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: sizeBoxheigth),
-                ...input("Email", email, login),
+                Input(type: "Email", controller: email, validation: true),
                 SizedBox(height: sizeBoxheigth),
                 if (login != 0) ...[
-                  ...input(login == 1 ? "CPF" : "CNPJ", cpfOrCnpj, login),
+                  Input(
+                    type: login == 1 ? "CPF" : "CNPJ",
+                    controller: cpfOrCnpj,
+                    validation: true,
+                  ),
                   SizedBox(height: sizeBoxheigth),
-                  ...input("Numero", number, login),
+                  Input(type: "Numero", controller: number, validation: true),
                   SizedBox(height: sizeBoxheigth),
-                  ...input("Name", name, login),
+                  Input(type: "Nome", controller: name, validation: true),
                 ],
-                const Text("Senha"),
-                passwordField,
+                Input(type: "Senha", controller: password, validation: true),
                 Row(
                   children: [
                     TextButton(
