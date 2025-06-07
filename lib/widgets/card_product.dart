@@ -24,7 +24,7 @@ class CardProduct extends StatelessWidget {
       onTap:
           navigator
               ? () {
-                Navigator.pushNamed(context, "/product");
+                Navigator.pushNamed(context, "/product/${product["id"]}");
               }
               : () {},
       child: Container(

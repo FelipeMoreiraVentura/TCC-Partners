@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
         "/configuration/PartnersBot": (context) => const PartnersBot(),
         "/history": (context) => const History(),
         "/cart": (context) => const Cart(),
-        "/product": (context) => const Product(),
 
         //Seller routes
         "/HomeSeller": (context) => const HomeSeller(),
@@ -53,6 +52,11 @@ class MyApp extends StatelessWidget {
             builder: (context) => SourceProduct(sourcePrompt: uri[1]),
           );
         }
+
+        if (uri.length == 2 && uri[0] == "product") {
+          return MaterialPageRoute(builder: (context) => Product(id: uri[1]));
+        }
+
         if (uri.length == 2 && uri[0] == "confirm_purchase") {
           return MaterialPageRoute(
             builder: (context) => ConfirmPurchase(productId: uri[1].split(',')),

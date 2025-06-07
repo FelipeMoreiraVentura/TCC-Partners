@@ -21,7 +21,7 @@ class CardProduct extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8),
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         color: AppColors.menu,
         boxShadow: [
           BoxShadow(color: Colors.black, spreadRadius: 0.2, blurRadius: 8),
@@ -34,7 +34,7 @@ class CardProduct extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, "/product");
+                  Navigator.pushNamed(context, "/product/${product["id"]}");
                 },
                 child: Image.network(
                   product["images"][0],

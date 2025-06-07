@@ -40,7 +40,7 @@ class Popup extends StatelessWidget {
 
     return AlertDialog(
       title: Text(title, style: AppText.titleInfoTiny),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       content: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: MediaQuery.of(context).size.height * 0.5,

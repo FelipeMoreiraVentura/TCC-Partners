@@ -42,14 +42,14 @@ AppBar infoAppbar(bool isMobile, context) {
                   hintText: "Pesquisar",
                   hintStyle: AppText.md.copyWith(color: Colors.white70),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(color: Colors.white),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(color: Colors.white, width: 2),
                   ),
                 ),

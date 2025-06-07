@@ -42,7 +42,7 @@ class _NavBarState extends State<NavBar> {
       icon: Icon(Icons.account_circle, color: AppColors.blue, size: 40),
     );
 
-    Positioned viewChatMenu = Positioned.fill(
+    Positioned viewChatMenu = Positioned(
       child: Opacity(
         opacity: chatView ? 1.0 : 0,
         child: AnimatedSlide(

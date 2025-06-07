@@ -70,7 +70,7 @@ class _CartState extends State<Cart> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         color: AppColors.menu,
         boxShadow: [
           BoxShadow(color: Colors.black, spreadRadius: 0.2, blurRadius: 8),

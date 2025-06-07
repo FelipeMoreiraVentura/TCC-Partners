@@ -14,7 +14,7 @@ class WrapProduct extends StatelessWidget {
         products.take(16).map((product) {
           return InkWell(
             onTap: () {
-              Navigator.pushNamed(context, "/product");
+              Navigator.pushNamed(context, "/product/${product["id"]}");
             },
             child: Container(
               padding: EdgeInsets.all(isMobile ? 5 : 10),

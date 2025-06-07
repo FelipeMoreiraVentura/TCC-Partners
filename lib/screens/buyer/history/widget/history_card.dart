@@ -43,7 +43,7 @@ class HistoryCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         color: AppColors.menu,
         boxShadow: [
           BoxShadow(color: Colors.black, spreadRadius: 0.2, blurRadius: 8),

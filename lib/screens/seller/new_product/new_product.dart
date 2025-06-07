@@ -27,7 +27,7 @@ class _NewProductState extends State<NewProduct> {
 
   List<Map<String, dynamic>> imagesPrev = [];
   List<Uint8List> images = [];
-  List<Widget> specifications = [];
+  Map<String, String> specifications = {};
 
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -91,6 +91,29 @@ class _NewProductState extends State<NewProduct> {
                 },
               ),
               Image.memory(image, width: 150, height: 150),
+            ],
+          );
+        }).toList();
+
+    List<Column> specificationsView =
+        specifications.entries.map((s) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.cancel, color: AppColors.blue),
+                    onPressed: () {
+                      setState(() {
+                        specifications.remove(s.key);
+                      });
+                    },
+                  ),
+                  Text('${s.key}:', style: TextStyle(fontFamily: "bold")),
+                  Text(s.value),
+                ],
+              ),
             ],
           );
         }).toList();
@@ -234,11 +257,22 @@ class _NewProductState extends State<NewProduct> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              if (specification.text.isNotEmpty &&
+                                  category.text.isNotEmpty) {
+                                specifications[specification.text] =
+                                    category.text;
+                                specification.clear();
+                                category.clear();
+                              }
+                            });
+                          },
                           icon: Icon(Icons.add, color: AppColors.blue),
                         ),
                       ],
                     ),
+                    ...specificationsView,
                     MyFilledButton(
                       onPressed: () {
                         Navigator.pushNamed(context, "/HomeSeller");

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/my_filled_button.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -27,25 +28,16 @@ class _LoginState extends State<Login> {
     double sizeBoxheigth = login == 0 ? 30 : 10;
     bool isMobile = IsMobile(context);
 
-    final buttonLogin = ButtonTheme(
-      child: ElevatedButton(
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            Navigator.pushNamed(context, "/HomeBuyer");
-          }
-        },
-        style: ButtonStyle(
-          foregroundColor: WidgetStateProperty.all(AppColors.blue),
-          minimumSize: WidgetStateProperty.all(const Size(400, 50)),
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-          ),
-        ),
-        child: Text(
-          login != 0 ? "Login" : "Cadastrar",
-          textAlign: TextAlign.center,
-          style: AppText.md,
-        ),
+    final buttonLogin = MyFilledButton(
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          Navigator.pushNamed(context, "/HomeBuyer");
+        }
+      },
+      child: Text(
+        login != 0 ? "Login" : "Cadastrar",
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white),
       ),
     );
 
@@ -87,7 +79,7 @@ class _LoginState extends State<Login> {
           child: Container(
             margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(32)),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(

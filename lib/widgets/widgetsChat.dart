@@ -130,7 +130,7 @@ class _ChatViewState extends State<ChatView> {
     return Container(
       color: AppColors.menuBackground,
       width: isMobile ? mediaQueryWidht : mediaQueryWidht * 0.35,
-      height: isMobile ? mediaQueryHeight * 0.6 : mediaQueryHeight,
+      height: mediaQueryHeight,
       child: Column(
         children: [
           Padding(

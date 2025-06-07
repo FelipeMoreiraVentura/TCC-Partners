@@ -12,7 +12,8 @@ import 'package:market_partners/widgets/nav_bar.dart';
 import 'package:market_partners/widgets/wrap_product.dart';
 
 class Product extends StatefulWidget {
-  const Product({super.key});
+  final String id;
+  const Product({super.key, required this.id});
 
   @override
   State<Product> createState() => _ProductState();
@@ -34,7 +35,10 @@ class _ProductState extends State<Product> {
     final dataProduct = await getProducts();
     final dataComment = await getProductsComments();
     setState(() {
-      product = dataProduct["products"]![0] as Map<String, dynamic>;
+      product = (dataProduct["products"] as List).firstWhere(
+        (p) => p["id"] == widget.id,
+        orElse: () => {},
+      );
       products = dataProduct["products"]!;
       productComments = dataComment;
       if (product.isNotEmpty && productComments.isNotEmpty) loading = false;

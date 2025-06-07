@@ -12,7 +12,7 @@ class PhotosMobile extends StatelessWidget {
     List<Container> imagesContainers =
         images.map((img) {
           return Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(32)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
             child: Image.network(img, width: width, height: width),
           );
         }).toList();

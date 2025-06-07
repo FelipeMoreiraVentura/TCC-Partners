@@ -14,7 +14,7 @@ class Carousel extends StatelessWidget {
       Container(
         decoration: BoxDecoration(
           color: Colors.amberAccent[200],
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(8),
         ),
         width: double.infinity,
         child: Column(
@@ -50,7 +50,7 @@ class Carousel extends StatelessWidget {
       Container(
         decoration: BoxDecoration(
           color: Colors.lightGreen[200],
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(8),
         ),
         width: double.infinity,
         child: Column(
@@ -86,7 +86,7 @@ class Carousel extends StatelessWidget {
       Container(
         decoration: BoxDecoration(
           color: Colors.deepOrange[100],
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(8),
         ),
         width: double.infinity,
         child: Column(
