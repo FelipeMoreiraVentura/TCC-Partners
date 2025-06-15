@@ -21,6 +21,8 @@ class Input extends StatefulWidget {
 }
 
 class _InputState extends State<Input> {
+  bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     String? emailValidation(value) {
@@ -51,6 +53,13 @@ class _InputState extends State<Input> {
       return null;
     }
 
+    String? passwordValidation(value) {
+      if (value.length < 6) {
+        return 'A senha deve ter pelo menos 6 caracteres';
+      }
+      return null;
+    }
+
     String hintText =
         widget.type == "Email"
             ? "Named@Example.com"
@@ -60,6 +69,8 @@ class _InputState extends State<Input> {
             ? "00.000.000/0000-00"
             : widget.type == "Telefone"
             ? "(00) 00000-0000"
+            : widget.type == "Senha" || widget.type == "Confirmar Senha"
+            ? "Digite sua senha"
             : widget.type;
 
     final maskFormatter = MaskTextInputFormatter(
@@ -80,7 +91,10 @@ class _InputState extends State<Input> {
           height: 60,
           width: double.infinity,
           child: TextFormField(
-            obscureText: false,
+            obscureText:
+                widget.type == "Senha" || widget.type == "Confirmar Senha"
+                    ? _obscureText
+                    : false,
             style: AppText.md,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
@@ -88,7 +102,26 @@ class _InputState extends State<Input> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: AppColors.blue, width: 2),
+              ),
               helperText: "",
+              suffixIcon:
+                  widget.type == "Senha" || widget.type == "Confirmar Senha"
+                      ? IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      )
+                      : null,
             ),
             controller: widget.controller,
             inputFormatters:
@@ -109,6 +142,8 @@ class _InputState extends State<Input> {
                   ? phoneValidation(value)
                   : widget.type == "CPF" || widget.type == "CNPJ"
                   ? cpfOrCnpjValidation(value)
+                  : widget.type == "Senha" || widget.type == "Confirmar Senha"
+                  ? passwordValidation(value)
                   : null;
             },
           ),

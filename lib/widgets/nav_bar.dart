@@ -46,7 +46,7 @@ class _NavBarState extends State<NavBar> {
       child: Opacity(
         opacity: chatView ? 1.0 : 0,
         child: AnimatedSlide(
-          duration: Duration(milliseconds: isMobile ? 200 : 400),
+          duration: Duration(milliseconds: 200),
           offset:
               chatView
                   ? Offset.zero

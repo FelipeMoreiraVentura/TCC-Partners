@@ -5,6 +5,7 @@ import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/nav_bar.dart';
+import 'package:market_partners/widgets/popup.dart';
 
 class Confing extends StatelessWidget {
   const Confing({super.key});
@@ -118,7 +119,21 @@ class Confing extends StatelessWidget {
                         color: AppColors.blue,
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, "/login");
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => Popup(
+                                title: "Logout",
+                                actionButtons: true,
+                                confirmAction: () {
+                                  Navigator.pushNamed(context, "/login");
+                                },
+                                child: Text(
+                                  "Deseja sair da conta?",
+                                  style: AppText.base,
+                                ),
+                              ),
+                        );
                       },
                     ),
                   ],

@@ -43,7 +43,9 @@ class _NewProductState extends State<NewProduct> {
       });
 
       final imagemBase64 = base64Encode(images[0]);
-      Response data = await Api.post("identify_image", {"image": imagemBase64});
+      Response data = await Api.post("/identify_image", {
+        "image": imagemBase64,
+      });
       if (data.statusCode == 200) {
         setState(() {
           final List<dynamic> parsedList = jsonDecode(
@@ -57,11 +59,12 @@ class _NewProductState extends State<NewProduct> {
     }
   }
 
-  setText(product) async {
+  setText(String product) async {
+    if (product == "") return "";
     setState(() {
       isLoading = true;
     });
-    Response data = await Api.post("set_product", {"product": product});
+    Response data = await Api.post("/set_product", {"product": product});
     if (data.statusCode == 200) {
       setState(() {
         Map<String, dynamic> infoJson = jsonDecode(data.body);
@@ -173,7 +176,8 @@ class _NewProductState extends State<NewProduct> {
                 ],
               ),
               ...imagesPrev.map((imagePrev) {
-                return Wrap(
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TextButton(
                       onPressed: () {
@@ -207,10 +211,26 @@ class _NewProductState extends State<NewProduct> {
                       "Informações do Produto",
                       style: AppText.titleInfoTiny,
                     ),
-                    Input(
-                      type: "Nome do Produto",
-                      controller: name,
-                      validation: false,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Input(
+                            type: "Nome do Produto",
+                            controller: name,
+                            validation: false,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setText(name.text);
+                          },
+                          icon: Image.asset(
+                            "assets/images/chatIcon.png",
+                            width: 40,
+                            height: 40,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 10),
                     Input(

@@ -19,13 +19,13 @@ class CarouselImage extends StatelessWidget {
     return images.isEmpty
         ? Icon(Icons.image, size: 200, color: AppColors.blue)
         : images.length == 1
-        ? images[0]
+        ? Center(child: images[0])
         : CarouselSlider(
           items: images,
           options: CarouselOptions(
             height: 200,
             enableInfiniteScroll: false,
-            viewportFraction: isMobile ? 1.0 : 0.1,
+            viewportFraction: isMobile ? 1.0 : 0.2,
             padEnds: false,
           ),
         );

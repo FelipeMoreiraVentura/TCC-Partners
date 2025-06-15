@@ -52,6 +52,8 @@ class CardProduct extends StatelessWidget {
             ],
           ),
           Checkbox(
+            activeColor:
+                productsChecked.contains(product["id"]) ? AppColors.blue : null,
             value: productsChecked.contains(product["id"]),
             onChanged: (bool? value) {
               chekedControll(value: value ?? false, id: product["id"]);

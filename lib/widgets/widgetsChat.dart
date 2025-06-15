@@ -56,7 +56,7 @@ class _ChatViewState extends State<ChatView> {
       loadingResp = true;
     });
 
-    Response dataChat = await Api.post("chat", {
+    Response dataChat = await Api.post("/chat", {
       "prompt": prompt,
       "image": imageFile != null ? base64Encode(imageFile!) : "",
     });

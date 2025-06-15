@@ -19,6 +19,7 @@ class _LoginState extends State<Login> {
   TextEditingController cpfOrCnpj = TextEditingController();
   TextEditingController number = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
   TextEditingController name = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
@@ -31,7 +32,13 @@ class _LoginState extends State<Login> {
     final buttonLogin = MyFilledButton(
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          Navigator.pushNamed(context, "/HomeBuyer");
+          if (login != 0) {
+            if (password.text == confirmPassword.text) {
+              Navigator.pushNamed(context, "/HomeBuyer");
+            }
+          } else {
+            Navigator.pushNamed(context, "/HomeBuyer");
+          }
         }
       },
       child: Text(
@@ -109,6 +116,12 @@ class _LoginState extends State<Login> {
                   Input(type: "Nome", controller: name, validation: true),
                 ],
                 Input(type: "Senha", controller: password, validation: true),
+                if (login != 0)
+                  Input(
+                    type: "Confirmar Senha",
+                    controller: confirmPassword,
+                    validation: true,
+                  ),
                 Row(
                   children: [
                     TextButton(
