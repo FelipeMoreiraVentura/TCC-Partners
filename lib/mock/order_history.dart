@@ -17,6 +17,7 @@ Future<Map<String, List>> getOrderHistory() async {
             "images": [
               "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m521w5egt1v6c8",
             ],
+            "review": {"average": 4.5, "comment": "good"},
           },
         ],
         "shipping_address": {

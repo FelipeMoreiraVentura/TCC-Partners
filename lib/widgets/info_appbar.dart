@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/global.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/popup_create_account.dart';
 
 AppBar infoAppbar(bool isMobile, context) {
   return AppBar(
@@ -70,7 +71,16 @@ AppBar infoAppbar(bool isMobile, context) {
         ),
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, "/cart");
+            if (user != null) {
+              Navigator.pushNamed(context, "/cart");
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return PopupCreateAccount();
+                },
+              );
+            }
           },
           icon: Icon(Icons.shopping_cart_rounded, color: Colors.white),
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/utils/global.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/popup_create_account.dart';
 import 'package:market_partners/widgets/widgetsChat.dart';
 
 class NavBar extends StatefulWidget {
@@ -21,7 +23,16 @@ class _NavBarState extends State<NavBar> {
     List<Widget> buttonRoutes = [
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, "/history");
+          if (user != null) {
+            Navigator.pushNamed(context, "/history");
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return PopupCreateAccount();
+              },
+            );
+          }
         },
         icon: Icon(Icons.history, color: AppColors.blue, size: 40),
       ),
@@ -37,7 +48,16 @@ class _NavBarState extends State<NavBar> {
 
     IconButton configButton = IconButton(
       onPressed: () {
-        Navigator.pushNamed(context, "/configuration");
+        if (user != null) {
+          Navigator.pushNamed(context, "/configuration");
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return PopupCreateAccount();
+            },
+          );
+        }
       },
       icon: Icon(Icons.account_circle, color: AppColors.blue, size: 40),
     );

@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/device/api.dart';
+import 'package:market_partners/firebase_options.dart';
 import 'package:market_partners/screens/buyer/cart/cart.dart';
 import 'package:market_partners/screens/buyer/configurations/confing.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/confirm_purchase.dart';
@@ -16,6 +18,7 @@ import 'screens/seller/products/products.dart';
 
 Future<void> main() async {
   await Api.initialize();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_desktop.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_mobile.dart';
 import 'package:market_partners/screens/buyer/product/widgets/stars_rating.dart';
+import 'package:market_partners/utils/global.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
 import 'package:market_partners/widgets/my_outlined_button.dart';
+import 'package:market_partners/widgets/popup_create_account.dart';
 
 class ProductInfo extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -43,7 +45,17 @@ class _ProductInfoState extends State<ProductInfo> {
     Column action = Column(
       children: [
         MyOutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            if (user != null) {
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return PopupCreateAccount();
+                },
+              );
+            }
+          },
           child: Text(
             "Adicionar ao Carrinho",
             style: TextStyle(color: AppColors.blue),
@@ -52,7 +64,16 @@ class _ProductInfoState extends State<ProductInfo> {
         SizedBox(height: 10),
         MyFilledButton(
           onPressed: () {
-            Navigator.pushNamed(context, "confirm_purchase/123456,123456");
+            if (user != null) {
+              Navigator.pushNamed(context, "confirm_purchase/123456,123456");
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return PopupCreateAccount();
+                },
+              );
+            }
           },
           child: Text("Comprar", style: TextStyle(color: Colors.white)),
         ),

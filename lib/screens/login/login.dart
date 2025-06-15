@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
@@ -14,10 +17,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   int login = 0;
   bool obscureText = true;
+  bool loading = false;
 
   TextEditingController email = TextEditingController();
   TextEditingController cpfOrCnpj = TextEditingController();
-  TextEditingController number = TextEditingController();
+  TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   TextEditingController name = TextEditingController();
@@ -30,14 +34,56 @@ class _LoginState extends State<Login> {
     bool isMobile = IsMobile(context);
 
     final buttonLogin = MyFilledButton(
-      onPressed: () {
+      onPressed: () async {
         if (formKey.currentState!.validate()) {
-          if (login != 0) {
-            if (password.text == confirmPassword.text) {
-              Navigator.pushNamed(context, "/HomeBuyer");
+          if (login == 0) {
+            // Login
+            String response = await AuthService().loginUser(
+              email.text,
+              password.text,
+            );
+
+            if (response == 'success') {
+              final userDoc =
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .get();
+
+              String role = userDoc.data()?['role'] ?? 'buyer';
+
+              if (role == 'buyer') {
+                Navigator.pushReplacementNamed(context, "/HomeBuyer");
+              } else {
+                Navigator.pushReplacementNamed(context, "/HomeSeller");
+              }
+            } else {
+              print(response);
             }
           } else {
-            Navigator.pushNamed(context, "/HomeBuyer");
+            // Cadastro
+            if (password.text == confirmPassword.text) {
+              String response = await AuthService().registerUser(
+                email.text,
+                password.text,
+                name.text,
+                cpfOrCnpj.text,
+                phone.text,
+                login == 1 ? 'buyer' : 'seller',
+              );
+
+              if (response == 'success') {
+                if (login == 1) {
+                  Navigator.pushReplacementNamed(context, "/HomeBuyer");
+                } else {
+                  Navigator.pushReplacementNamed(context, "/HomeSeller");
+                }
+              } else {
+                print(response);
+              }
+            } else {
+              print('Senhas não coincidem');
+            }
           }
         }
       },
@@ -111,7 +157,7 @@ class _LoginState extends State<Login> {
                     validation: true,
                   ),
                   SizedBox(height: sizeBoxheigth),
-                  Input(type: "Numero", controller: number, validation: true),
+                  Input(type: "Telefone", controller: phone, validation: true),
                   SizedBox(height: sizeBoxheigth),
                   Input(type: "Nome", controller: name, validation: true),
                 ],
