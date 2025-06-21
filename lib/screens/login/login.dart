@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
         if (formKey.currentState!.validate()) {
           if (login == 0) {
             // Login
-            String response = await AuthService().loginUser(
+            String response = await UserService().loginUser(
               email.text,
               password.text,
             );
@@ -63,13 +63,13 @@ class _LoginState extends State<Login> {
           } else {
             // Cadastro
             if (password.text == confirmPassword.text) {
-              String response = await AuthService().registerUser(
-                email.text,
-                password.text,
-                name.text,
-                cpfOrCnpj.text,
-                phone.text,
-                login == 1 ? 'buyer' : 'seller',
+              String response = await UserService().registerUser(
+                email: email.text,
+                password: password.text,
+                name: name.text,
+                cpfOrCnpj: cpfOrCnpj.text,
+                phone: phone.text,
+                role: login == 1 ? 'buyer' : 'seller',
               );
 
               if (response == 'success') {

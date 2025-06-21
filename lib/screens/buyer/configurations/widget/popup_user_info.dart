@@ -1,27 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/models/user.dart';
 import 'package:market_partners/widgets/input.dart';
+import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/popup.dart';
 
 class PopupUserInfo extends StatefulWidget {
-  const PopupUserInfo({super.key});
+  final UserInformation? userInformation;
+
+  const PopupUserInfo({super.key, required this.userInformation});
 
   @override
   State<PopupUserInfo> createState() => _PopupUserInfoState();
 }
 
 class _PopupUserInfoState extends State<PopupUserInfo> {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  TextEditingController password = TextEditingController(text: "");
+  TextEditingController number = TextEditingController(text: "");
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController userName = TextEditingController(text: "Felipe");
-    TextEditingController email = TextEditingController(
-      text: "email@gmail.com",
-    );
-    TextEditingController password = TextEditingController(text: "1234567890");
-    TextEditingController cpfOrCnpj = TextEditingController(
-      text: "1234567898765432345",
-    );
-    TextEditingController number = TextEditingController(text: "289275843");
-
     final formKey = GlobalKey<FormState>();
 
     return Popup(
@@ -29,22 +29,32 @@ class _PopupUserInfoState extends State<PopupUserInfo> {
       actionButtons: true,
       confirmAction: () {
         if (formKey.currentState!.validate()) {
-          print("firebase");
           Navigator.of(context).pop();
         }
       },
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Input(type: "Email", controller: email, validation: true),
-            Input(type: "CPF", controller: cpfOrCnpj, validation: true),
-            Input(type: "Telefone", controller: number, validation: true),
-            Input(type: "Name", controller: userName, validation: true),
-            Input(type: "Senha", controller: password, validation: true),
-          ],
-        ),
-      ),
+      child:
+          widget.userInformation == null
+              ? widgetLoading()
+              : Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    Text(widget.userInformation!.email),
+                    Text(widget.userInformation!.cpfOrCnpj),
+                    Input(
+                      type: "Telefone",
+                      controller: number,
+                      validation: true,
+                    ),
+                    Text(widget.userInformation!.name),
+                    Input(
+                      type: "Senha",
+                      controller: password,
+                      validation: true,
+                    ),
+                  ],
+                ),
+              ),
     );
   }
 }

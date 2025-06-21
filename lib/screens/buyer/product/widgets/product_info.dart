@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_desktop.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_mobile.dart';
 import 'package:market_partners/screens/buyer/product/widgets/stars_rating.dart';
-import 'package:market_partners/utils/global.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
@@ -18,6 +18,8 @@ class ProductInfo extends StatefulWidget {
 }
 
 class _ProductInfoState extends State<ProductInfo> {
+  User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);

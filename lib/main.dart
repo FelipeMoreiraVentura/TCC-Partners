@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/device/api.dart';
 import 'package:market_partners/firebase_options.dart';
 import 'package:market_partners/screens/buyer/cart/cart.dart';
-import 'package:market_partners/screens/buyer/configurations/confing.dart';
+import 'package:market_partners/screens/buyer/configurations/config.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/confirm_purchase.dart';
 import 'package:market_partners/screens/buyer/history/history.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
 
         //Buyer routes
         "/HomeBuyer": (context) => const HomeBuyer(),
-        "/configuration": (context) => const Confing(),
+        "/configuration": (context) => const Config(),
         "/configuration/PartnersBot": (context) => const PartnersBot(),
         "/history": (context) => const History(),
         "/cart": (context) => const Cart(),

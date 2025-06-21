@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/global.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/popup_create_account.dart';
 
 AppBar infoAppbar(bool isMobile, context) {
+  User? user = FirebaseAuth.instance.currentUser;
+
   return AppBar(
     backgroundColor: AppColors.blue,
     surfaceTintColor: Colors.transparent,
