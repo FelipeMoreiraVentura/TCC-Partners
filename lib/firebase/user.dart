@@ -68,4 +68,8 @@ class UserService {
     final doc = await _db.collection("users").doc(userId).get();
     return UserInformation.fromFirestore(doc);
   }
+
+  String getUid() {
+    return _auth.currentUser.toString();
+  }
 }

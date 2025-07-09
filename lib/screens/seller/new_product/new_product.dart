@@ -3,6 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/firebase/user.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/screens/seller/new_product/widget/carousel_image.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
@@ -34,7 +37,7 @@ class _NewProductState extends State<NewProduct> {
   TextEditingController price = TextEditingController();
   TextEditingController quantity = TextEditingController();
   TextEditingController specification = TextEditingController();
-  TextEditingController category = TextEditingController();
+  TextEditingController specificationValue = TextEditingController();
 
   identifyImage() async {
     if (images.isNotEmpty) {
@@ -73,6 +76,28 @@ class _NewProductState extends State<NewProduct> {
         isLoading = false;
       });
     }
+  }
+
+  Future<void> postProduct() async {
+    if (name.text.isEmpty || price.text.isEmpty || images.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Preencha todos os campos obrigatórios!")),
+      );
+      return;
+    }
+
+    final produto = ProductModel(
+      name: name.text,
+      description: description.text,
+      category: "none",
+      subCategory: "none",
+      price: double.tryParse(price.text.replaceAll(',', '.')) ?? 0.0,
+      specifications: specifications,
+      images: images,
+      sellerUid: UserService().getUid(),
+    );
+
+    await ProductService().registerProduct(produto);
   }
 
   @override
@@ -272,7 +297,7 @@ class _NewProductState extends State<NewProduct> {
                         Expanded(
                           child: Input(
                             type: "Categoria",
-                            controller: category,
+                            controller: specificationValue,
                             validation: false,
                           ),
                         ),
@@ -280,11 +305,11 @@ class _NewProductState extends State<NewProduct> {
                           onPressed: () {
                             setState(() {
                               if (specification.text.isNotEmpty &&
-                                  category.text.isNotEmpty) {
+                                  specificationValue.text.isNotEmpty) {
                                 specifications[specification.text] =
-                                    category.text;
+                                    specificationValue.text;
                                 specification.clear();
-                                category.clear();
+                                specificationValue.clear();
                               }
                             });
                           },
@@ -295,7 +320,7 @@ class _NewProductState extends State<NewProduct> {
                     ...specificationsView,
                     MyFilledButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/HomeSeller");
+                        postProduct();
                       },
                       child: Text(
                         "Salvar",

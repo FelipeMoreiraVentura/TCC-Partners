@@ -1,35 +1,42 @@
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {
   final String name;
   final String description;
   final String category;
-  final String subcategory;
+  final String subCategory;
   final double price;
   final Map<String, String> specifications;
-  final List<String> images;
+  final List<Uint8List> images;
+  final String sellerUid;
+  final String? id;
 
   ProductModel({
     required this.name,
     required this.description,
     required this.category,
-    required this.subcategory,
+    required this.subCategory,
     required this.price,
     required this.specifications,
     required this.images,
+    required this.sellerUid,
+    this.id,
   });
 
   factory ProductModel.fromFirebase(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
     return ProductModel(
+      id: doc.id,
       name: data["name"],
       description: data["description"],
       category: data["category"],
-      subcategory: data["subcategory"],
+      subCategory: data["subCategory"],
       price: data["price"],
       specifications: data["specifications"],
       images: data["images"],
+      sellerUid: data["sellerUid"],
     );
   }
 
@@ -38,10 +45,11 @@ class ProductModel {
       "name": name,
       "description": description,
       "category": category,
-      "subcategory": subcategory,
+      "subCategory": subCategory,
       "price": price,
       "specifications": specifications,
       "images": images,
+      "sellerUid": sellerUid,
     };
   }
 }
