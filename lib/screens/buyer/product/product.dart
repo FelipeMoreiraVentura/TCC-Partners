@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/product_comment_mock.dart';
-import 'package:market_partners/mock/products_mock.dart';
-import 'package:market_partners/screens/buyer/product/widgets/comments.dart';
+import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/models/product.dart';
+// import 'package:market_partners/screens/buyer/product/widgets/comments.dart';
 import 'package:market_partners/screens/buyer/product/widgets/product_info.dart';
 import 'package:market_partners/screens/buyer/product/widgets/product_specifications.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -21,9 +21,9 @@ class Product extends StatefulWidget {
 
 class _ProductState extends State<Product> {
   bool loading = true;
-  Map<String, dynamic> product = {};
+  late ProductModel product;
   List<Map<String, Object>> productComments = [];
-  List products = [];
+  List<ProductModel> products = [];
 
   @override
   void initState() {
@@ -32,16 +32,13 @@ class _ProductState extends State<Product> {
   }
 
   void loadProduct() async {
-    final dataProduct = await getProducts();
-    final dataComment = await getProductsComments();
+    ProductModel productData = await ProductService().getProduct(widget.id);
+    List<ProductModel> productsData = await ProductService().getRandomProducts(
+      16,
+    );
     setState(() {
-      product = (dataProduct["products"] as List).firstWhere(
-        (p) => p["id"] == widget.id,
-        orElse: () => {},
-      );
-      products = dataProduct["products"]!;
-      productComments = dataComment;
-      if (product.isNotEmpty && productComments.isNotEmpty) loading = false;
+      product = productData;
+      products = productsData;
     });
   }
 
@@ -66,22 +63,18 @@ class _ProductState extends State<Product> {
 
                         SizedBox(height: 10),
                         ProductSpecifications(
-                          specifications: product["specifications"],
+                          specifications: product.specifications,
                         ),
 
                         SizedBox(height: 10),
                         Text("Recomendados", style: AppText.titleInfoMedium),
-                        Center(
-                          child: WrapProduct(
-                            products: products.cast<Map<String, Object>>(),
-                          ),
-                        ),
+                        Center(child: WrapProduct(products: products)),
 
                         SizedBox(height: 10),
-                        Comments(
-                          comments: productComments,
-                          rating: product["rating"],
-                        ),
+                        // Comments(
+                        //   comments: productComments,
+                        //   rating: product["rating",
+                        // ),
                       ],
                     ),
                   ),

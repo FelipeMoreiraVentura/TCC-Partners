@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {
@@ -8,7 +7,7 @@ class ProductModel {
   final String subCategory;
   final double price;
   final Map<String, String> specifications;
-  final List<Uint8List> images;
+  final List<String> images;
   final String sellerUid;
   final String? id;
 
@@ -34,8 +33,8 @@ class ProductModel {
       category: data["category"],
       subCategory: data["subCategory"],
       price: data["price"],
-      specifications: data["specifications"],
-      images: data["images"],
+      specifications: Map<String, String>.from(data["specifications"] ?? {}),
+      images: List<String>.from(data["images"]),
       sellerUid: data["sellerUid"],
     );
   }

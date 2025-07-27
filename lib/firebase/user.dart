@@ -69,7 +69,7 @@ class UserService {
     return UserInformation.fromFirestore(doc);
   }
 
-  String getUid() {
-    return _auth.currentUser.toString();
+  String? getUid() {
+    return _auth.currentUser?.uid;
   }
 }

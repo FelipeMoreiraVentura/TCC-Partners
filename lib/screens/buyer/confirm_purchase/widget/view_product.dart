@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/card_product.dart';
 
 class ViewProduct extends StatelessWidget {
-  final List<Map<String, dynamic>> products;
+  final List<ProductModel> products;
   const ViewProduct({super.key, required this.products});
 
   @override

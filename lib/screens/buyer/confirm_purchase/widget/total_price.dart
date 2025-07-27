@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 
 class TotalPrice extends StatelessWidget {
-  final List<Map<String, dynamic>> products;
+  final List<ProductModel> products;
   final String totalPrice;
 
   const TotalPrice({
@@ -26,10 +27,7 @@ class TotalPrice extends StatelessWidget {
         ...products.map((product) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(product["name"]),
-              Text(product["price"].toString()),
-            ],
+            children: [Text(product.name), Text(product.price.toString())],
           );
         }),
         Row(

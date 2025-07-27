@@ -93,8 +93,11 @@ class _NewProductState extends State<NewProduct> {
       subCategory: "none",
       price: double.tryParse(price.text.replaceAll(',', '.')) ?? 0.0,
       specifications: specifications,
-      images: images,
-      sellerUid: UserService().getUid(),
+      images:
+          images.map((image) {
+            return base64Encode(image);
+          }).toList(),
+      sellerUid: UserService().getUid() ?? '',
     );
 
     await ProductService().registerProduct(produto);

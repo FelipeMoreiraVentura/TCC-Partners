@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 
 class CardProduct extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final ProductModel product;
   final double width;
   final double height;
   final bool navigator;
@@ -24,7 +25,7 @@ class CardProduct extends StatelessWidget {
       onTap:
           navigator
               ? () {
-                Navigator.pushNamed(context, "/product/${product["id"]}");
+                Navigator.pushNamed(context, "/product/${product.id}");
               }
               : () {},
       child: Container(
@@ -53,7 +54,7 @@ class CardProduct extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.network(
-              product["images"][0],
+              product.images[0],
               height:
                   height != 0
                       ? height / 1.8
@@ -69,11 +70,8 @@ class CardProduct extends StatelessWidget {
             ),
             Column(
               children: [
-                Text(
-                  product["name"],
-                  style: isMobile ? AppText.xs : AppText.sm,
-                ),
-                Text(product["price"].toString(), style: AppText.md),
+                Text(product.name, style: isMobile ? AppText.xs : AppText.sm),
+                Text(product.price.toString(), style: AppText.md),
               ],
             ),
           ],

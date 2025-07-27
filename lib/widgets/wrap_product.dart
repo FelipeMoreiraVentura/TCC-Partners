@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 
 class WrapProduct extends StatelessWidget {
-  final List<Map<String, Object>> products;
+  final List<ProductModel> products;
   const WrapProduct({super.key, required this.products});
 
   @override
@@ -14,7 +15,7 @@ class WrapProduct extends StatelessWidget {
         products.take(16).map((product) {
           return InkWell(
             onTap: () {
-              Navigator.pushNamed(context, "/product/${product["id"]}");
+              Navigator.pushNamed(context, "/product/${product.id}");
             },
             child: Container(
               padding: EdgeInsets.all(isMobile ? 5 : 10),
@@ -25,15 +26,15 @@ class WrapProduct extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.network(
-                    (product["images"] as List)[0],
+                    product.images[0],
                     height: isMobile ? 70 : 100,
                     width: isMobile ? 70 : 100,
                   ),
                   Text(
-                    product["name"].toString(),
+                    product.name.toString(),
                     style: isMobile ? AppText.xs : AppText.base,
                   ),
-                  Text(product["price"].toString(), style: AppText.md),
+                  Text(product.name.toString(), style: AppText.md),
                 ],
               ),
             ),

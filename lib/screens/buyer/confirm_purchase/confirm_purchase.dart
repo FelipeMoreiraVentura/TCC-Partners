@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/address_config.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/purchase_made.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/total_price.dart';
@@ -19,7 +20,7 @@ class ConfirmPurchase extends StatefulWidget {
 }
 
 class _ConfirmPurchaseState extends State<ConfirmPurchase> {
-  List<Map<String, dynamic>> products = [];
+  List<ProductModel> products = [];
   bool isloding = true;
 
   @override
@@ -29,19 +30,12 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
   }
 
   getPurchaseProduct() async {
-    Map<String, List> data = await getProducts();
-    final filtered =
-        data["products"]!
-            .where(
-              (product) => widget.productId.contains(
-                (product as Map<String, dynamic>)["id"],
-              ),
-            )
-            .cast<Map<String, dynamic>>()
-            .toList();
+    List<ProductModel> productsData = await Future.wait(
+      widget.productId.map((id) => ProductService().getProduct(id)),
+    );
 
     setState(() {
-      products = filtered;
+      products = productsData;
       isloding = false;
     });
   }
@@ -54,7 +48,7 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
     ViewProduct viewProduct = ViewProduct(products: products);
 
     String totalPrice = (products.fold(0.0, (sum, product) {
-              return sum + (product["price"] as num).toDouble();
+              return sum + (product.price as num).toDouble();
             }) +
             5)
         .toStringAsFixed(2);

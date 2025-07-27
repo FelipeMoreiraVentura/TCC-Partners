@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_desktop.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_mobile.dart';
-import 'package:market_partners/screens/buyer/product/widgets/stars_rating.dart';
+// import 'package:market_partners/screens/buyer/product/widgets/stars_rating.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
@@ -10,7 +11,7 @@ import 'package:market_partners/widgets/my_outlined_button.dart';
 import 'package:market_partners/widgets/popup_create_account.dart';
 
 class ProductInfo extends StatefulWidget {
-  final Map<String, dynamic> product;
+  final ProductModel product;
   const ProductInfo({super.key, required this.product});
 
   @override
@@ -23,23 +24,23 @@ class _ProductInfoState extends State<ProductInfo> {
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
-    Map<String, dynamic> product = widget.product;
+    ProductModel product = widget.product;
 
     Text productName = Text(
-      product["name"],
+      product.name,
       style: isMobile ? AppText.titleInfoTiny : AppText.titleInfoMedium,
     );
 
     Text price = Text(
-      "R\$ ${product["price"].toString()}",
+      "R\$ ${product.price.toString()}",
       style: isMobile ? AppText.lg : AppText.xl,
       softWrap: true,
     );
 
-    StarRating rate = StarRating(rating: product["rating"]);
+    // StarRating rate = StarRating(rating: product["rating"]);
 
     Text description = Text(
-      product["description"],
+      product.description,
       style: AppText.sm.merge(AppText.description),
       softWrap: true,
     );
@@ -89,8 +90,8 @@ class _ProductInfoState extends State<ProductInfo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               productName,
-              PhotosMobile(images: product["images"]),
-              rate,
+              PhotosMobile(images: product.images),
+              // rate,
               price,
               description,
               action,
@@ -103,7 +104,7 @@ class _ProductInfoState extends State<ProductInfo> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Photosdesktop(images: product["images"]),
+              Photosdesktop(images: product.images),
               Expanded(
                 child: Container(
                   margin: EdgeInsets.only(left: 15),
@@ -112,7 +113,7 @@ class _ProductInfoState extends State<ProductInfo> {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [productName, rate, price, description],
+                        children: [productName, price, description],
                       ),
                       action,
                     ],

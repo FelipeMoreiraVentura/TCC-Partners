@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/widgets/card_product.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/utils/style.dart';
@@ -19,8 +20,7 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  bool loading = true;
-  List products = [];
+  List<ProductModel> products = [];
 
   final CarouselSliderController controller = CarouselSliderController();
 
@@ -31,11 +31,7 @@ class _ProductsState extends State<Products> {
   }
 
   void loadProducts() async {
-    final data = await getProducts();
-    setState(() {
-      products = data["products"]!;
-      if (products.isNotEmpty) loading = false;
-    });
+    products = await ProductService().getRandomProducts(1);
   }
 
   @override
@@ -48,15 +44,13 @@ class _ProductsState extends State<Products> {
     return Column(
       children: [
         Text("Mais comprados", style: AppText.titleMedium),
-        loading
+        products.isEmpty
             ? widgetLoading()
             : ProductCarousel(cardProducts: widgetsProductsMostPurchased),
         SizedBox(height: 20),
 
         Text("Recomendado para você", style: AppText.titleMedium),
-        loading
-            ? widgetLoading()
-            : WrapProduct(products: products.cast<Map<String, Object>>()),
+        products.isEmpty ? widgetLoading() : WrapProduct(products: products),
       ],
     );
   }
