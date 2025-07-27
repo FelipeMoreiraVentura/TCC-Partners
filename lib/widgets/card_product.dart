@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -53,8 +55,8 @@ class CardProduct extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.network(
-              product.images[0],
+            Image.memory(
+              base64Decode(product.images[0]),
               height:
                   height != 0
                       ? height / 1.8

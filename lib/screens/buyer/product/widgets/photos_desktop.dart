@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/style.dart';
 
@@ -39,7 +41,11 @@ class _PhotosdesktopState extends State<Photosdesktop> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         margin: EdgeInsets.symmetric(vertical: 5),
-                        child: Image.network(image, width: 70, height: 70),
+                        child: Image.memory(
+                          base64Decode(image),
+                          width: 70,
+                          height: 70,
+                        ),
                       ),
                       onTap: () {
                         setState(() {
@@ -52,7 +58,11 @@ class _PhotosdesktopState extends State<Photosdesktop> {
           ),
         ),
         SizedBox(width: 5),
-        Image.network(widget.images[indexSelected], height: 500, width: 500),
+        Image.memory(
+          base64Decode(widget.images[indexSelected]),
+          height: 500,
+          width: 500,
+        ),
       ],
     );
   }

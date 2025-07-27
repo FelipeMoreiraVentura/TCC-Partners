@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,7 @@ class PhotosMobile extends StatelessWidget {
         images.map((img) {
           return Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-            child: Image.network(img, width: width, height: width),
+            child: Image.memory(base64Decode(img), width: width, height: width),
           );
         }).toList();
 

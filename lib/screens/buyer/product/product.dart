@@ -20,8 +20,7 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> {
-  bool loading = true;
-  late ProductModel product;
+  ProductModel? product;
   List<Map<String, Object>> productComments = [];
   List<ProductModel> products = [];
 
@@ -52,18 +51,18 @@ class _ProductState extends State<Product> {
       body: NavBar(
         child: SingleChildScrollView(
           child:
-              loading
+              product == null
                   ? Center(child: widgetLoading())
                   : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ProductInfo(product: product),
+                        ProductInfo(product: product!),
 
                         SizedBox(height: 10),
                         ProductSpecifications(
-                          specifications: product.specifications,
+                          specifications: product!.specifications,
                         ),
 
                         SizedBox(height: 10),

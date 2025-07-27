@@ -31,7 +31,10 @@ class _ProductsState extends State<Products> {
   }
 
   void loadProducts() async {
-    products = await ProductService().getRandomProducts(1);
+    final loadedProducts = await ProductService().getRandomProducts(12);
+    setState(() {
+      products = loadedProducts;
+    });
   }
 
   @override

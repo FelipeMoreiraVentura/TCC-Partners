@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -25,8 +26,8 @@ class WrapProduct extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.network(
-                    product.images[0],
+                  Image.memory(
+                    base64Decode(product.images[0]),
                     height: isMobile ? 70 : 100,
                     width: isMobile ? 70 : 100,
                   ),
