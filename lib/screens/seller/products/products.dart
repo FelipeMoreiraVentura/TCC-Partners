@@ -34,23 +34,37 @@ class _ProductsState extends State<Products> {
     });
   }
 
+  handleDeleteProduct(String productId) async {
+    await ProductService().deleteProduct(productId);
+    setState(() {
+      products.removeWhere((product) => product.id == productId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: backAppbar("Produtos"),
       backgroundColor: AppColors.background,
-      body:
-          loading
-              ? Center(child: widgetLoading())
-              : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children:
-                      products
-                          .map((product) => ProductCard(product: product))
-                          .toList(),
+      body: SingleChildScrollView(
+        child:
+            loading
+                ? Center(child: widgetLoading())
+                : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children:
+                        products
+                            .map(
+                              (product) => ProductCard(
+                                product: product,
+                                handleDeleteProduct: handleDeleteProduct,
+                              ),
+                            )
+                            .toList(),
+                  ),
                 ),
-              ),
+      ),
     );
   }
 }

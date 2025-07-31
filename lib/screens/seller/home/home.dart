@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/screens/seller/home/widget/card.dart';
+import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 
 class HomeSeller extends StatelessWidget {
@@ -7,9 +8,41 @@ class HomeSeller extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = IsMobile(context);
+
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(backgroundColor: AppColors.blue),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: AppColors.blue,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (!isMobile)
+              Image.asset(
+                "assets/images/logoStringWhite.png",
+                height: 43,
+                width: 200,
+              ),
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, "/HomeBuyer");
+              },
+
+              child: Row(
+                children: [
+                  Icon(Icons.business, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text(
+                    "Comprar com CNPJ",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Wrap(

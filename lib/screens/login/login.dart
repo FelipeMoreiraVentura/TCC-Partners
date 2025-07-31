@@ -1,7 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/firebase/user.dart';
+import 'package:market_partners/utils/toast.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
@@ -58,7 +60,7 @@ class _LoginState extends State<Login> {
                 Navigator.pushReplacementNamed(context, "/HomeSeller");
               }
             } else {
-              print(response);
+              ToastService.error(response);
             }
           } else {
             // Cadastro
@@ -79,10 +81,10 @@ class _LoginState extends State<Login> {
                   Navigator.pushReplacementNamed(context, "/HomeSeller");
                 }
               } else {
-                print(response);
+                ToastService.error(response);
               }
             } else {
-              print('Senhas não coincidem');
+              ToastService.error('Senhas não coincidem');
             }
           }
         }

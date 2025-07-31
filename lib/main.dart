@@ -16,6 +16,8 @@ import "screens/login/login.dart";
 import 'screens/buyer/home/home.dart';
 import 'screens/seller/products/products.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 Future<void> main() async {
   await Api.initialize();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: "Market Partners",
       initialRoute: "/HomeBuyer",

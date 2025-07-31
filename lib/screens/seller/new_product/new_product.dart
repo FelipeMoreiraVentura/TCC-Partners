@@ -35,7 +35,7 @@ class _NewProductState extends State<NewProduct> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController price = TextEditingController();
-  TextEditingController quantity = TextEditingController();
+  TextEditingController stock = TextEditingController();
   TextEditingController specification = TextEditingController();
   TextEditingController specificationValue = TextEditingController();
 
@@ -92,6 +92,7 @@ class _NewProductState extends State<NewProduct> {
       category: "none",
       subCategory: "none",
       price: double.tryParse(price.text.replaceAll(',', '.')) ?? 0.0,
+      stock: int.tryParse(stock.text) ?? 0,
       specifications: specifications,
       images:
           images.map((image) {
@@ -101,6 +102,16 @@ class _NewProductState extends State<NewProduct> {
     );
 
     await ProductService().registerProduct(produto);
+    setState(() {
+      name.text = "";
+      description.text = "";
+      price.text = "";
+      stock.text = "";
+      specification.text = "";
+      specificationValue.text = "";
+      images = [];
+      specifications = {};
+    });
   }
 
   @override
@@ -279,7 +290,7 @@ class _NewProductState extends State<NewProduct> {
                         Expanded(
                           child: Input(
                             type: "Quantidade",
-                            controller: quantity,
+                            controller: stock,
                             validation: false,
                           ),
                         ),

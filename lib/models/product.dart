@@ -6,6 +6,7 @@ class ProductModel {
   final String category;
   final String subCategory;
   final double price;
+  final int stock;
   final Map<String, String> specifications;
   final List<String> images;
   final String sellerUid;
@@ -17,6 +18,7 @@ class ProductModel {
     required this.category,
     required this.subCategory,
     required this.price,
+    required this.stock,
     required this.specifications,
     required this.images,
     required this.sellerUid,
@@ -33,6 +35,7 @@ class ProductModel {
       category: data["category"],
       subCategory: data["subCategory"],
       price: data["price"],
+      stock: data["stock"] ?? 0,
       specifications: Map<String, String>.from(data["specifications"] ?? {}),
       images: List<String>.from(data["images"]),
       sellerUid: data["sellerUid"],
@@ -46,6 +49,7 @@ class ProductModel {
       "category": category,
       "subCategory": subCategory,
       "price": price.toDouble(),
+      "stock": stock.toDouble(),
       "specifications": specifications,
       "images": images,
       "sellerUid": sellerUid,

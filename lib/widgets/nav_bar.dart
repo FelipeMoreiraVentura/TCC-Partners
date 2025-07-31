@@ -21,22 +21,43 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
+    final currentRoute = ModalRoute.of(context)?.settings.name;
 
     List<Widget> buttonRoutes = [
       IconButton(
-        onPressed: () {
-          if (user != null) {
-            Navigator.pushNamed(context, "/history");
-          } else {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return PopupCreateAccount();
-              },
-            );
-          }
-        },
-        icon: Icon(Icons.history, color: AppColors.blue, size: 40),
+        onPressed:
+            currentRoute == "/HomeBuyer"
+                ? null
+                : () {
+                  Navigator.pushNamed(context, "/HomeBuyer");
+                },
+        icon: Icon(
+          Icons.home_filled,
+          color: currentRoute == "/HomeBuyer" ? Colors.grey : AppColors.blue,
+          size: 40,
+        ),
+      ),
+      IconButton(
+        onPressed:
+            currentRoute == "/history"
+                ? null
+                : () {
+                  if (user != null) {
+                    Navigator.pushNamed(context, "/history");
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PopupCreateAccount();
+                      },
+                    );
+                  }
+                },
+        icon: Icon(
+          Icons.history,
+          color: currentRoute == "/history" ? Colors.grey : AppColors.blue,
+          size: 40,
+        ),
       ),
       TextButton(
         onPressed: () {
@@ -49,19 +70,26 @@ class _NavBarState extends State<NavBar> {
     ];
 
     IconButton configButton = IconButton(
-      onPressed: () {
-        if (user != null) {
-          Navigator.pushNamed(context, "/configuration");
-        } else {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return PopupCreateAccount();
-            },
-          );
-        }
-      },
-      icon: Icon(Icons.account_circle, color: AppColors.blue, size: 40),
+      onPressed:
+          currentRoute == "/configuration"
+              ? null
+              : () {
+                if (user != null) {
+                  Navigator.pushNamed(context, "/configuration");
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return PopupCreateAccount();
+                    },
+                  );
+                }
+              },
+      icon: Icon(
+        Icons.account_circle,
+        color: currentRoute == "/configuration" ? Colors.grey : AppColors.blue,
+        size: 40,
+      ),
     );
 
     Positioned viewChatMenu = Positioned(

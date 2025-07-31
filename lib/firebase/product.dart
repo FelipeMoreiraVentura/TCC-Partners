@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/utils/toast.dart';
 
 class ProductService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<String> registerProduct(ProductModel product) async {
+  Future<void> registerProduct(ProductModel product) async {
     try {
       await _db.collection("products").add(product.toFirebase());
-      return "sucess";
+      ToastService.success("Produto salvo com sucesso!");
     } catch (e) {
-      return "Erro ao salvar o produto: $e";
+      ToastService.error("Erro ao salvar o produto: $e");
     }
   }
 
@@ -22,7 +23,7 @@ class ProductService {
               .get();
       return doc.docs.map((doc) => ProductModel.fromFirebase(doc)).toList();
     } catch (e) {
-      print("Erro ao buscar produtos: $e");
+      ToastService.error("Erro ao buscar produtos: $e");
       rethrow;
     }
   }
@@ -36,7 +37,7 @@ class ProductService {
 
       return all.take(quantidade).toList();
     } catch (e) {
-      print("Erro ao pegar produtos aleatorios: $e");
+      ToastService.error("Erro ao pegar produtos aleatorios: $e");
       rethrow;
     }
   }
@@ -46,7 +47,7 @@ class ProductService {
       final doc = await _db.collection("products").doc(productId).get();
       return ProductModel.fromFirebase(doc);
     } catch (e) {
-      print("Erro ao buscar produto: $e");
+      ToastService.error("Erro ao buscar produto: $e");
       rethrow;
     }
   }
@@ -57,12 +58,21 @@ class ProductService {
           await _db
               .collection("products")
               .where("name", isGreaterThanOrEqualTo: name)
-              .where("name", isLessThanOrEqualTo: name + '\uf8ff')
+              .where("name", isLessThanOrEqualTo: '$name\uf8ff')
               .get();
 
       return doc.docs.map((doc) => ProductModel.fromFirebase(doc)).toList();
     } catch (e) {
-      print("Erro ao buscar produtos por nome: $e");
+      ToastService.error("Erro ao buscar produtos por nome: $e");
+      rethrow;
+    }
+  }
+
+  Future<void> deleteProduct(String productId) async {
+    try {
+      await _db.collection("products").doc(productId).delete();
+    } catch (e) {
+      ToastService.error("Erro ao deletar produto: $e");
       rethrow;
     }
   }
