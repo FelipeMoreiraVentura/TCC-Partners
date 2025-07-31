@@ -13,7 +13,7 @@ class ProductService {
     }
   }
 
-  Future<List<ProductModel>> getProductsBySelley(String sellerUid) async {
+  Future<List<ProductModel>> getProductsBySeller(String sellerUid) async {
     try {
       final doc =
           await _db
@@ -47,6 +47,22 @@ class ProductService {
       return ProductModel.fromFirebase(doc);
     } catch (e) {
       print("Erro ao buscar produto: $e");
+      rethrow;
+    }
+  }
+
+  Future<List<ProductModel>> searchProductsByName(String name) async {
+    try {
+      final doc =
+          await _db
+              .collection("products")
+              .where("name", isGreaterThanOrEqualTo: name)
+              .where("name", isLessThanOrEqualTo: name + '\uf8ff')
+              .get();
+
+      return doc.docs.map((doc) => ProductModel.fromFirebase(doc)).toList();
+    } catch (e) {
+      print("Erro ao buscar produtos por nome: $e");
       rethrow;
     }
   }

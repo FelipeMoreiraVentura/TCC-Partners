@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/card_product.dart';
@@ -16,7 +17,7 @@ class SourceProduct extends StatefulWidget {
 }
 
 class _SourceProductState extends State<SourceProduct> {
-  List products = [];
+  List<ProductModel> products = [];
   bool loading = true;
 
   bool filterMenu = false;
@@ -28,10 +29,12 @@ class _SourceProductState extends State<SourceProduct> {
   }
 
   void loadProducts() async {
-    final data = await getProducts();
+    final data = await ProductService().searchProductsByName(
+      widget.sourcePrompt,
+    );
     setState(() {
-      products = data["products"]!;
-      if (products.isNotEmpty) loading = false;
+      products = data;
+      loading = false;
     });
   }
 
@@ -102,7 +105,11 @@ class _SourceProductState extends State<SourceProduct> {
                         buttonFilter,
                       ],
                     ),
-                    loading ? widgetLoading() : Wrap(children: productView),
+                    loading
+                        ? widgetLoading()
+                        : products.isEmpty
+                        ? Center(child: Text("Nenhum produto encontrado"))
+                        : Wrap(children: productView),
                   ],
                 ),
               ),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/firebase/user.dart';
+import 'package:market_partners/models/product.dart';
+import 'package:market_partners/screens/seller/products/widget/product_card.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
@@ -11,6 +15,7 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
+  List<ProductModel> products = [];
   bool loading = true;
 
   @override
@@ -20,8 +25,11 @@ class _ProductsState extends State<Products> {
   }
 
   loadProducts() async {
-    await Future.delayed(Duration(seconds: 3));
+    String? sellerUid =
+        UserService().getUid(); // Replace with actual seller UID
+    final data = await ProductService().getProductsBySeller(sellerUid ?? '');
     setState(() {
+      products = data;
       loading = false;
     });
   }
@@ -36,7 +44,12 @@ class _ProductsState extends State<Products> {
               ? Center(child: widgetLoading())
               : Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(child: Text("Nenhum produto encontrado")),
+                child: Column(
+                  children:
+                      products
+                          .map((product) => ProductCard(product: product))
+                          .toList(),
+                ),
               ),
     );
   }

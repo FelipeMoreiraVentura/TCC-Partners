@@ -45,7 +45,7 @@ class ProductModel {
       "description": description,
       "category": category,
       "subCategory": subCategory,
-      "price": price,
+      "price": price.toDouble(),
       "specifications": specifications,
       "images": images,
       "sellerUid": sellerUid,
