@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/firebase/cart.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_desktop.dart';
 import 'package:market_partners/screens/buyer/product/widgets/photos_mobile.dart';
@@ -50,6 +51,11 @@ class _ProductInfoState extends State<ProductInfo> {
         MyOutlinedButton(
           onPressed: () {
             if (user != null) {
+              CartService().addItemToCart(
+                userId: user!.uid,
+                productId: product.id ?? '',
+              );
+              Navigator.pushNamed(context, "/cart");
             } else {
               showDialog(
                 context: context,
@@ -68,7 +74,7 @@ class _ProductInfoState extends State<ProductInfo> {
         MyFilledButton(
           onPressed: () {
             if (user != null) {
-              Navigator.pushNamed(context, "confirm_purchase/123456,123456");
+              Navigator.pushNamed(context, "confirm_purchase/${product.id}");
             } else {
               showDialog(
                 context: context,

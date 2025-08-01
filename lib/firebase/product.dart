@@ -52,6 +52,18 @@ class ProductService {
     }
   }
 
+  Future<List<ProductModel>> getProducts(List<String> productsId) async {
+    try {
+      final docs = await Future.wait(
+        productsId.map((id) => _db.collection("products").doc(id).get()),
+      );
+      return docs.map((doc) => ProductModel.fromFirebase(doc)).toList();
+    } catch (e) {
+      ToastService.error("Erro ao buscar produto: $e");
+      rethrow;
+    }
+  }
+
   Future<List<ProductModel>> searchProductsByName(String name) async {
     try {
       final doc =

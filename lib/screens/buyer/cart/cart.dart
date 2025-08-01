@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/products_mock.dart';
+import 'package:market_partners/firebase/cart.dart';
+import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/screens/buyer/cart/widget/card_product.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
@@ -23,13 +26,17 @@ class _CartState extends State<Cart> {
     getProductsCart();
   }
 
-  List<Map<String, dynamic>> products = [];
+  List<ProductModel> products = [];
 
   getProductsCart() async {
-    Map<String, List> data = await getProducts();
+    final user = FirebaseAuth.instance.currentUser;
+    final dataCart = await CartService().getCartItems(user?.uid ?? "");
+    final dataProducts = await ProductService().getProducts(
+      dataCart.map((item) => item).toList(),
+    );
 
     setState(() {
-      products = (data["products"] ?? []).cast<Map<String, dynamic>>();
+      products = dataProducts;
       isLoding = false;
     });
   }
@@ -38,11 +45,11 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> podructsFilter =
-        products.where((p) => productsChecked.contains(p["id"])).toList();
+    List<ProductModel> podructsFilter =
+        products.where((p) => productsChecked.contains(p.id)).toList();
     double totalPrice = podructsFilter.fold(
       0.0,
-      (sum, p) => sum + ((p["price"] ?? 0) as num).toDouble(),
+      (sum, p) => sum + (p.price).toDouble(),
     );
 
     void chekedControll({required bool value, required String id}) {

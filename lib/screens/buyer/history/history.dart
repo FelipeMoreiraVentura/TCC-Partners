@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:market_partners/mock/order_history.dart';
-import 'package:market_partners/screens/buyer/history/widget/history_card.dart';
+import 'package:market_partners/firebase/purchase.dart';
+import 'package:market_partners/firebase/user.dart';
+import 'package:market_partners/models/purchase.dart';
+import 'package:market_partners/widgets/history_card.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
@@ -15,32 +17,28 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   bool loading = true;
-  List history = [];
+  List<PurchaseModel> purchases = [];
 
   @override
   void initState() {
     super.initState();
-    getHistory();
+    getPurchases();
   }
 
-  getHistory() async {
-    final data = await getOrderHistory();
+  getPurchases() async {
+    final userId = UserService().getUid() ?? '';
+    final data = await PurchaseService().getPurchasesByUser(userId, 'buyer');
     setState(() {
-      history = data["orders"]!;
-      if (history.isNotEmpty) loading = false;
+      purchases = data;
+      if (purchases.isNotEmpty) loading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<HistoryCard> widgetHistoryDelivered =
-        history.where((order) => order["status"] == "Delivered").map((order) {
-          return HistoryCard(history: order);
-        }).toList();
-
-    List<HistoryCard> widgetHistoryShipped =
-        history.where((order) => order["status"] == "Shipped").map((order) {
-          return HistoryCard(history: order);
+    List<HistoryCard> widgetPurchases =
+        purchases.map((order) {
+          return HistoryCard(purchase: order);
         }).toList();
 
     return Scaffold(
@@ -52,12 +50,24 @@ class _HistoryState extends State<History> {
                 ? Center(child: widgetLoading())
                 : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ListView(
+                  child: Column(
                     children: [
-                      Text("Compras Entregues", style: AppText.titleInfoMedium),
-                      ...widgetHistoryDelivered,
-                      Text("Compras Enviadas", style: AppText.titleInfoMedium),
-                      ...widgetHistoryShipped,
+                      Text(
+                        "Compras Realizadas",
+                        style: AppText.titleInfoMedium,
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Center(
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing: 8.0,
+                              runSpacing: 8.0,
+                              children: widgetPurchases,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

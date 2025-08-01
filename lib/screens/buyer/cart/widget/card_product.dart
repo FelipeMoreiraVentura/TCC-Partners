@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/style.dart';
 
 class CardProduct extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final ProductModel product;
   final List<String> productsChecked;
   final Function({required bool value, required String id}) chekedControll;
 
@@ -34,29 +37,26 @@ class CardProduct extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, "/product/${product["id"]}");
+                  Navigator.pushNamed(context, "/product/${product.id}");
                 },
-                child: Image.network(
-                  product["images"][0],
+                child: Image.memory(
+                  base64Decode(product.images[0]),
                   width: 80,
                   height: 80,
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product["name"]),
-                  Text(product["price"].toString()),
-                ],
+                children: [Text(product.name), Text(product.price.toString())],
               ),
             ],
           ),
           Checkbox(
             activeColor:
-                productsChecked.contains(product["id"]) ? AppColors.blue : null,
-            value: productsChecked.contains(product["id"]),
+                productsChecked.contains(product.id) ? AppColors.blue : null,
+            value: productsChecked.contains(product.id),
             onChanged: (bool? value) {
-              chekedControll(value: value ?? false, id: product["id"]);
+              chekedControll(value: value ?? false, id: product.id ?? '');
             },
           ),
         ],

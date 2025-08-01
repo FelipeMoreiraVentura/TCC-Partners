@@ -29,6 +29,7 @@ class Popup extends StatelessWidget {
             child: Text("Cancelar", style: TextStyle(color: AppColors.blue)),
           ),
         ),
+        SizedBox(width: 8),
         Expanded(
           child: MyFilledButton(
             onPressed: confirmAction,

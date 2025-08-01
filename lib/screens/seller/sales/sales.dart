@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/firebase/purchase.dart';
+import 'package:market_partners/firebase/user.dart';
+import 'package:market_partners/models/purchase.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
+import 'package:market_partners/widgets/history_card.dart';
 import 'package:market_partners/widgets/loading.dart';
 
 class Sales extends StatefulWidget {
@@ -12,6 +16,7 @@ class Sales extends StatefulWidget {
 
 class _SalesState extends State<Sales> {
   bool loading = true;
+  List<PurchaseModel> sales = [];
 
   @override
   void initState() {
@@ -20,8 +25,10 @@ class _SalesState extends State<Sales> {
   }
 
   loadSales() async {
-    await Future.delayed(Duration(seconds: 3));
+    final userId = UserService().getUid() ?? '';
+    final data = await PurchaseService().getPurchasesByUser(userId, 'seller');
     setState(() {
+      sales = data;
       loading = false;
     });
   }
@@ -36,9 +43,20 @@ class _SalesState extends State<Sales> {
               ? Center(child: widgetLoading())
               : Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text("Nenhum produto vendido foi encontrado"),
-                ),
+                child:
+                    sales.isEmpty
+                        ? Center(
+                          child: Text("Nenhum produto vendido foi encontrado"),
+                        )
+                        : Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children:
+                              sales.map((order) {
+                                return HistoryCard(purchase: order);
+                              }).toList(),
+                        ),
               ),
     );
   }

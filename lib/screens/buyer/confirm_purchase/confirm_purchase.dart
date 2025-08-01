@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/firebase/purchase.dart';
+import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/models/purchase.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/address_config.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/purchase_made.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/total_price.dart';
@@ -30,8 +33,8 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
   }
 
   getPurchaseProduct() async {
-    List<ProductModel> productsData = await Future.wait(
-      widget.productId.map((id) => ProductService().getProduct(id)),
+    List<ProductModel> productsData = await ProductService().getProducts(
+      widget.productId,
     );
 
     setState(() {
@@ -42,6 +45,27 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
 
   @override
   Widget build(BuildContext context) {
+    confirmPurchase() async {
+      if (products.isEmpty) return;
+
+      for (var product in products) {
+        PurchaseModel purchase = PurchaseModel(
+          buyerId: UserService().getUid() ?? '',
+          productId: product.id ?? '',
+          price: product.price,
+          createdAt: DateTime.now(),
+          sellerId: product.sellerUid,
+          avality: null,
+        );
+        await PurchaseService().createPurchase(purchase: purchase);
+      }
+      Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => PurchaseMade()),
+      );
+    }
+
     bool isMobile = IsMobile(context);
 
     AddressConfig addressConfig = AddressConfig();
@@ -62,10 +86,7 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
       margin: EdgeInsets.only(top: 10),
       child: MyFilledButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PurchaseMade()),
-          );
+          confirmPurchase();
         },
         child: Text("Comprar", style: TextStyle(color: Colors.white)),
       ),
