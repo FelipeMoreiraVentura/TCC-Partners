@@ -7,8 +7,9 @@ import 'package:market_partners/utils/style.dart';
 
 class HistoryCard extends StatefulWidget {
   final PurchaseModel purchase;
+  final bool isBuyer;
 
-  const HistoryCard({super.key, required this.purchase});
+  const HistoryCard({super.key, required this.purchase, required this.isBuyer});
 
   @override
   State<HistoryCard> createState() => _HistoryCardState();
@@ -51,32 +52,39 @@ class _HistoryCardState extends State<HistoryCard> {
         Text("Valor Total: R\$ ${widget.purchase.price.toStringAsFixed(2)}"),
       ],
     );
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        color: AppColors.menu,
-        boxShadow: [
-          BoxShadow(color: Colors.black, spreadRadius: 0.2, blurRadius: 8),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          historyInfo,
-          SizedBox(height: 8),
-          if (product != null) ...[
-            Image.memory(
-              base64Decode(product!.images[0]),
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 8),
-            Text(product!.name, style: AppText.titleInfoTiny),
+    return InkWell(
+      onTap: () {
+        if (widget.isBuyer) {
+          Navigator.pushNamed(context, '/purchase/${widget.purchase.id}');
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: AppColors.menu,
+          boxShadow: [
+            BoxShadow(color: Colors.black, spreadRadius: 0.2, blurRadius: 8),
           ],
-        ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            historyInfo,
+            SizedBox(height: 8),
+            if (product != null) ...[
+              Image.memory(
+                base64Decode(product!.images[0]),
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 8),
+              Text(product!.name, style: AppText.titleInfoTiny),
+            ],
+          ],
+        ),
       ),
     );
   }

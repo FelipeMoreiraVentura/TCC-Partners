@@ -55,7 +55,6 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
           price: product.price,
           createdAt: DateTime.now(),
           sellerId: product.sellerUid,
-          avality: null,
         );
         await PurchaseService().createPurchase(purchase: purchase);
       }

@@ -31,11 +31,15 @@ class WrapProduct extends StatelessWidget {
                     height: isMobile ? 70 : 100,
                     width: isMobile ? 70 : 100,
                   ),
-                  Text(
-                    product.name.toString(),
-                    style: isMobile ? AppText.xs : AppText.base,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Text(
+                        product.name.toString(),
+                        style: isMobile ? AppText.xs : AppText.base,
+                      ),
+                    ),
                   ),
-                  Text(product.name.toString(), style: AppText.md),
+                  Text(product.price.toString(), style: AppText.md),
                 ],
               ),
             ),

@@ -119,7 +119,14 @@ class _ProductInfoState extends State<ProductInfo> {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [productName, price, description],
+                        children: [
+                          productName,
+                          price,
+                          SizedBox(
+                            height: 300,
+                            child: SingleChildScrollView(child: description),
+                          ),
+                        ],
                       ),
                       action,
                     ],

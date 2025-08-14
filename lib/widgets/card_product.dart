@@ -70,11 +70,20 @@ class CardProduct extends StatelessWidget {
                       ? 60.0
                       : 90.0,
             ),
-            Column(
-              children: [
-                Text(product.name, style: isMobile ? AppText.xs : AppText.sm),
-                Text(product.price.toString(), style: AppText.md),
-              ],
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Text(
+                        product.name,
+                        style: isMobile ? AppText.xs : AppText.sm,
+                      ),
+                    ),
+                  ),
+                  Text(product.price.toString(), style: AppText.md),
+                ],
+              ),
             ),
           ],
         ),

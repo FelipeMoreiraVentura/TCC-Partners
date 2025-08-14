@@ -36,4 +36,17 @@ class PurchaseService {
       rethrow;
     }
   }
+
+  Future<PurchaseModel?> getPurchase(String purchaseId) async {
+    try {
+      final docSnapshot =
+          await _db.collection('purchases').doc(purchaseId).get();
+      return docSnapshot.exists
+          ? PurchaseModel.fromFirestore(docSnapshot)
+          : null;
+    } catch (e) {
+      ToastService.error('Erro ao buscar compra: $e');
+      rethrow;
+    }
+  }
 }

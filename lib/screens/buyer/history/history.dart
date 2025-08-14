@@ -38,7 +38,7 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     List<HistoryCard> widgetPurchases =
         purchases.map((order) {
-          return HistoryCard(purchase: order);
+          return HistoryCard(purchase: order, isBuyer: true);
         }).toList();
 
     return Scaffold(

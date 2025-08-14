@@ -8,6 +8,7 @@ import 'package:market_partners/screens/buyer/confirm_purchase/confirm_purchase.
 import 'package:market_partners/screens/buyer/history/history.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
 import 'package:market_partners/screens/buyer/product/product.dart';
+import 'package:market_partners/screens/buyer/purchase/purchase.dart';
 import 'package:market_partners/screens/buyer/source_product/source_product.dart';
 import 'package:market_partners/screens/seller/home/home.dart';
 import 'package:market_partners/screens/seller/new_product/new_product.dart';
@@ -66,6 +67,12 @@ class MyApp extends StatelessWidget {
         if (uri.length == 2 && uri[0] == "confirm_purchase") {
           return MaterialPageRoute(
             builder: (context) => ConfirmPurchase(productId: uri[1].split(',')),
+          );
+        }
+
+        if (uri.length == 2 && uri[0] == "purchase") {
+          return MaterialPageRoute(
+            builder: (context) => Purchase(purchaseId: uri[1]),
           );
         }
         return null;

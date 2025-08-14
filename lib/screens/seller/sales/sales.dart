@@ -54,7 +54,10 @@ class _SalesState extends State<Sales> {
                           runSpacing: 8.0,
                           children:
                               sales.map((order) {
-                                return HistoryCard(purchase: order);
+                                return HistoryCard(
+                                  purchase: order,
+                                  isBuyer: false,
+                                );
                               }).toList(),
                         ),
               ),

@@ -1,25 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Avality {
-  final String buyerComment;
-  final int rating;
-  final String sellerComment;
-
-  Avality({
-    required this.buyerComment,
-    required this.rating,
-    required this.sellerComment,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'buyerComment': buyerComment,
-      'rating': rating,
-      'sellerComment': sellerComment,
-    };
-  }
-}
-
 class PurchaseModel {
   final String productId;
   final String buyerId;
@@ -27,7 +7,6 @@ class PurchaseModel {
   final String? id;
   final DateTime? createdAt;
   final double price;
-  final Avality? avality;
 
   PurchaseModel({
     required this.productId,
@@ -36,7 +15,6 @@ class PurchaseModel {
     this.id,
     this.createdAt,
     required this.price,
-    required this.avality,
   });
   Map<String, dynamic> toFirestore() {
     return {
@@ -45,7 +23,6 @@ class PurchaseModel {
       'sellerId': sellerId,
       'price': price,
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
-      'avality': null,
     };
   }
 
@@ -58,14 +35,6 @@ class PurchaseModel {
       id: doc.id,
       createdAt: data['createdAt']?.toDate(),
       price: data['price'],
-      avality:
-          data['avality'] != null
-              ? Avality(
-                buyerComment: data['avality']['buyerComment'],
-                rating: data['avality']['rating'],
-                sellerComment: data['avality']['sellerComment'],
-              )
-              : null,
     );
   }
 }
