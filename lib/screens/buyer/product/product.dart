@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/firebase/product.dart';
+import 'package:market_partners/firebase/reviews.dart';
 import 'package:market_partners/models/product.dart';
-// import 'package:market_partners/screens/buyer/product/widgets/comments.dart';
+import 'package:market_partners/models/reviews.dart';
+import 'package:market_partners/screens/buyer/product/widgets/comments.dart';
 import 'package:market_partners/screens/buyer/product/widgets/product_info.dart';
 import 'package:market_partners/screens/buyer/product/widgets/product_specifications.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -21,8 +23,8 @@ class Product extends StatefulWidget {
 
 class _ProductState extends State<Product> {
   ProductModel? product;
-  List<Map<String, Object>> productComments = [];
   List<ProductModel> products = [];
+  List<ReviewsModels>? review;
 
   @override
   void initState() {
@@ -35,9 +37,14 @@ class _ProductState extends State<Product> {
     List<ProductModel> productsData = await ProductService().getRandomProducts(
       16,
     );
+    List<ReviewsModels> reviewData = await ReviewsService().getReviews(
+      widget.id,
+      "productId",
+    );
     setState(() {
       product = productData;
       products = productsData;
+      review = reviewData;
     });
   }
 
@@ -58,7 +65,7 @@ class _ProductState extends State<Product> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ProductInfo(product: product!),
+                        ProductInfo(product: product!, reviews: review),
 
                         SizedBox(height: 10),
                         ProductSpecifications(
@@ -70,10 +77,7 @@ class _ProductState extends State<Product> {
                         Center(child: WrapProduct(products: products)),
 
                         SizedBox(height: 10),
-                        // Comments(
-                        //   comments: productComments,
-                        //   rating: product["rating",
-                        // ),
+                        Comments(reviews: review),
                       ],
                     ),
                   ),
