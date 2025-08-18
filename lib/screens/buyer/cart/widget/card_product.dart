@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/utils/style.dart';
 
 class CardProduct extends StatelessWidget {
@@ -37,7 +39,10 @@ class CardProduct extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, "/product/${product.id}");
+                  context.pushNamed(
+                    AppRoute.purchase,
+                    pathParameters: {'purchaseId': product.id ?? ""},
+                  );
                 },
                 child: Image.memory(
                   base64Decode(product.images[0]),

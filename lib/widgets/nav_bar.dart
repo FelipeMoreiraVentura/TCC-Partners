@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/popup_create_account.dart';
@@ -29,7 +31,7 @@ class _NavBarState extends State<NavBar> {
             currentRoute == "/HomeBuyer"
                 ? null
                 : () {
-                  Navigator.pushNamed(context, "/HomeBuyer");
+                  navNamed(context, AppRoute.homeBuyer);
                 },
         icon: Icon(
           Icons.home_filled,
@@ -43,7 +45,7 @@ class _NavBarState extends State<NavBar> {
                 ? null
                 : () {
                   if (user != null) {
-                    Navigator.pushNamed(context, "/history");
+                    navNamed(context, AppRoute.history);
                   } else {
                     showDialog(
                       context: context,
@@ -75,7 +77,7 @@ class _NavBarState extends State<NavBar> {
               ? null
               : () {
                 if (user != null) {
-                  Navigator.pushNamed(context, "/configuration");
+                  navNamed(context, AppRoute.configuration);
                 } else {
                   showDialog(
                     context: context,

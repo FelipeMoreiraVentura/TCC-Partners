@@ -1,13 +1,12 @@
-// utils/toast_service.dart
 import 'package:flutter/material.dart';
-import '../main.dart'; // importa a navigatorKey
+import 'package:market_partners/router/app_router.dart';
 
 class ToastService {
   static void show(String message, {Color? backgroundColor}) {
-    final context = navigatorKey.currentContext;
-    if (context == null) return;
+    final messenger = scaffoldMessengerKey.currentState;
+    if (messenger == null) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    messenger.showSnackBar(
       SnackBar(
         content: Text(message),
         backgroundColor: backgroundColor ?? Colors.black87,
@@ -17,11 +16,9 @@ class ToastService {
     );
   }
 
-  static void success(String message) {
-    show(message, backgroundColor: Colors.green);
-  }
+  static void success(String message) =>
+      show(message, backgroundColor: Colors.green);
 
-  static void error(String message) {
-    show(message, backgroundColor: Colors.red);
-  }
+  static void error(String message) =>
+      show(message, backgroundColor: Colors.red);
 }

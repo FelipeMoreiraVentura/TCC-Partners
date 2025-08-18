@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/firebase/purchase.dart';
 import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/models/purchase.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/address_config.dart';
-import 'package:market_partners/screens/buyer/confirm_purchase/widget/purchase_made.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/total_price.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/view_product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -58,11 +59,8 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
         );
         await PurchaseService().createPurchase(purchase: purchase);
       }
-      Navigator.push(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(builder: (context) => PurchaseMade()),
-      );
+      // ignore: use_build_context_synchronously
+      context.goNamed(AppRoute.homeBuyer);
     }
 
     bool isMobile = IsMobile(context);

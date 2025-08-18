@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
@@ -45,7 +47,7 @@ class PurchaseMade extends StatelessWidget {
                 MyFilledButton(
                   child: Text("Voltar", style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    Navigator.pushNamed(context, "/HomeBuyer");
+                    context.pushNamed(AppRoute.homeBuyer);
                   },
                 ),
               ],

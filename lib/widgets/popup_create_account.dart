@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/widgets/popup.dart';
 
 class PopupCreateAccount extends StatelessWidget {
@@ -10,7 +12,7 @@ class PopupCreateAccount extends StatelessWidget {
       title: "Criar Conta",
       actionButtons: true,
       confirmAction: () {
-        Navigator.pushNamed(context, "/login");
+        navNamed(context, AppRoute.login);
       },
       child: Text("Você ainda não possui uma conta, deseja criar uma?"),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/screens/seller/home/widget/card.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 
@@ -26,7 +28,7 @@ class HomeSeller extends StatelessWidget {
               ),
             InkWell(
               onTap: () {
-                Navigator.pushReplacementNamed(context, "/HomeBuyer");
+                navNamed(context, AppRoute.homeBuyer);
               },
 
               child: Row(

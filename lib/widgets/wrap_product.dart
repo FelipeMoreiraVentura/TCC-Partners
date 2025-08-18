@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 
@@ -16,7 +18,11 @@ class WrapProduct extends StatelessWidget {
         products.take(16).map((product) {
           return InkWell(
             onTap: () {
-              Navigator.pushNamed(context, "/product/${product.id}");
+              navNamed(
+                context,
+                AppRoute.product,
+                path: {'id': product.id ?? ''},
+              );
             },
             child: Container(
               padding: EdgeInsets.all(isMobile ? 5 : 10),

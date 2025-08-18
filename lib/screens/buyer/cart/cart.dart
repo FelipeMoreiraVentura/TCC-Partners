@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:market_partners/firebase/cart.dart';
 import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/screens/buyer/cart/widget/card_product.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
@@ -99,9 +101,9 @@ class _CartState extends State<Cart> {
                   productsChecked.isEmpty
                       ? null
                       : () {
-                        Navigator.pushNamed(
-                          context,
-                          "/confirm_purchase/${productsChecked.join(",")}",
+                        context.pushNamed(
+                          AppRoute.confirmPurchase,
+                          pathParameters: {'ids': productsChecked.join(",")},
                         );
                       },
               child: const Text(
