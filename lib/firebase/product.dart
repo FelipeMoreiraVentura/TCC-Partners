@@ -28,7 +28,7 @@ class ProductService {
     }
   }
 
-  Future<List<ProductModel>> getRandomProducts(int quantidade) async {
+  Future<List<ProductModel>> getRandomProducts(quantidade) async {
     try {
       final doc = await _db.collection('products').get();
       final all =

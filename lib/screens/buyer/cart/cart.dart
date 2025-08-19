@@ -7,6 +7,7 @@ import 'package:market_partners/models/product.dart';
 import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/screens/buyer/cart/widget/card_product.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
@@ -89,8 +90,8 @@ class _CartState extends State<Cart> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            "Total: R\$ ${totalPrice.toStringAsFixed(2)}",
+          TranslatedText(
+            text: "Total: R\$ ${totalPrice.toStringAsFixed(2)}",
             style: AppText.titleInfoTiny,
           ),
           SizedBox(width: 16),
@@ -106,8 +107,8 @@ class _CartState extends State<Cart> {
                           pathParameters: {'ids': productsChecked.join(",")},
                         );
                       },
-              child: const Text(
-                "Comprar",
+              child: TranslatedText(
+                text: "Comprar",
                 style: TextStyle(color: Colors.white),
               ),
             ),

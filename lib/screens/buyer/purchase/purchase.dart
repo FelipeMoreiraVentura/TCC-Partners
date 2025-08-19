@@ -73,7 +73,7 @@ class _PurchaseState extends State<Purchase> {
     bool isMobile = IsMobile(context);
 
     Text widgetProductName = Text(
-      product!.name,
+      product?.name ?? "",
       style: AppText.titleInfoMedium,
     );
 

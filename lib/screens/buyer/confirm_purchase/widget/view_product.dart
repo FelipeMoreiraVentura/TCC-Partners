@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/card_product.dart';
 
 class ViewProduct extends StatelessWidget {
@@ -27,8 +28,8 @@ class ViewProduct extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          products.length == 1 ? "Produto" : "Produtos",
+        TranslatedText(
+          text: products.length == 1 ? "Produto" : "Produtos",
           style: isMobile ? AppText.titleInfoTiny : AppText.titleInfoMedium,
         ),
         Align(

@@ -6,9 +6,11 @@ import 'package:market_partners/models/user.dart';
 import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/screens/buyer/configurations/widget/popup_adress_info.dart';
 import 'package:market_partners/screens/buyer/configurations/widget/popup_user_info.dart';
+import 'package:market_partners/screens/buyer/configurations/widget/select_language.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/not_logged_navigator.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/nav_bar.dart';
@@ -65,8 +67,11 @@ class _ConfigState extends State<Config> {
                     children: [
                       const SizedBox(height: 20),
                       Center(child: Icon(Icons.account_circle, size: 200)),
-                      Text(userInformation!.name, style: AppText.md),
-                      Text(userInformation!.email),
+                      TranslatedText(
+                        text: userInformation!.name,
+                        style: AppText.md,
+                      ),
+                      TranslatedText(text: userInformation!.email),
                       const SizedBox(height: 30),
                       Container(
                         decoration: BoxDecoration(
@@ -89,7 +94,9 @@ class _ConfigState extends State<Config> {
                             if (role == "seller")
                               ListTile(
                                 splashColor: Colors.grey,
-                                title: const Text("Ir Para Tela de vendedor"),
+                                title: TranslatedText(
+                                  text: "Ir Para Tela de vendedor",
+                                ),
                                 leading: Icon(
                                   Icons.sell_sharp,
                                   size: 40,
@@ -109,9 +116,9 @@ class _ConfigState extends State<Config> {
                                 );
                               },
                               splashColor: Colors.grey,
-                              title: const Text("Dados da conta"),
-                              subtitle: const Text(
-                                "Nome, Email, CPF, telefone e senha",
+                              title: TranslatedText(text: "Dados da conta"),
+                              subtitle: TranslatedText(
+                                text: "Nome, Email, CPF, telefone e senha",
                               ),
                               leading: Icon(
                                 Icons.account_circle,
@@ -128,8 +135,10 @@ class _ConfigState extends State<Config> {
                                   },
                                 );
                               },
-                              title: const Text("Endereço"),
-                              subtitle: const Text("Localizações de entrega"),
+                              title: TranslatedText(text: "Endereço"),
+                              subtitle: TranslatedText(
+                                text: "Localizações de entrega",
+                              ),
                               leading: Icon(
                                 Icons.location_on,
                                 size: 40,
@@ -137,8 +146,10 @@ class _ConfigState extends State<Config> {
                               ),
                             ),
                             ListTile(
-                              title: const Text("Sobre PartnersBot"),
-                              subtitle: const Text("Saiba mais de nossa IA !"),
+                              title: TranslatedText(text: "Sobre PartnersBot"),
+                              subtitle: TranslatedText(
+                                text: "Saiba mais de nossa IA !",
+                              ),
                               onTap: () {
                                 context.pushNamed(AppRoute.partnersBot);
                               },
@@ -149,8 +160,8 @@ class _ConfigState extends State<Config> {
                               ),
                             ),
                             ListTile(
-                              title: const Text("Logout"),
-                              subtitle: const Text("Sair da conta"),
+                              title: TranslatedText(text: "Logout"),
+                              subtitle: TranslatedText(text: "Sair da conta"),
                               leading: Icon(
                                 Icons.logout_sharp,
                                 size: 40,
@@ -167,14 +178,15 @@ class _ConfigState extends State<Config> {
                                           UserService().logout();
                                           context.goNamed(AppRoute.login);
                                         },
-                                        child: Text(
-                                          "Deseja sair da conta?",
+                                        child: TranslatedText(
+                                          text: "Deseja sair da conta?",
                                           style: AppText.base,
                                         ),
                                       ),
                                 );
                               },
                             ),
+                            SelectLanguage(),
                           ],
                         ),
                       ),

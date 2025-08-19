@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/firebase/purchase.dart';
 import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/models/purchase.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/history_card.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
@@ -52,8 +53,8 @@ class _HistoryState extends State<History> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Text(
-                        "Compras Realizadas",
+                      TranslatedText(
+                        text: "Compras Realizadas",
                         style: AppText.titleInfoMedium,
                       ),
                       Expanded(

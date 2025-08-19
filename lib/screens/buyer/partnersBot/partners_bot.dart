@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 
 class PartnersBot extends StatelessWidget {
   const PartnersBot({super.key});
@@ -13,7 +14,10 @@ class PartnersBot extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text("Partners Bot", style: TextStyle(color: Colors.white)),
+        title: TranslatedText(
+          text: "Partners Bot",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: AppColors.blue,
       ),
       body: SingleChildScrollView(

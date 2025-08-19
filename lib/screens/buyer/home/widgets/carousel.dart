@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 
 class Carousel extends StatelessWidget {
   const Carousel({super.key});
@@ -20,13 +21,12 @@ class Carousel extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "PRECISA DE AJUDA NAS COMPRAS?",
+            TranslatedText(
+              text: "PRECISA DE AJUDA NAS COMPRAS?",
               style:
                   isMobile
                       ? AppText.titleTiny.apply(fontFamily: "Mayak_Extended")
                       : AppText.titleLarge.apply(fontFamily: "Mayak_Extended"),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Image.asset(
@@ -35,13 +35,12 @@ class Carousel extends StatelessWidget {
               width: isMobile ? 80 : 180,
             ),
             const SizedBox(height: 16),
-            Text(
-              "CONVERSE COM O PARTNERSBOT!",
+            TranslatedText(
+              text: "CONVERSE COM O PARTNERSBOT!",
               style:
                   isMobile
                       ? AppText.sm.apply(fontFamily: "Mayak_Extended")
                       : AppText.lg.apply(fontFamily: "Mayak_Extended"),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -56,13 +55,12 @@ class Carousel extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "APROVEITE OFERTAS EXCLUSIVAS!",
+            TranslatedText(
+              text: "APROVEITE OFERTAS EXCLUSIVAS!",
               style:
                   isMobile
                       ? AppText.titleTiny.apply(fontFamily: "Mayak_Extended")
                       : AppText.titleLarge.apply(fontFamily: "Mayak_Extended"),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Icon(
@@ -71,13 +69,12 @@ class Carousel extends StatelessWidget {
               color: Colors.white,
             ),
             const SizedBox(height: 16),
-            Text(
-              "Veja os melhores preços da semana",
+            TranslatedText(
+              text: "Veja os melhores preços da semana",
               style:
                   isMobile
                       ? AppText.sm.apply(fontFamily: "Mayak_Extended")
                       : AppText.lg.apply(fontFamily: "Mayak_Extended"),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -92,13 +89,12 @@ class Carousel extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "SEJA UM VENDEDOR NA MARKET PARTNERS!",
+            TranslatedText(
+              text: "SEJA UM VENDEDOR NA MARKET PARTNERS!",
               style:
                   isMobile
                       ? AppText.titleTiny.apply(fontFamily: "Mayak_Extended")
                       : AppText.titleLarge.apply(fontFamily: "Mayak_Extended"),
-              textAlign: TextAlign.center,
             ),
             Image.asset(
               "assets/images/chatIcon.png",
@@ -106,13 +102,13 @@ class Carousel extends StatelessWidget {
               width: isMobile ? 60 : 130,
             ),
             const SizedBox(height: 16),
-            Text(
-              "Envie uma foto e a IA preenche o anúncio pra você!\nSeja um vendedor agora mesmo!",
+            TranslatedText(
+              text:
+                  "Envie uma foto e a IA preenche o anúncio pra você!\nSeja um vendedor agora mesmo!",
               style:
                   isMobile
                       ? AppText.sm.apply(fontFamily: "Mayak_Extended")
                       : AppText.lg.apply(fontFamily: "Mayak_Extended"),
-              textAlign: TextAlign.center,
             ),
           ],
         ),

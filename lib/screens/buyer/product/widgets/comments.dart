@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/reviews.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/stars_rating.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
@@ -18,7 +19,7 @@ class Comments extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Avaliações", style: AppText.titleInfoMedium),
+          TranslatedText(text: "Avaliações", style: AppText.titleInfoMedium),
           const SizedBox(height: 8),
           Container(
             width: double.infinity,
@@ -39,7 +40,7 @@ class Comments extends StatelessWidget {
               children: [
                 StarRating(rating: 0.0),
                 const SizedBox(width: 8),
-                Text("Sem avaliações", style: AppText.base),
+                TranslatedText(text: "Sem avaliações", style: AppText.base),
               ],
             ),
           ),
@@ -59,8 +60,8 @@ class Comments extends StatelessWidget {
           children: [
             StarRating(rating: average),
             const SizedBox(width: 8),
-            Text(
-              "${average.toStringAsFixed(1)} ($totalComments)",
+            TranslatedText(
+              text: "${average.toStringAsFixed(1)} ($totalComments)",
               style: AppText.base,
             ),
           ],
@@ -93,9 +94,8 @@ class Comments extends StatelessWidget {
                 const SizedBox(width: 8),
                 SizedBox(
                   width: 40,
-                  child: Text(
-                    amount.toString(),
-                    textAlign: TextAlign.right,
+                  child: TranslatedText(
+                    text: amount.toString(),
                     style: AppText.sm,
                   ),
                 ),
@@ -133,7 +133,10 @@ class Comments extends StatelessWidget {
                     children: [
                       const Icon(Icons.person, color: AppColors.blue),
                       const SizedBox(width: 8),
-                      Text("Comprador", style: AppText.titleTiny),
+                      TranslatedText(
+                        text: "Comprador",
+                        style: AppText.titleTiny,
+                      ),
                       const Spacer(),
                       StarRating(rating: r.rating.toDouble()),
                     ],
@@ -153,8 +156,8 @@ class Comments extends StatelessWidget {
                       horizontal: 12,
                       vertical: 8,
                     ),
-                    child: Text(
-                      r.buyerComment.isEmpty ? "—" : r.buyerComment,
+                    child: TranslatedText(
+                      text: r.buyerComment.isEmpty ? "—" : r.buyerComment,
                       style: AppText.base.copyWith(
                         color: AppText.description.color,
                       ),
@@ -176,14 +179,17 @@ class Comments extends StatelessWidget {
                           Icons.storefront,
                           color: AppColors.blue,
                         ),
-                        title: Text(
-                          "Resposta do vendedor",
+                        title: TranslatedText(
+                          text: "Resposta do vendedor",
                           style: AppText.titleTiny,
                         ),
                         children: [
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(r.sellerComment, style: AppText.base),
+                            child: TranslatedText(
+                              text: r.sellerComment,
+                              style: AppText.base,
+                            ),
                           ),
                         ],
                       ),
@@ -198,7 +204,7 @@ class Comments extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Avaliações", style: AppText.titleInfoMedium),
+        TranslatedText(text: "Avaliações", style: AppText.titleInfoMedium),
         const SizedBox(height: 8),
         isMobile
             ? Column(

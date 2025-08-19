@@ -11,6 +11,7 @@ import 'package:market_partners/screens/buyer/confirm_purchase/widget/total_pric
 import 'package:market_partners/screens/buyer/confirm_purchase/widget/view_product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
@@ -85,7 +86,10 @@ class _ConfirmPurchaseState extends State<ConfirmPurchase> {
         onPressed: () {
           confirmPurchase();
         },
-        child: Text("Comprar", style: TextStyle(color: Colors.white)),
+        child: TranslatedText(
+          text: "Comprar",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
 

@@ -43,7 +43,6 @@ abstract class AppRoute {
   static const sales = 'sales';
 }
 
-/// Config do GoRouter (mobile + web)
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
   initialLocation: '/HomeBuyer',
@@ -67,7 +66,7 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const Config(),
       routes: [
         GoRoute(
-          path: 'PartnersBot', // /configuration/PartnersBot
+          path: 'PartnersBot',
           name: AppRoute.partnersBot,
           builder: (context, state) => const PartnersBot(),
         ),
@@ -96,7 +95,7 @@ final GoRouter appRouter = GoRouter(
       name: AppRoute.product,
       builder: (context, state) {
         final id = state.pathParameters['id'] ?? '';
-        return Product(id: id);
+        return Product(key: ValueKey('product-$id'), id: id);
       },
     ),
     GoRoute(
@@ -140,20 +139,14 @@ final GoRouter appRouter = GoRouter(
     ),
   ],
 
-  // Página 404 (opcional, mas útil na web)
-  errorBuilder:
-      (context, state) => Scaffold(
-        appBar: AppBar(title: const Text('Página não encontrada')),
-        body: Center(
-          child: Text(
-            'Rota inválida: ${state.uri.toString()}',
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
+  errorBuilder: (context, state) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.goNamed(AppRoute.homeBuyer);
+    });
+    return const SizedBox.shrink();
+  },
 );
 
-/// Helpers para montar URLs com segurança (encode)
 class Routes {
   static String sourceProduct(String prompt) =>
       '/source_product/${Uri.encodeComponent(prompt)}';
