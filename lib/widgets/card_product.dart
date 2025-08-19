@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 
@@ -27,7 +28,11 @@ class CardProduct extends StatelessWidget {
       onTap:
           navigator
               ? () {
-                Navigator.pushNamed(context, "/product/${product.id}");
+                navNamed(
+                  context,
+                  AppRoute.product,
+                  path: {'id': product.id ?? ''},
+                );
               }
               : () {},
       child: Container(

@@ -2,7 +2,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:market_partners/firebase/user.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/utils/toast.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -55,9 +57,9 @@ class _LoginState extends State<Login> {
               String role = userDoc.data()?['role'] ?? 'buyer';
 
               if (role == 'buyer') {
-                Navigator.pushReplacementNamed(context, "/HomeBuyer");
+                context.goNamed(AppRoute.homeBuyer);
               } else {
-                Navigator.pushReplacementNamed(context, "/HomeSeller");
+                context.goNamed(AppRoute.homeSeller);
               }
             } else {
               ToastService.error(response);
@@ -76,9 +78,9 @@ class _LoginState extends State<Login> {
 
               if (response == 'success') {
                 if (login == 1) {
-                  Navigator.pushReplacementNamed(context, "/HomeBuyer");
+                  context.goNamed(AppRoute.homeBuyer);
                 } else {
-                  Navigator.pushReplacementNamed(context, "/HomeSeller");
+                  context.goNamed(AppRoute.homeSeller);
                 }
               } else {
                 ToastService.error(response);

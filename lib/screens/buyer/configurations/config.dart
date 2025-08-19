@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/models/user.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/screens/buyer/configurations/widget/popup_adress_info.dart';
 import 'package:market_partners/screens/buyer/configurations/widget/popup_user_info.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -94,7 +96,7 @@ class _ConfigState extends State<Config> {
                                   color: AppColors.blue,
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(context, "/HomeSeller");
+                                  context.goNamed(AppRoute.homeSeller);
                                 },
                               ),
                             ListTile(
@@ -138,10 +140,7 @@ class _ConfigState extends State<Config> {
                               title: const Text("Sobre PartnersBot"),
                               subtitle: const Text("Saiba mais de nossa IA !"),
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  "/configuration/PartnersBot",
-                                );
+                                context.pushNamed(AppRoute.partnersBot);
                               },
                               leading: Image.asset(
                                 "assets/images/chatIcon.png",
@@ -166,10 +165,7 @@ class _ConfigState extends State<Config> {
                                         actionButtons: true,
                                         confirmAction: () {
                                           UserService().logout();
-                                          Navigator.pushNamed(
-                                            context,
-                                            "/login",
-                                          );
+                                          context.goNamed(AppRoute.login);
                                         },
                                         child: Text(
                                           "Deseja sair da conta?",

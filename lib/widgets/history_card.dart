@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/models/purchase.dart';
+import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/style.dart';
 
 class HistoryCard extends StatefulWidget {
@@ -55,7 +57,11 @@ class _HistoryCardState extends State<HistoryCard> {
     return InkWell(
       onTap: () {
         if (widget.isBuyer) {
-          Navigator.pushNamed(context, '/purchase/${widget.purchase.id}');
+          navNamed(
+            context,
+            AppRoute.purchase,
+            path: {'purchaseId': widget.purchase.id ?? ''},
+          );
         }
       },
       child: Container(

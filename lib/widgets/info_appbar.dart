@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/utils/global.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/popup_create_account.dart';
 
@@ -18,7 +20,7 @@ AppBar infoAppbar(bool isMobile, context) {
         if (!isMobile)
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, "/HomeBuyer");
+              navNamed(context, AppRoute.homeBuyer);
             },
             icon: Image.asset(
               "assets/images/logoStringWhite.png",
@@ -33,9 +35,10 @@ AppBar infoAppbar(bool isMobile, context) {
               height: 40,
               child: TextField(
                 onSubmitted: (value) {
-                  Navigator.pushNamed(
+                  navNamed(
                     context,
-                    "source_product/${sourcePrompt.text}",
+                    AppRoute.sourceProduct,
+                    path: {'sourcePrompt': sourcePrompt.text},
                   );
                 },
                 controller: sourcePrompt,
@@ -62,9 +65,10 @@ AppBar infoAppbar(bool isMobile, context) {
             IconButton(
               onPressed: () {
                 if (sourcePrompt.text.isNotEmpty) {
-                  Navigator.pushNamed(
+                  navNamed(
                     context,
-                    "source_product/${sourcePrompt.text}",
+                    AppRoute.sourceProduct,
+                    path: {'sourcePrompt': sourcePrompt.text},
                   );
                 }
               },
@@ -75,7 +79,7 @@ AppBar infoAppbar(bool isMobile, context) {
         IconButton(
           onPressed: () {
             if (user != null) {
-              Navigator.pushNamed(context, "/cart");
+              navNamed(context, AppRoute.cart);
             } else {
               showDialog(
                 context: context,

@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/style.dart';
 
 class CardSeller extends StatelessWidget {
@@ -17,7 +19,7 @@ class CardSeller extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, routeName);
+        navNamed(context, routeName);
       },
       child: Container(
         width: 300,
