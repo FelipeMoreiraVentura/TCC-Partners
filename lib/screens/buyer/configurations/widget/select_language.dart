@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:go_router/go_router.dart';
 import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/widgets/popup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 
 class SelectLanguage extends StatefulWidget {
   const SelectLanguage({super.key});
@@ -12,7 +15,6 @@ class SelectLanguage extends StatefulWidget {
 }
 
 class _SelectLanguageState extends State<SelectLanguage> {
-  // Idiomas compatíveis com a API MyMemory
   final Map<String, String> supportedLanguages = const {
     'pt': 'Português',
     'en': 'English',
@@ -32,25 +34,44 @@ class _SelectLanguageState extends State<SelectLanguage> {
     'th': 'ไทย (Tailandês)',
   };
 
-  String? _language;
+  String _language = 'pt';
 
   @override
   void initState() {
     super.initState();
-    loadLanguage();
+    _loadLanguage();
   }
 
-  Future<void> loadLanguage() async {
-    final prefs = await SharedPreferences.getInstance();
-    final cached = prefs.getString('language');
+  Future<void> _loadLanguage() async {
+    String? cachedLang;
+
+    if (kIsWeb) {
+      cachedLang = html.window.localStorage['language'];
+    } else {
+      final prefs = await SharedPreferences.getInstance();
+      cachedLang = prefs.getString('language');
+    }
+
     setState(() {
-      _language = cached ?? 'pt';
+      _language =
+          supportedLanguages.keys.contains(cachedLang) ? cachedLang! : 'pt';
     });
   }
 
-  Future<void> setLanguage(String lang) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('language', lang);
+  Future<void> _setLanguage(String lang) async {
+    if (kIsWeb) {
+      html.window.localStorage['language'] = lang;
+    } else {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('language', lang);
+    }
+
+    setState(() {
+      _language = lang;
+    });
+
+    // ignore: use_build_context_synchronously
+    context.pushNamed(AppRoute.configuration);
   }
 
   @override
@@ -58,19 +79,17 @@ class _SelectLanguageState extends State<SelectLanguage> {
     return Popup(
       title: "Linguagem",
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children:
             supportedLanguages.entries.map((entry) {
+              final isSelected = _language == entry.key;
               return TextButton(
-                onPressed: () async {
-                  await setLanguage(entry.key);
-                  // ignore: use_build_context_synchronously
-                  context.pushNamed(AppRoute.configuration);
-                },
+                onPressed: () => _setLanguage(entry.key),
                 child: Row(
                   children: [
-                    if (_language == entry.key)
+                    if (isSelected)
                       const Icon(Icons.check, color: Colors.green),
-                    const SizedBox(width: 8),
+                    if (isSelected) const SizedBox(width: 8),
                     Text(entry.value),
                   ],
                 ),

@@ -8,13 +8,20 @@ import 'dart:html' as html;
 
 class TranslationService {
   static Future<String> getSavedLanguage() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('language') ?? 'pt';
+    if (kIsWeb) {
+      return html.window.localStorage['language'] ?? 'pt';
+    } else {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString('language') ?? 'pt';
+    }
   }
 
   static Future<void> _saveToCache(String key, String translation) async {
+    final encodedKey = Uri.encodeComponent(key);
+    final encodedValue = Uri.encodeComponent(translation);
+
     if (kIsWeb) {
-      html.document.cookie = '$key=${Uri.encodeComponent(translation)}';
+      html.document.cookie = '$encodedKey=$encodedValue';
     } else {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(key, translation);
@@ -22,11 +29,13 @@ class TranslationService {
   }
 
   static Future<String?> _getFromCache(String key) async {
+    final encodedKey = Uri.encodeComponent(key);
+
     if (kIsWeb) {
       final cookies = html.document.cookie?.split('; ') ?? [];
       for (final cookie in cookies) {
         final split = cookie.split('=');
-        if (split.length == 2 && split[0] == key) {
+        if (split.length == 2 && split[0] == encodedKey) {
           return Uri.decodeComponent(split[1]);
         }
       }
@@ -42,7 +51,7 @@ class TranslationService {
 
     final targetLang = await getSavedLanguage();
 
-    // Se destino for igual a 'pt', não traduz
+    // Não traduz se o destino for 'pt'
     if (targetLang == 'pt') return text;
 
     final cacheKey = 'translation_${targetLang}_$text';
@@ -53,7 +62,7 @@ class TranslationService {
     try {
       final encodedText = Uri.encodeComponent(text);
       final url = Uri.parse(
-        'https://api.mymemory.translated.net/get?q=$encodedText&langpair=pt|$targetLang&de=felipemoreiraventura@gmail.com&key=0750fb05c1a296120916',
+        'https://api.mymemory.translated.net/get?q=$encodedText&langpair=pt|$targetLang&de=felipemoreiraventura@gmail.com&key=MYKEY',
       );
 
       final response = await http.get(url);

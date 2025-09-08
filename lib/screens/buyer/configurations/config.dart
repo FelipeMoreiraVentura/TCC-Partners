@@ -186,7 +186,23 @@ class _ConfigState extends State<Config> {
                                 );
                               },
                             ),
-                            SelectLanguage(),
+                            ListTile(
+                              title: TranslatedText(text: "Linguagem"),
+                              subtitle: TranslatedText(
+                                text: "Alterar idioma do app",
+                              ),
+                              leading: Icon(
+                                Icons.language,
+                                size: 40,
+                                color: AppColors.blue,
+                              ),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => SelectLanguage(),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
