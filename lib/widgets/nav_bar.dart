@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -23,7 +24,8 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
-    final currentRoute = ModalRoute.of(context)?.settings.name;
+    final currentRoute =
+        GoRouter.of(context).routeInformationProvider.value.uri.toString();
 
     List<Widget> buttonRoutes = [
       IconButton(

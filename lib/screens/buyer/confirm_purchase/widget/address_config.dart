@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/popup.dart';
 
 class AddressConfig extends StatefulWidget {
@@ -90,8 +91,8 @@ class _AddressConfigState extends State<AddressConfig> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Endereço",
+        TranslatedText(
+          text: "Endereço",
           style: isMobile ? AppText.titleInfoTiny : AppText.titleInfoMedium,
         ),
         Container(

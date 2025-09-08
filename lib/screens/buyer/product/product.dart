@@ -8,6 +8,7 @@ import 'package:market_partners/screens/buyer/product/widgets/product_info.dart'
 import 'package:market_partners/screens/buyer/product/widgets/product_specifications.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/info_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/widgets/nav_bar.dart';
@@ -73,7 +74,10 @@ class _ProductState extends State<Product> {
                         ),
 
                         SizedBox(height: 10),
-                        Text("Recomendados", style: AppText.titleInfoMedium),
+                        TranslatedText(
+                          text: "Recomendados",
+                          style: AppText.titleInfoMedium,
+                        ),
                         Center(child: WrapProduct(products: products)),
 
                         SizedBox(height: 10),

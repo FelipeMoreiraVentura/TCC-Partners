@@ -59,12 +59,13 @@ class _ProductInfoState extends State<ProductInfo> {
     Column action = Column(
       children: [
         MyOutlinedButton(
-          onPressed: () {
+          onPressed: () async {
             if (user != null) {
-              CartService().addItemToCart(
+              await CartService().addItemToCart(
                 userId: user!.uid,
                 productId: product.id ?? '',
               );
+              // ignore: use_build_context_synchronously
               context.pushNamed(AppRoute.cart);
             } else {
               showDialog(

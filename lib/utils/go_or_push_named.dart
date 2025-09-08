@@ -1,7 +1,6 @@
-// lib/navigation/nav.dart
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:market_partners/utils/is_mobile.dart';
 
 typedef StrMap = Map<String, String>;
 
@@ -12,7 +11,7 @@ void navNamed(
   StrMap query = const {},
   Object? extra,
 }) =>
-    kIsWeb
+    !IsMobile(c)
         ? GoRouter.of(c).goNamed(
           name,
           pathParameters: path,

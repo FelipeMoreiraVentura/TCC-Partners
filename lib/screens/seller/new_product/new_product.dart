@@ -73,6 +73,7 @@ class _NewProductState extends State<NewProduct> {
         Map<String, dynamic> infoJson = jsonDecode(data.body);
         name.text = infoJson["name"] ?? "";
         description.text = infoJson["description"] ?? "";
+        specifications = infoJson["specifications"] ?? "";
         isLoading = false;
       });
     }

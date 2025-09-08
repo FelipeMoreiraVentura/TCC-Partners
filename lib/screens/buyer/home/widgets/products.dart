@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/card_product.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:market_partners/utils/style.dart';
@@ -46,13 +47,16 @@ class _ProductsState extends State<Products> {
 
     return Column(
       children: [
-        Text("Mais comprados", style: AppText.titleMedium),
+        TranslatedText(text: "Mais comprados", style: AppText.titleMedium),
         products.isEmpty
             ? widgetLoading()
             : ProductCarousel(cardProducts: widgetsProductsMostPurchased),
         SizedBox(height: 20),
 
-        Text("Recomendado para você", style: AppText.titleMedium),
+        TranslatedText(
+          text: "Recomendado para você",
+          style: AppText.titleMedium,
+        ),
         products.isEmpty ? widgetLoading() : WrapProduct(products: products),
       ],
     );
