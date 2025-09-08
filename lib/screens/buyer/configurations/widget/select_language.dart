@@ -12,15 +12,24 @@ class SelectLanguage extends StatefulWidget {
 }
 
 class _SelectLanguageState extends State<SelectLanguage> {
+  // Idiomas compatíveis com a API MyMemory
   final Map<String, String> supportedLanguages = const {
     'pt': 'Português',
     'en': 'English',
     'es': 'Español',
-    'zh-cn': '简体中文',
-    'zh-tw': '繁體中文',
+    'fr': 'Français',
+    'de': 'Deutsch',
+    'it': 'Italiano',
+    'nl': 'Nederlands',
+    'zh': '中文 (Chinês Simplificado)',
+    'ja': '日本語 (Japonês)',
+    'ko': '한국어 (Coreano)',
+    'ru': 'Русский (Russo)',
+    'ar': 'العربية (Árabe)',
+    'hi': 'हिन्दी (Hindi)',
+    'tr': 'Türkçe (Turco)',
     'vi': 'Tiếng Việt',
-    'th': 'ไทย',
-    'ar': 'العربية',
+    'th': 'ไทย (Tailandês)',
   };
 
   String? _language;
