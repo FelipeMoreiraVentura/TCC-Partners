@@ -38,7 +38,7 @@ AppBar infoAppbar(bool isMobile, context) {
                   navNamed(
                     context,
                     AppRoute.sourceProduct,
-                    path: {'sourcePrompt': sourcePrompt.text},
+                    path: {'prompt': sourcePrompt.text},
                   );
                 },
                 controller: sourcePrompt,
@@ -46,7 +46,6 @@ AppBar infoAppbar(bool isMobile, context) {
                 style: AppText.md.copyWith(color: Colors.white),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  hintText: "Pesquisar",
                   hintStyle: AppText.md.copyWith(color: Colors.white70),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -68,7 +67,7 @@ AppBar infoAppbar(bool isMobile, context) {
                   navNamed(
                     context,
                     AppRoute.sourceProduct,
-                    path: {'sourcePrompt': sourcePrompt.text},
+                    path: {'prompt': sourcePrompt.text},
                   );
                 }
               },

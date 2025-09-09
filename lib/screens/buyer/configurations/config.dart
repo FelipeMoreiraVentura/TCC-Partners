@@ -187,7 +187,7 @@ class _ConfigState extends State<Config> {
                               },
                             ),
                             ListTile(
-                              title: TranslatedText(text: "Linguagem"),
+                              title: TranslatedText(text: "Idioma"),
                               subtitle: TranslatedText(
                                 text: "Alterar idioma do app",
                               ),

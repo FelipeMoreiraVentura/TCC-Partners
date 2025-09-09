@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
 import 'package:market_partners/widgets/my_outlined_button.dart';
 
@@ -26,21 +27,27 @@ class Popup extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("Cancelar", style: TextStyle(color: AppColors.blue)),
+            child: TranslatedText(
+              text: "Cancelar",
+              style: TextStyle(color: AppColors.blue),
+            ),
           ),
         ),
         SizedBox(width: 8),
         Expanded(
           child: MyFilledButton(
             onPressed: confirmAction,
-            child: Text("Confirmar", style: TextStyle(color: Colors.white)),
+            child: TranslatedText(
+              text: "Confirmar",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
       ],
     );
 
     return AlertDialog(
-      title: Text(title, style: AppText.titleInfoTiny),
+      title: TranslatedText(text: title, style: AppText.titleInfoTiny),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       content: ConstrainedBox(
         constraints: BoxConstraints(
@@ -58,7 +65,10 @@ class Popup extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("Fechar", style: TextStyle(color: Colors.white)),
+                  child: TranslatedText(
+                    text: "Fechar",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
           ],
         ),

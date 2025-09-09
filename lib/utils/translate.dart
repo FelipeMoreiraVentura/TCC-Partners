@@ -62,7 +62,7 @@ class TranslationService {
     try {
       final encodedText = Uri.encodeComponent(text);
       final url = Uri.parse(
-        'https://api.mymemory.translated.net/get?q=$encodedText&langpair=pt|$targetLang&de=felipemoreiraventura@gmail.com&key=MYKEY',
+        'https://api.mymemory.translated.net/get?q=$encodedText&langpair=pt|$targetLang&de=felipemoreiraventura@gmail.com&key=0750fb05c1a296120916',
       );
 
       final response = await http.get(url);

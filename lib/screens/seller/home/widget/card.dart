@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 
 class CardSeller extends StatelessWidget {
   final String label;
@@ -36,7 +37,12 @@ class CardSeller extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(children: [icon, Text(label, style: AppText.titleLarge)]),
+        child: Column(
+          children: [
+            icon,
+            TranslatedText(text: label, style: AppText.titleLarge),
+          ],
+        ),
       ),
     );
   }
