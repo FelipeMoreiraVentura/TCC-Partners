@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/translate.dart';
 
 class ToastService {
   static void show(String message, {Color? backgroundColor}) {
@@ -8,7 +9,7 @@ class ToastService {
 
     messenger.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: TranslatedText(text: message),
         backgroundColor: backgroundColor ?? Colors.black87,
         duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,

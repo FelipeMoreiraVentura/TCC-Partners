@@ -87,7 +87,10 @@ final GoRouter appRouter = GoRouter(
       name: AppRoute.sourceProduct,
       builder: (context, state) {
         final prompt = state.pathParameters['prompt'] ?? '';
-        return SourceProduct(sourcePrompt: prompt);
+        return SourceProduct(
+          key: ValueKey('source-$prompt'),
+          sourcePrompt: prompt,
+        );
       },
     ),
     GoRoute(

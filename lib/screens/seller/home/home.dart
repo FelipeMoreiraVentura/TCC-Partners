@@ -4,6 +4,7 @@ import 'package:market_partners/screens/seller/home/widget/card.dart';
 import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 
 class HomeSeller extends StatelessWidget {
   const HomeSeller({super.key});
@@ -35,8 +36,8 @@ class HomeSeller extends StatelessWidget {
                 children: [
                   Icon(Icons.business, color: Colors.white),
                   SizedBox(width: 8),
-                  Text(
-                    "Comprar com CNPJ",
+                  TranslatedText(
+                    text: "Comprar com CNPJ",
                     style: TextStyle(color: Colors.white),
                   ),
                 ],

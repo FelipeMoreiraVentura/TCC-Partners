@@ -66,6 +66,11 @@ class ProductService {
 
   Future<List<ProductModel>> searchProductsByName(String name) async {
     try {
+      if (name.toLowerCase() == "all") {
+        final snap = await _db.collection("products").get();
+        return snap.docs.map((doc) => ProductModel.fromFirebase(doc)).toList();
+      }
+
       final doc =
           await _db
               .collection("products")
