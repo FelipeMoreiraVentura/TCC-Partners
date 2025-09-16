@@ -18,6 +18,7 @@ class SourceProduct extends StatefulWidget {
 
 class _SourceProductState extends State<SourceProduct> {
   List<ProductModel> products = [];
+  List<Map<String, String>> filters = [];
   bool loading = true;
 
   bool filterMenu = false;
@@ -35,6 +36,13 @@ class _SourceProductState extends State<SourceProduct> {
     setState(() {
       products = data;
       loading = false;
+      filters =
+          data
+              .expand(
+                (d) => d.specifications.entries.map((e) => {e.key: e.value}),
+              )
+              .toSet()
+              .toList();
     });
   }
 
@@ -42,6 +50,7 @@ class _SourceProductState extends State<SourceProduct> {
   Widget build(BuildContext context) {
     double mediaQueryWidht = MediaQuery.of(context).size.width;
     double mediaQueryHeight = MediaQuery.of(context).size.height;
+
     bool isMobile = IsMobile(context);
 
     List<CardProduct> productView =
@@ -67,7 +76,27 @@ class _SourceProductState extends State<SourceProduct> {
       width: isMobile ? mediaQueryWidht : mediaQueryWidht * 0.4,
       height: isMobile ? mediaQueryHeight * 0.6 : mediaQueryHeight,
       color: AppColors.menuBackground,
-      child: Column(children: [buttonFilter]),
+      child: Column(
+        children: [
+          buttonFilter,
+          SingleChildScrollView(
+            child: Column(
+              children:
+                  filters.map((f) {
+                    return Row(
+                      children:
+                          f.entries.map((entry) {
+                            return Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text("${entry.key}: ${entry.value}"),
+                            );
+                          }).toList(),
+                    );
+                  }).toList(),
+            ),
+          ),
+        ],
+      ),
     );
 
     Expanded closeFilterMenu = Expanded(
