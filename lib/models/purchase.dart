@@ -34,7 +34,7 @@ class PurchaseModel {
       sellerId: data['sellerId'],
       id: doc.id,
       createdAt: data['createdAt']?.toDate(),
-      price: data['price'],
+      price: data['price'].toDouble(),
     );
   }
 }

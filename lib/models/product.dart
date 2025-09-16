@@ -34,7 +34,7 @@ class ProductModel {
       description: data["description"],
       category: data["category"],
       subCategory: data["subCategory"],
-      price: data["price"],
+      price: data["price"].toDouble(),
       stock: data["stock"] ?? 0,
       specifications: Map<String, String>.from(data["specifications"] ?? {}),
       images: List<String>.from(data["images"]),

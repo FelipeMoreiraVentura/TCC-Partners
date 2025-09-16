@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:go_router/go_router.dart';
 import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/popup.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 
 class SelectLanguage extends StatefulWidget {
   const SelectLanguage({super.key});
@@ -43,28 +40,16 @@ class _SelectLanguageState extends State<SelectLanguage> {
   }
 
   Future<void> _loadLanguage() async {
-    String? cachedLang;
-
-    if (kIsWeb) {
-      cachedLang = html.window.localStorage['language'];
-    } else {
-      final prefs = await SharedPreferences.getInstance();
-      cachedLang = prefs.getString('language');
-    }
+    final cachedLang = await TranslationService.getSavedLanguage();
 
     setState(() {
       _language =
-          supportedLanguages.keys.contains(cachedLang) ? cachedLang! : 'pt';
+          supportedLanguages.keys.contains(cachedLang) ? cachedLang : 'pt';
     });
   }
 
   Future<void> _setLanguage(String lang) async {
-    if (kIsWeb) {
-      html.window.localStorage['language'] = lang;
-    } else {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('language', lang);
-    }
+    await TranslationService.saveLanguage(lang);
 
     setState(() {
       _language = lang;

@@ -24,13 +24,12 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
-    final currentRoute =
-        GoRouter.of(context).routeInformationProvider.value.uri.toString();
+    final currentRoute = GoRouterState.of(context).name;
 
     List<Widget> buttonRoutes = [
       IconButton(
         onPressed:
-            currentRoute == "/HomeBuyer"
+            currentRoute == "HomeBuyer"
                 ? null
                 : () {
                   navNamed(context, AppRoute.homeBuyer);
