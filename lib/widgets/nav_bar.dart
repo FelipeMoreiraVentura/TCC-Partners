@@ -24,25 +24,29 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
-    final currentRoute = GoRouterState.of(context).name;
+
+    final currentRouteName = GoRouterState.of(context).name;
 
     List<Widget> buttonRoutes = [
       IconButton(
         onPressed:
-            currentRoute == "HomeBuyer"
+            currentRouteName == AppRoute.homeBuyer
                 ? null
                 : () {
                   navNamed(context, AppRoute.homeBuyer);
                 },
         icon: Icon(
           Icons.home_filled,
-          color: currentRoute == "/HomeBuyer" ? Colors.grey : AppColors.blue,
+          color:
+              currentRouteName == AppRoute.homeBuyer
+                  ? Colors.grey
+                  : AppColors.blue,
           size: 40,
         ),
       ),
       IconButton(
         onPressed:
-            currentRoute == "/history"
+            currentRouteName == AppRoute.history
                 ? null
                 : () {
                   if (user != null) {
@@ -58,7 +62,10 @@ class _NavBarState extends State<NavBar> {
                 },
         icon: Icon(
           Icons.history,
-          color: currentRoute == "/history" ? Colors.grey : AppColors.blue,
+          color:
+              currentRouteName == AppRoute.history
+                  ? Colors.grey
+                  : AppColors.blue,
           size: 40,
         ),
       ),
@@ -74,7 +81,7 @@ class _NavBarState extends State<NavBar> {
 
     IconButton configButton = IconButton(
       onPressed:
-          currentRoute == "/configuration"
+          currentRouteName == AppRoute.configuration
               ? null
               : () {
                 if (user != null) {
@@ -90,7 +97,10 @@ class _NavBarState extends State<NavBar> {
               },
       icon: Icon(
         Icons.account_circle,
-        color: currentRoute == "/configuration" ? Colors.grey : AppColors.blue,
+        color:
+            currentRouteName == AppRoute.configuration
+                ? Colors.grey
+                : AppColors.blue,
         size: 40,
       ),
     );
