@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/firebase/address.dart';
+import 'package:market_partners/models/address.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/widgets/popup.dart';
@@ -12,8 +15,10 @@ class PopupAdressInfo extends StatefulWidget {
 
 class _PopupAdressInfoState extends State<PopupAdressInfo> {
   late String selectAdress = "";
+  User? user;
   bool editAdress = false;
 
+  // controllers
   TextEditingController name = TextEditingController(text: "");
   TextEditingController street = TextEditingController(text: "");
   TextEditingController number = TextEditingController(text: "");
@@ -24,54 +29,46 @@ class _PopupAdressInfoState extends State<PopupAdressInfo> {
   TextEditingController complement = TextEditingController(text: "");
   TextEditingController phone = TextEditingController(text: "");
 
+  List<AddressModel> adressList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAddresses();
+  }
+
+  Future<void> _loadAddresses() async {
+    User? userData = FirebaseAuth.instance.currentUser;
+    final addresses = await AddressService().getAllAddresses(userData!.uid);
+    setState(() {
+      user = userData;
+      adressList = addresses;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Map> adressList = [
-      {
-        'name': 'João da Silva',
-        'street': 'Rua das Acácias',
-        'number': '123',
-        'neighborhood': 'Jardim das Flores',
-        'city': 'São Paulo',
-        'state': 'SP',
-        'zipCode': '01234-567',
-        'complement': 'Apartamento 12B',
-        'phone': '(11) 91234-5678',
-      },
-      {
-        'name': 'Maria Oliveira',
-        'street': 'Avenida Brasil',
-        'number': '456',
-        'neighborhood': 'Centro',
-        'city': 'Rio de Janeiro',
-        'state': 'RJ',
-        'zipCode': '12345-678',
-        'complement': 'Casa',
-        'phone': '(21) 99876-5432',
-      },
-    ];
-
     List<Widget> adressView =
         adressList.map((adress) {
           return Container(
-            margin: EdgeInsets.symmetric(vertical: 10),
+            margin: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      selectAdress = adress["zipCode"];
+                      selectAdress = adress.uid;
                       editAdress = true;
-                      name.text = adress["name"];
-                      street.text = adress["street"];
-                      number.text = adress["number"];
-                      neighborhood.text = adress["neighborhood"];
-                      city.text = adress["city"];
-                      state.text = adress["state"];
-                      zipCode.text = adress["zipCode"];
-                      complement.text = adress["complement"];
-                      phone.text = adress["phone"];
+                      name.text = adress.uid;
+                      street.text = adress.street;
+                      number.text = adress.number.toString();
+                      neighborhood.text = adress.neighborhood;
+                      city.text = adress.city;
+                      state.text = adress.state;
+                      zipCode.text = adress.postalCode;
+                      complement.text = ""; // se quiser usar depois
+                      phone.text = ""; // se quiser usar depois
                     });
                   },
                   icon: Icon(
@@ -83,9 +80,11 @@ class _PopupAdressInfoState extends State<PopupAdressInfo> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(adress["name"]),
                       Text(
-                        "${adress["street"]} ${adress["number"]}, ${adress["neighborhood"]}, ${adress["city"]}(${adress["state"]})",
+                        adress.uid,
+                      ), // aqui pode trocar por name se tiver no model
+                      Text(
+                        "${adress.street} ${adress.number}, ${adress.neighborhood}, ${adress.city} (${adress.state})",
                         style: AppText.description,
                         softWrap: true,
                       ),
@@ -105,7 +104,7 @@ class _PopupAdressInfoState extends State<PopupAdressInfo> {
             editAdress = false;
           });
         },
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
       ),
       Input(type: "Nome", controller: name, validation: false),
       Input(type: "Rua", controller: street, validation: false),
@@ -121,8 +120,21 @@ class _PopupAdressInfoState extends State<PopupAdressInfo> {
     return Popup(
       title: "Endereço",
       actionButtons: editAdress,
-      confirmAction: () {
-        print("FireBase");
+      confirmAction: () async {
+        final newAddress = AddressModel(
+          uid: user!.uid,
+          street: street.text,
+          number: int.tryParse(number.text) ?? 0,
+          neighborhood: neighborhood.text,
+          city: city.text,
+          state: state.text,
+          postalCode: zipCode.text,
+          country: "Brasil",
+        );
+
+        await AddressService().saveAddress(newAddress);
+        await _loadAddresses();
+
         setState(() {
           editAdress = false;
         });
