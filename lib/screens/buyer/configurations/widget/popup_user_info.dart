@@ -42,13 +42,15 @@ class _PopupUserInfoState extends State<PopupUserInfo> {
                     Text(widget.userInformation!.email),
                     Text(widget.userInformation!.cpfOrCnpj),
                     Input(
-                      type: "Telefone",
+                      label: "Telefone",
+                      type: InputType.telefone,
                       controller: number,
                       validation: true,
                     ),
                     Text(widget.userInformation!.name),
                     Input(
-                      type: "Senha",
+                      label: "Senha",
+                      type: InputType.senha,
                       controller: password,
                       validation: true,
                     ),

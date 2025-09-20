@@ -3,6 +3,7 @@ import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/card_product.dart';
 import 'package:market_partners/widgets/info_appbar.dart';
 import 'package:market_partners/widgets/loading.dart';
@@ -67,7 +68,7 @@ class _SourceProductState extends State<SourceProduct> {
       child: Row(
         children: [
           Icon(Icons.filter_alt_sharp, color: AppColors.blue),
-          Text("Filtrar"),
+          TranslatedText(text: "Filtrar"),
         ],
       ),
     );
@@ -137,7 +138,11 @@ class _SourceProductState extends State<SourceProduct> {
                     loading
                         ? widgetLoading()
                         : products.isEmpty
-                        ? Center(child: Text("Nenhum produto encontrado"))
+                        ? Center(
+                          child: TranslatedText(
+                            text: "Nenhum produto encontrado",
+                          ),
+                        )
                         : Wrap(children: productView),
                   ],
                 ),

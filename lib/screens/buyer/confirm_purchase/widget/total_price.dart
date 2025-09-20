@@ -36,7 +36,7 @@ class TotalPrice extends StatelessWidget {
           children: [TranslatedText(text: "Frete:"), Text("R\$5,00")],
         ),
         SizedBox(height: 10),
-        Text("Total $totalPrice"),
+        TranslatedText(text: "Total $totalPrice"),
       ],
     );
   }

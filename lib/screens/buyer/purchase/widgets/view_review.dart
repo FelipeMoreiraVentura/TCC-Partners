@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/reviews.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/stars_rating.dart';
 
 class ViewReview extends StatelessWidget {
@@ -35,7 +36,10 @@ class ViewReview extends StatelessWidget {
                 children: [
                   const Icon(Icons.person, color: AppColors.blue),
                   const SizedBox(width: 8),
-                  Text("Sua Avaliação", style: AppText.titleTiny),
+                  TranslatedText(
+                    text: "Sua Avaliação",
+                    style: AppText.titleTiny,
+                  ),
                   const Spacer(),
                 ],
               ),
@@ -67,7 +71,10 @@ class ViewReview extends StatelessWidget {
                 children: [
                   const Icon(Icons.storefront, color: AppColors.blue),
                   const SizedBox(width: 8),
-                  Text("Resposta do vendedor", style: AppText.titleTiny),
+                  TranslatedText(
+                    text: "Resposta do vendedor",
+                    style: AppText.titleTiny,
+                  ),
                   const Spacer(),
                 ],
               ),
@@ -84,7 +91,10 @@ class ViewReview extends StatelessWidget {
                   horizontal: 12,
                   vertical: 8,
                 ),
-                child: Text(review?.sellerComment ?? "—", style: AppText.base),
+                child: TranslatedText(
+                  text: review?.sellerComment ?? "—",
+                  style: AppText.base,
+                ),
               ),
             ],
           ),

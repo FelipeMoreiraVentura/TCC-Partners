@@ -6,6 +6,7 @@ import 'package:market_partners/models/purchase.dart';
 import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 
 class HistoryCard extends StatefulWidget {
   final PurchaseModel purchase;
@@ -49,7 +50,7 @@ class _HistoryCardState extends State<HistoryCard> {
           style: AppText.titleInfoTiny,
         ),
         SizedBox(height: 4),
-        Text("Id da Compra: ${widget.purchase.id}"),
+        TranslatedText(text: "Id da Compra: ${widget.purchase.id}"),
         SizedBox(height: 8),
         Text("Valor Total: R\$ ${widget.purchase.price.toStringAsFixed(2)}"),
       ],

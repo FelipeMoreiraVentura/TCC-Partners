@@ -10,6 +10,8 @@ import 'package:market_partners/screens/seller/new_product/widget/carousel_image
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/toast.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/widgets/loading.dart';
@@ -81,9 +83,8 @@ class _NewProductState extends State<NewProduct> {
 
   Future<void> postProduct() async {
     if (name.text.isEmpty || price.text.isEmpty || images.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Preencha todos os campos obrigatórios!")),
-      );
+      ToastService.error("Preencha todos os campos obrigatórios!");
+
       return;
     }
 
@@ -187,8 +188,8 @@ class _NewProductState extends State<NewProduct> {
                 children: [
                   Expanded(
                     child: MyOutlinedButton(
-                      child: Text(
-                        "Adicionar Imagem",
+                      child: TranslatedText(
+                        text: "Adicionar Imagem",
                         style: TextStyle(color: AppColors.blue),
                       ),
                       onPressed: () async {
@@ -247,15 +248,16 @@ class _NewProductState extends State<NewProduct> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Informações do Produto",
+                    TranslatedText(
+                      text: "Informações do Produto",
                       style: AppText.titleInfoTiny,
                     ),
                     Row(
                       children: [
                         Expanded(
                           child: Input(
-                            type: "Nome do Produto",
+                            type: InputType.text,
+                            label: "Nome do Produto",
                             controller: name,
                             validation: false,
                           ),
@@ -274,7 +276,9 @@ class _NewProductState extends State<NewProduct> {
                     ),
                     SizedBox(height: 10),
                     Input(
-                      type: "Descrição do Produto",
+                      type: InputType.text,
+                      label: "Descrição do Produto",
+                      multiline: true,
                       controller: description,
                       validation: false,
                     ),
@@ -282,7 +286,8 @@ class _NewProductState extends State<NewProduct> {
                       children: [
                         Expanded(
                           child: Input(
-                            type: "Preço",
+                            type: InputType.doubleType,
+                            label: "Preço",
                             controller: price,
                             validation: false,
                           ),
@@ -290,7 +295,8 @@ class _NewProductState extends State<NewProduct> {
                         SizedBox(width: 10),
                         Expanded(
                           child: Input(
-                            type: "Quantidade",
+                            type: InputType.intType,
+                            label: "Quantidade",
                             controller: stock,
                             validation: false,
                           ),
@@ -298,12 +304,16 @@ class _NewProductState extends State<NewProduct> {
                       ],
                     ),
                     SizedBox(height: 15),
-                    Text("Especificações", style: AppText.titleInfoTiny),
+                    TranslatedText(
+                      text: "Especificações",
+                      style: AppText.titleInfoTiny,
+                    ),
                     Row(
                       children: [
                         Expanded(
                           child: Input(
-                            type: "Especificação",
+                            type: InputType.text,
+                            label: "Especificação",
                             controller: specification,
                             validation: false,
                           ),
@@ -311,7 +321,8 @@ class _NewProductState extends State<NewProduct> {
                         SizedBox(width: 10),
                         Expanded(
                           child: Input(
-                            type: "Categoria",
+                            type: InputType.text,
+                            label: "Categoria",
                             controller: specificationValue,
                             validation: false,
                           ),
@@ -337,8 +348,8 @@ class _NewProductState extends State<NewProduct> {
                       onPressed: () {
                         postProduct();
                       },
-                      child: Text(
-                        "Salvar",
+                      child: TranslatedText(
+                        text: "Salvar",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

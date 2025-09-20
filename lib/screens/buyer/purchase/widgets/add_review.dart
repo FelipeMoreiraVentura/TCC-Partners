@@ -3,6 +3,7 @@ import 'package:market_partners/models/reviews.dart';
 import 'package:market_partners/screens/buyer/purchase/widgets/rating_button.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/utils/toast.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/widgets/my_filled_button.dart';
 
@@ -44,7 +45,7 @@ class _ReviewState extends State<Review> {
             children: [
               const Icon(Icons.person, color: AppColors.blue),
               const SizedBox(width: 8),
-              Text("Sua Avaliação", style: AppText.titleTiny),
+              TranslatedText(text: "Sua Avaliação", style: AppText.titleTiny),
               const Spacer(),
             ],
           ),
@@ -71,7 +72,8 @@ class _ReviewState extends State<Review> {
                 ),
                 const SizedBox(height: 8),
                 Input(
-                  type: "Avaliação",
+                  type: InputType.text,
+                  label: "Avaliação",
                   controller: avality,
                   validation: false,
                 ),
@@ -91,8 +93,8 @@ class _ReviewState extends State<Review> {
                 }
                 widget.addReview(avality.text.trim(), rating);
               },
-              child: Text(
-                "Salvar",
+              child: TranslatedText(
+                text: "Salvar",
                 style: AppText.base.apply(color: Colors.white),
               ),
             ),

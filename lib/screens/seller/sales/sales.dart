@@ -3,6 +3,7 @@ import 'package:market_partners/firebase/purchase.dart';
 import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/models/purchase.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/back_appbar.dart';
 import 'package:market_partners/widgets/history_card.dart';
 import 'package:market_partners/widgets/loading.dart';
@@ -46,7 +47,9 @@ class _SalesState extends State<Sales> {
                 child:
                     sales.isEmpty
                         ? Center(
-                          child: Text("Nenhum produto vendido foi encontrado"),
+                          child: TranslatedText(
+                            text: "Nenhum produto vendido foi encontrado",
+                          ),
                         )
                         : Wrap(
                           alignment: WrapAlignment.center,

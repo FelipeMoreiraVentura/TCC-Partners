@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/popup.dart';
 
 class ProductCard extends StatelessWidget {
@@ -22,7 +23,9 @@ class ProductCard extends StatelessWidget {
         handleDeleteProduct(product.id ?? '');
         Navigator.of(context).pop();
       },
-      child: Text("Tem certeza que deseja deletar este produto?"),
+      child: TranslatedText(
+        text: "Tem certeza que deseja deletar este produto?",
+      ),
     );
 
     return Card(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 
 class ProductSpecifications extends StatelessWidget {
   final Map<String, dynamic> specifications;
@@ -18,8 +19,8 @@ class ProductSpecifications extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("$key: ", style: AppText.md),
-              Text(value, style: AppText.sm),
+              TranslatedText(text: "$key: ", style: AppText.md),
+              TranslatedText(text: value, style: AppText.sm),
             ],
           );
         }).toList();
@@ -27,7 +28,7 @@ class ProductSpecifications extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Especificações", style: AppText.titleInfoMedium),
+        TranslatedText(text: "Especificações", style: AppText.titleInfoMedium),
         isMobile
             ? Column(
               spacing: 5,

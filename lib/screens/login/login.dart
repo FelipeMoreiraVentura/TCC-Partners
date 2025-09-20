@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/router/app_router.dart';
 import 'package:market_partners/utils/toast.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
@@ -91,8 +92,8 @@ class _LoginState extends State<Login> {
           }
         }
       },
-      child: Text(
-        login != 0 ? "Login" : "Cadastrar",
+      child: TranslatedText(
+        text: login != 0 ? "Cadastrar" : "Entrar",
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white),
       ),
@@ -113,20 +114,22 @@ class _LoginState extends State<Login> {
           ],
         ),
         child: Center(
-          child: Text(
-            login == 0
-                ? isMobile
-                    ? "Bem Vindo De Volta"
-                    : "Bem\nVindo\nDe\nVolta"
-                : isMobile
-                ? "Bem Vindo ao Futuro"
-                : "Bem\nVindo\nao\nFuturo",
+          child: TranslatedText(
+            text:
+                login == 0
+                    ? isMobile
+                        ? "Bem Vindo De Volta"
+                        : "Bem\nVindo\nDe\nVolta"
+                    : isMobile
+                    ? "Bem Vindo ao Futuro"
+                    : "Bem\nVindo\nao\nFuturo",
             style: TextStyle(
               color: Colors.white,
               fontSize: isMobile ? 30 : 70,
               fontWeight: FontWeight.bold,
               fontFamily: "Montserrat",
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       );
@@ -152,23 +155,45 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: sizeBoxheigth),
-                Input(type: "Email", controller: email, validation: true),
+                Input(
+                  type: InputType.email,
+                  label: "Email",
+                  controller: email,
+                  validation: true,
+                ),
                 SizedBox(height: sizeBoxheigth),
                 if (login != 0) ...[
                   Input(
-                    type: login == 1 ? "CPF" : "CNPJ",
+                    type: login == 1 ? InputType.cpf : InputType.cnpj,
+                    label: login == 1 ? "CPF" : "CNPJ",
                     controller: cpfOrCnpj,
                     validation: true,
                   ),
                   SizedBox(height: sizeBoxheigth),
-                  Input(type: "Telefone", controller: phone, validation: true),
+                  Input(
+                    type: InputType.email,
+                    label: "Telefone",
+                    controller: phone,
+                    validation: true,
+                  ),
                   SizedBox(height: sizeBoxheigth),
-                  Input(type: "Nome", controller: name, validation: true),
+                  Input(
+                    type: InputType.text,
+                    label: "Nome",
+                    controller: name,
+                    validation: true,
+                  ),
                 ],
-                Input(type: "Senha", controller: password, validation: true),
+                Input(
+                  type: InputType.senha,
+                  label: "Senha",
+                  controller: password,
+                  validation: true,
+                ),
                 if (login != 0)
                   Input(
-                    type: "Confirmar Senha",
+                    type: InputType.senha,
+                    label: "Confirmar Senha",
                     controller: confirmPassword,
                     validation: true,
                   ),
@@ -180,8 +205,8 @@ class _LoginState extends State<Login> {
                           login == 0 ? login = 1 : login = 0;
                         });
                       },
-                      child: Text(
-                        login == 0 ? "Criar uma conta" : "Já tenho uma conta",
+                      child: TranslatedText(
+                        text: login == 0 ? "Criar uma conta" : "Entrar",
                         style: const TextStyle(color: Colors.blue),
                       ),
                     ),
@@ -193,8 +218,9 @@ class _LoginState extends State<Login> {
                             cpfOrCnpj.clear();
                           });
                         },
-                        child: Text(
-                          login == 1 ? "Ser um vendedor" : "Ser comprador",
+                        child: TranslatedText(
+                          text:
+                              login == 1 ? "Ser um vendedor" : "Ser comprador",
                           style: const TextStyle(color: Colors.blue),
                         ),
                       ),

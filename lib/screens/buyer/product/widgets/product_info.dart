@@ -5,6 +5,7 @@ import 'package:market_partners/firebase/cart.dart';
 import 'package:market_partners/models/product.dart';
 import 'package:market_partners/models/reviews.dart';
 import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/photos_desktop.dart';
 import 'package:market_partners/widgets/photos_mobile.dart';
 import 'package:market_partners/utils/is_mobile.dart';
@@ -50,10 +51,9 @@ class _ProductInfoState extends State<ProductInfo> {
 
     final rate = StarRating(rating: avg);
 
-    Text description = Text(
-      product.description,
+    TranslatedText description = TranslatedText(
+      text: product.description,
       style: AppText.sm.merge(AppText.description),
-      softWrap: true,
     );
 
     Column action = Column(
@@ -76,8 +76,8 @@ class _ProductInfoState extends State<ProductInfo> {
               );
             }
           },
-          child: Text(
-            "Adicionar ao Carrinho",
+          child: TranslatedText(
+            text: "Adicionar ao Carrinho",
             style: TextStyle(color: AppColors.blue),
           ),
         ),
@@ -87,7 +87,7 @@ class _ProductInfoState extends State<ProductInfo> {
             if (user != null) {
               context.pushNamed(
                 AppRoute.confirmPurchase,
-                pathParameters: {'productId': product.id ?? ""},
+                pathParameters: {'ids': product.id ?? ""},
               );
             } else {
               showDialog(
@@ -98,7 +98,10 @@ class _ProductInfoState extends State<ProductInfo> {
               );
             }
           },
-          child: Text("Comprar", style: TextStyle(color: Colors.white)),
+          child: TranslatedText(
+            text: "Comprar",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ],
     );
