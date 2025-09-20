@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/models/product.dart';
-import 'package:market_partners/screens/seller/new_product/widget/carousel_image.dart';
+import 'package:market_partners/screens/seller/new_or_edit_product/widget/carousel_image.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
@@ -20,15 +20,18 @@ import 'package:market_partners/widgets/my_outlined_button.dart';
 
 import '../../../device/api.dart';
 
-class NewProduct extends StatefulWidget {
-  const NewProduct({super.key});
+class NewOrEditProduct extends StatefulWidget {
+  final String? productId;
+
+  const NewOrEditProduct({super.key, this.productId});
 
   @override
-  State<NewProduct> createState() => _NewProductState();
+  State<NewOrEditProduct> createState() => _NewOrEditProductState();
 }
 
-class _NewProductState extends State<NewProduct> {
+class _NewOrEditProductState extends State<NewOrEditProduct> {
   bool isLoading = false;
+  bool isFetching = false;
 
   List<Map<String, dynamic>> imagesPrev = [];
   List<Uint8List> images = [];
@@ -41,41 +44,69 @@ class _NewProductState extends State<NewProduct> {
   TextEditingController specification = TextEditingController();
   TextEditingController specificationValue = TextEditingController();
 
-  identifyImage() async {
-    if (images.isNotEmpty) {
-      setState(() {
-        isLoading = true;
-      });
+  bool get isEditing => widget.productId != null;
 
+  @override
+  void initState() {
+    super.initState();
+    if (isEditing) {
+      fetchProduct(widget.productId!);
+    }
+  }
+
+  Future<void> fetchProduct(String id) async {
+    setState(() => isFetching = true);
+
+    try {
+      ProductModel product = await ProductService().getProduct(id);
+      setState(() {
+        name.text = product.name;
+        description.text = product.description;
+        price.text = product.price.toStringAsFixed(2);
+        stock.text = product.stock.toString();
+        specifications = Map.from(product.specifications);
+        images = product.images.map((b64) => base64Decode(b64)).toList();
+      });
+    } catch (_) {
+      ToastService.error("Erro ao carregar produto.");
+    }
+
+    setState(() => isFetching = false);
+  }
+
+  Future<void> identifyImage() async {
+    if (images.isNotEmpty && !isEditing) {
+      setState(() => isLoading = true);
       final imagemBase64 = base64Encode(images[0]);
+
       Response data = await Api.post("/identify_image", {
         "image": imagemBase64,
       });
-      if (data.statusCode == 200) {
-        setState(() {
-          final List<dynamic> parsedList = jsonDecode(
-            utf8.decode(data.bodyBytes),
-          );
-          imagesPrev = parsedList.cast<Map<String, dynamic>>();
 
+      if (data.statusCode == 200) {
+        final parsedList = jsonDecode(utf8.decode(data.bodyBytes));
+        setState(() {
+          imagesPrev = parsedList.cast<Map<String, dynamic>>();
           isLoading = false;
         });
       }
     }
   }
 
-  setText(String product) async {
-    if (product == "") return "";
-    setState(() {
-      isLoading = true;
-    });
+  Future<void> setText(String product) async {
+    if (product == "" || isEditing) return;
+
+    setState(() => isLoading = true);
     Response data = await Api.post("/set_product", {"product": product});
+
     if (data.statusCode == 200) {
+      final infoJson = jsonDecode(data.body);
       setState(() {
-        Map<String, dynamic> infoJson = jsonDecode(data.body);
         name.text = infoJson["name"] ?? "";
         description.text = infoJson["description"] ?? "";
-        specifications = infoJson["specifications"] ?? "";
+        specifications = Map<String, String>.from(
+          infoJson["specifications"] ?? {},
+        );
         isLoading = false;
       });
     }
@@ -84,11 +115,11 @@ class _NewProductState extends State<NewProduct> {
   Future<void> postProduct() async {
     if (name.text.isEmpty || price.text.isEmpty || images.isEmpty) {
       ToastService.error("Preencha todos os campos obrigatórios!");
-
       return;
     }
 
-    final produto = ProductModel(
+    final product = ProductModel(
+      id: widget.productId,
       name: name.text,
       description: description.text,
       category: "none",
@@ -96,35 +127,43 @@ class _NewProductState extends State<NewProduct> {
       price: double.tryParse(price.text.replaceAll(',', '.')) ?? 0.0,
       stock: int.tryParse(stock.text) ?? 0,
       specifications: specifications,
-      images:
-          images.map((image) {
-            return base64Encode(image);
-          }).toList(),
+      images: images.map((img) => base64Encode(img)).toList(),
       sellerUid: UserService().getUid() ?? '',
     );
 
-    await ProductService().registerProduct(produto);
-    setState(() {
-      name.text = "";
-      description.text = "";
-      price.text = "";
-      stock.text = "";
-      specification.text = "";
-      specificationValue.text = "";
-      images = [];
-      specifications = {};
-    });
+    if (isEditing) {
+      await ProductService().updateProduct(product);
+    } else {
+      await ProductService().registerProduct(product);
+      setState(() {
+        name.clear();
+        description.clear();
+        price.clear();
+        stock.clear();
+        specification.clear();
+        specificationValue.clear();
+        images = [];
+        specifications = {};
+        imagesPrev = [];
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
 
+    if (isFetching) {
+      return Scaffold(
+        appBar: backAppbar("Carregando..."),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     List<Column> imagesView =
         images.map((image) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
                 icon: Icon(Icons.cancel, color: AppColors.blue),
@@ -164,7 +203,7 @@ class _NewProductState extends State<NewProduct> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: backAppbar("Novo Produto"),
+      appBar: backAppbar(isEditing ? "Editar Produto" : "Novo Produto"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -173,7 +212,6 @@ class _NewProductState extends State<NewProduct> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CarouselImage(images: imagesView),
               if (isLoading)
@@ -202,12 +240,9 @@ class _NewProductState extends State<NewProduct> {
                       },
                     ),
                   ),
-
-                  if (images.isNotEmpty)
+                  if (images.isNotEmpty && !isEditing)
                     IconButton(
-                      onPressed: () {
-                        identifyImage();
-                      },
+                      onPressed: identifyImage,
                       icon: Image.asset(
                         "assets/images/chatIcon.png",
                         width: 40,
@@ -216,26 +251,23 @@ class _NewProductState extends State<NewProduct> {
                     ),
                 ],
               ),
-              ...imagesPrev.map((imagePrev) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setText(imagePrev["classe"]);
-                      },
-                      child: Text(imagePrev["classe"]),
-                    ),
-                    Text(imagePrev["score"]),
-                  ],
-                );
-              }),
+              if (!isEditing)
+                ...imagesPrev.map((imagePrev) {
+                  return Row(
+                    children: [
+                      TextButton(
+                        onPressed: () => setText(imagePrev["classe"]),
+                        child: Text(imagePrev["classe"]),
+                      ),
+                      Text(imagePrev["score"]),
+                    ],
+                  );
+                }),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(12),
-                width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.menu,
                   boxShadow: [
                     BoxShadow(
@@ -262,16 +294,17 @@ class _NewProductState extends State<NewProduct> {
                             validation: false,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            setText(name.text);
-                          },
-                          icon: Image.asset(
-                            "assets/images/chatIcon.png",
-                            width: 40,
-                            height: 40,
+                        if (!isEditing)
+                          IconButton(
+                            onPressed: () {
+                              setText(name.text);
+                            },
+                            icon: Image.asset(
+                              "assets/images/chatIcon.png",
+                              width: 40,
+                              height: 40,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -329,15 +362,15 @@ class _NewProductState extends State<NewProduct> {
                         ),
                         IconButton(
                           onPressed: () {
-                            setState(() {
-                              if (specification.text.isNotEmpty &&
-                                  specificationValue.text.isNotEmpty) {
+                            if (specification.text.isNotEmpty &&
+                                specificationValue.text.isNotEmpty) {
+                              setState(() {
                                 specifications[specification.text] =
                                     specificationValue.text;
                                 specification.clear();
                                 specificationValue.clear();
-                              }
-                            });
+                              });
+                            }
                           },
                           icon: Icon(Icons.add, color: AppColors.blue),
                         ),
@@ -345,11 +378,9 @@ class _NewProductState extends State<NewProduct> {
                     ),
                     ...specificationsView,
                     MyFilledButton(
-                      onPressed: () {
-                        postProduct();
-                      },
+                      onPressed: postProduct,
                       child: TranslatedText(
-                        text: "Salvar",
+                        text: isEditing ? "Atualizar" : "Salvar",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

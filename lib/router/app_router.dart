@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // Páginas
-import 'package:market_partners/screens/login/login.dart';
+import 'package:market_partners/screens/buyer_seller/login/login.dart';
 import 'package:market_partners/screens/buyer/home/home.dart';
 import 'package:market_partners/screens/buyer/configurations/config.dart';
 import 'package:market_partners/screens/buyer/partnersBot/partners_bot.dart';
-import 'package:market_partners/screens/buyer/history/history.dart';
+import 'package:market_partners/screens/buyer_seller/history/history.dart';
 import 'package:market_partners/screens/buyer/cart/cart.dart';
 import 'package:market_partners/screens/buyer/source_product/source_product.dart';
 import 'package:market_partners/screens/buyer/product/product.dart';
 import 'package:market_partners/screens/buyer/confirm_purchase/confirm_purchase.dart';
-import 'package:market_partners/screens/buyer/purchase/purchase.dart';
+import 'package:market_partners/screens/buyer_seller/purchase/purchase.dart';
 
 import 'package:market_partners/screens/seller/home/home.dart';
-import 'package:market_partners/screens/seller/new_product/new_product.dart';
+import 'package:market_partners/screens/seller/new_or_edit_product/new_or_edit_product.dart';
 import 'package:market_partners/screens/seller/products/products.dart';
-import 'package:market_partners/screens/seller/sales/sales.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
@@ -41,6 +40,8 @@ abstract class AppRoute {
   static const newProduct = 'newProduct';
   static const products = 'products';
   static const sales = 'sales';
+  static const sale = 'sale';
+  static const editProduct = 'editProduct';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -128,7 +129,15 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/newProduct',
       name: AppRoute.newProduct,
-      builder: (context, state) => const NewProduct(),
+      builder: (context, state) => const NewOrEditProduct(),
+    ),
+    GoRoute(
+      path: '/editProduct/:id',
+      name: AppRoute.editProduct,
+      builder: (context, state) {
+        final productId = state.pathParameters["id"] ?? "";
+        return NewOrEditProduct(productId: productId);
+      },
     ),
     GoRoute(
       path: '/products',
@@ -138,7 +147,15 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/sales',
       name: AppRoute.sales,
-      builder: (context, state) => const Sales(),
+      builder: (context, state) => const History(isSeller: true),
+    ),
+    GoRoute(
+      path: '/sale/:purchaseId',
+      name: AppRoute.sale,
+      builder: (context, state) {
+        final purchaseId = state.pathParameters['purchaseId'] ?? '';
+        return Purchase(purchaseId: purchaseId, isSeller: true);
+      },
     ),
   ],
 

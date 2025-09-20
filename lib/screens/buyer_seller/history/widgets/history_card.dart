@@ -63,6 +63,12 @@ class _HistoryCardState extends State<HistoryCard> {
             AppRoute.purchase,
             path: {'purchaseId': widget.purchase.id ?? ''},
           );
+        } else {
+          navNamed(
+            context,
+            AppRoute.sale,
+            path: {'purchaseId': widget.purchase.id ?? ''},
+          );
         }
       },
       child: Container(

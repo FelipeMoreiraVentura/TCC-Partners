@@ -129,18 +129,7 @@ class Comments extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.person, color: AppColors.blue),
-                      const SizedBox(width: 8),
-                      TranslatedText(
-                        text: "Comprador",
-                        style: AppText.titleTiny,
-                      ),
-                      const Spacer(),
-                      StarRating(rating: r.rating.toDouble()),
-                    ],
-                  ),
+                  StarRating(rating: r.rating.toDouble()),
                   const SizedBox(height: 8),
                   Container(
                     width: double.infinity,

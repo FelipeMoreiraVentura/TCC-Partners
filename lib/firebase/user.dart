@@ -53,6 +53,13 @@ class UserService {
     }
   }
 
+  Future<void> updateUserInfo(UserInformation userInfo) async {
+    await _db
+        .collection("users")
+        .doc(userInfo.uid)
+        .update(userInfo.toFirestore());
+  }
+
   Future<void> logout() async {
     await _auth.signOut();
   }

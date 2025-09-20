@@ -158,7 +158,8 @@ class _InputState extends State<Input> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TranslatedText(text: widget.label ?? widget.type.name),
+        if (widget.label != "none")
+          TranslatedText(text: widget.label ?? widget.type.name),
         SizedBox(
           height: widget.multiline ? null : 60,
           width: double.infinity,

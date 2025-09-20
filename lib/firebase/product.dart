@@ -14,6 +14,23 @@ class ProductService {
     }
   }
 
+  Future<void> updateProduct(ProductModel product) async {
+    if (product.id == null) {
+      ToastService.error("ID do produto não encontrado para edição.");
+      return;
+    }
+
+    try {
+      await _db
+          .collection("products")
+          .doc(product.id)
+          .update(product.toFirebase());
+      ToastService.success("Produto atualizado com sucesso!");
+    } catch (e) {
+      ToastService.error("Erro ao atualizar produto: $e");
+    }
+  }
+
   Future<List<ProductModel>> getProductsBySeller(String sellerUid) async {
     try {
       final doc =

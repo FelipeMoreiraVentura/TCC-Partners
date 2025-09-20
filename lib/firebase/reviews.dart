@@ -14,6 +14,32 @@ class ReviewsService {
     }
   }
 
+  Future<void> updateReview(ReviewsModels review) async {
+    try {
+      final query =
+          await _db
+              .collection('reviews')
+              .where('purchaseId', isEqualTo: review.purchaseId)
+              .limit(1)
+              .get();
+
+      if (query.docs.isEmpty) {
+        ToastService.error("Avaliação não encontrada para atualização.");
+        return;
+      }
+
+      final docId = query.docs.first.id;
+
+      await _db.collection('reviews').doc(docId).update({
+        'sellerComment': review.sellerComment,
+      });
+
+      ToastService.success("Resposta do vendedor enviada com sucesso!");
+    } catch (e) {
+      ToastService.error("Erro ao responder avaliação: $e");
+    }
+  }
+
   Future<List<ReviewsModels>> getReviews(String id, String where) async {
     final querySnapshot =
         await _db.collection('reviews').where(where, isEqualTo: id).get();

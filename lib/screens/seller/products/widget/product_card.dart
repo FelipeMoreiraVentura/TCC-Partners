@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/router/app_router.dart';
+import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/popup.dart';
@@ -50,7 +52,13 @@ class ProductCard extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    navNamed(
+                      context,
+                      AppRoute.editProduct,
+                      path: {'id': product.id!},
+                    );
+                  },
                   icon: const Icon(Icons.edit),
                   color: AppColors.blue,
                 ),

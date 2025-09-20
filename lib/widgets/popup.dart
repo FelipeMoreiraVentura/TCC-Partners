@@ -9,6 +9,8 @@ class Popup extends StatelessWidget {
   final Widget child;
   final bool actionButtons;
   final VoidCallback? confirmAction;
+  final String? labelConfirButton;
+  final String? labelCloseButton;
 
   const Popup({
     super.key,
@@ -16,6 +18,8 @@ class Popup extends StatelessWidget {
     required this.child,
     this.actionButtons = false,
     this.confirmAction,
+    this.labelConfirButton = "Confirmar",
+    this.labelCloseButton = "Cancelar",
   });
 
   @override
@@ -28,7 +32,7 @@ class Popup extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: TranslatedText(
-              text: "Cancelar",
+              text: labelCloseButton ?? "",
               style: TextStyle(color: AppColors.blue),
             ),
           ),
@@ -38,7 +42,7 @@ class Popup extends StatelessWidget {
           child: MyFilledButton(
             onPressed: confirmAction,
             child: TranslatedText(
-              text: "Confirmar",
+              text: labelConfirButton ?? "",
               style: TextStyle(color: Colors.white),
             ),
           ),

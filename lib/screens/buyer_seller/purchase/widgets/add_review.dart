@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/reviews.dart';
-import 'package:market_partners/screens/buyer/purchase/widgets/rating_button.dart';
+import 'package:market_partners/screens/buyer_seller/purchase/widgets/rating_button.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/utils/toast.dart';
 import 'package:market_partners/utils/translate.dart';
