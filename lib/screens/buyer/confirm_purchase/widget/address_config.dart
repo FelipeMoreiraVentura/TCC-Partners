@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:market_partners/firebase/address.dart';
+import 'package:market_partners/models/address.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/utils/translate.dart';
@@ -12,40 +15,35 @@ class AddressConfig extends StatefulWidget {
 }
 
 class _AddressConfigState extends State<AddressConfig> {
-  String selectesAddress = "124";
+  String? selectedAddressId;
+  List<AddressModel> addressList = [];
+  User? user;
 
-  List<Map> addressList = [
-    {
-      "id": "124",
-      'name': 'João da Silva',
-      'street': 'Rua das Acácias',
-      'number': '123',
-      'neighborhood': 'Jardim das Flores',
-      'city': 'São Paulo',
-      'state': 'SP',
-      'zipCode': '01234-567',
-      'complement': 'Apartamento 12B',
-      'phone': '(11) 91234-5678',
-    },
-    {
-      "id": "wew2e",
-      'name': 'Maria Oliveira',
-      'street': 'Avenida Brasil',
-      'number': '456',
-      'neighborhood': 'Centro',
-      'city': 'Rio de Janeiro',
-      'state': 'RJ',
-      'zipCode': '12345-678',
-      'complement': 'Casa',
-      'phone': '(21) 99876-5432',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadAddresses();
+  }
+
+  Future<void> _loadAddresses() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) return;
+
+    final addresses = await AddressService().getAllAddresses(currentUser.uid);
+    setState(() {
+      user = currentUser;
+      addressList = addresses;
+      if (addresses.isNotEmpty) {
+        selectedAddressId = addresses.first.id;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isMobile = IsMobile(context);
 
-    Popup addressPoppup = Popup(
+    Popup addressPopup = Popup(
       title: "Endereços",
       child: Column(
         children:
@@ -53,7 +51,7 @@ class _AddressConfigState extends State<AddressConfig> {
               return InkWell(
                 onTap: () {
                   setState(() {
-                    selectesAddress = address["id"];
+                    selectedAddressId = address.id;
                     Navigator.of(context).pop();
                   });
                 },
@@ -62,14 +60,20 @@ class _AddressConfigState extends State<AddressConfig> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.location_on_outlined, color: AppColors.blue),
+                      const Icon(
+                        Icons.location_on_outlined,
+                        color: AppColors.blue,
+                      ),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(address["name"]),
                             Text(
-                              "${address["street"]} ${address["number"]}, ${address["neighborhood"]}, ${address["city"]}(${address["state"]})",
+                              address.street,
+                            ), // pode exibir name se tiver no model
+                            Text(
+                              "${address.street} ${address.number}, ${address.neighborhood}, ${address.city} (${address.state})",
                               style: AppText.description,
                               softWrap: true,
                             ),
@@ -84,8 +88,16 @@ class _AddressConfigState extends State<AddressConfig> {
       ),
     );
 
-    final filterAddress = addressList.firstWhere(
-      (address) => address["id"] == selectesAddress,
+    if (addressList.isEmpty) {
+      return Text(
+        "Nenhum endereço cadastrado",
+        style: isMobile ? AppText.titleInfoTiny : AppText.titleInfoMedium,
+      );
+    }
+
+    final selectedAddress = addressList.firstWhere(
+      (address) => address.id == selectedAddressId,
+      orElse: () => addressList.first,
     );
 
     return Column(
@@ -98,8 +110,8 @@ class _AddressConfigState extends State<AddressConfig> {
         Container(
           height: 100,
           width: double.infinity,
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
@@ -108,23 +120,23 @@ class _AddressConfigState extends State<AddressConfig> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return addressPoppup;
+                  return addressPopup;
                 },
               );
             },
             child: Center(
               child: Row(
                 children: [
-                  Icon(Icons.location_on, color: AppColors.blue),
-                  SizedBox(width: 20),
+                  const Icon(Icons.location_on, color: AppColors.blue),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(filterAddress["name"] ?? ""),
+                        Text(selectedAddress.street),
                         Text(
-                          "${filterAddress["street"]} ${filterAddress["number"]}, ${filterAddress["neighborhood"]}, ${filterAddress["city"]}(${filterAddress["state"]})",
+                          "${selectedAddress.street} ${selectedAddress.number}, ${selectedAddress.neighborhood}, ${selectedAddress.city} (${selectedAddress.state})",
                           style: AppText.description,
                           softWrap: true,
                         ),
