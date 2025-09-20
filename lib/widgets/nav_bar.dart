@@ -127,6 +127,7 @@ class _NavBarState extends State<NavBar> {
             Expanded(child: Stack(children: [widget.child, viewChatMenu])),
             Container(
               color: AppColors.menu,
+              padding: EdgeInsets.only(bottom: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [...buttonRoutes, configButton],

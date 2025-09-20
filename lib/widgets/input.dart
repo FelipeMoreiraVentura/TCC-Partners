@@ -115,7 +115,7 @@ class _InputState extends State<Input> {
             ? "00000-000"
             : widget.type == InputType.senha ||
                 widget.type == InputType.confirmarSenha
-            ? "****"
+            ? ""
             : widget.type == InputType.intType
             ? "123"
             : widget.type == InputType.doubleType

@@ -136,99 +136,104 @@ class _LoginState extends State<Login> {
 
       final loginContainer = Center(
         child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 10,
-                  offset: Offset(-10, 10),
-                ),
-              ],
-            ),
-            width: 400,
-            padding: const EdgeInsets.all(40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: sizeBoxheigth),
-                Input(
-                  type: InputType.email,
-                  label: "Email",
-                  controller: email,
-                  validation: true,
-                ),
-                SizedBox(height: sizeBoxheigth),
-                if (login != 0) ...[
-                  Input(
-                    type: login == 1 ? InputType.cpf : InputType.cnpj,
-                    label: login == 1 ? "CPF" : "CNPJ",
-                    controller: cpfOrCnpj,
-                    validation: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10,
+                    offset: Offset(-10, 10),
                   ),
+                ],
+              ),
+              width: 400,
+              padding: const EdgeInsets.all(40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   SizedBox(height: sizeBoxheigth),
                   Input(
                     type: InputType.email,
-                    label: "Telefone",
-                    controller: phone,
+                    label: "Email",
+                    controller: email,
                     validation: true,
                   ),
                   SizedBox(height: sizeBoxheigth),
-                  Input(
-                    type: InputType.text,
-                    label: "Nome",
-                    controller: name,
-                    validation: true,
-                  ),
-                ],
-                Input(
-                  type: InputType.senha,
-                  label: "Senha",
-                  controller: password,
-                  validation: true,
-                ),
-                if (login != 0)
+                  if (login != 0) ...[
+                    Input(
+                      type: login == 1 ? InputType.cpf : InputType.cnpj,
+                      label: login == 1 ? "CPF" : "CNPJ",
+                      controller: cpfOrCnpj,
+                      validation: true,
+                    ),
+                    SizedBox(height: sizeBoxheigth),
+                    Input(
+                      type: InputType.email,
+                      label: "Telefone",
+                      controller: phone,
+                      validation: true,
+                    ),
+                    SizedBox(height: sizeBoxheigth),
+                    Input(
+                      type: InputType.text,
+                      label: "Nome",
+                      controller: name,
+                      validation: true,
+                    ),
+                  ],
                   Input(
                     type: InputType.senha,
-                    label: "Confirmar Senha",
-                    controller: confirmPassword,
+                    label: "Senha",
+                    controller: password,
                     validation: true,
                   ),
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          login == 0 ? login = 1 : login = 0;
-                        });
-                      },
-                      child: TranslatedText(
-                        text: login == 0 ? "Criar uma conta" : "Entrar",
-                        style: const TextStyle(color: Colors.blue),
-                      ),
+                  if (login != 0)
+                    Input(
+                      type: InputType.senha,
+                      label: "Confirmar Senha",
+                      controller: confirmPassword,
+                      validation: true,
                     ),
-                    if (login != 0)
+                  Row(
+                    children: [
                       TextButton(
                         onPressed: () {
                           setState(() {
-                            login == 1 ? login = 2 : login = 1;
-                            cpfOrCnpj.clear();
+                            login == 0 ? login = 1 : login = 0;
                           });
                         },
                         child: TranslatedText(
-                          text:
-                              login == 1 ? "Ser um vendedor" : "Ser comprador",
+                          text: login == 0 ? "Criar uma conta" : "Entrar",
                           style: const TextStyle(color: Colors.blue),
                         ),
                       ),
-                  ],
-                ),
-                SizedBox(height: 30),
-                buttonLogin,
-              ],
+                      if (login != 0)
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              login == 1 ? login = 2 : login = 1;
+                              cpfOrCnpj.clear();
+                            });
+                          },
+                          child: TranslatedText(
+                            text:
+                                login == 1
+                                    ? "Ser um vendedor"
+                                    : "Ser comprador",
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                  buttonLogin,
+                ],
+              ),
             ),
           ),
         ),

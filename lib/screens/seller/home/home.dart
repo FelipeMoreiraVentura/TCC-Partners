@@ -48,28 +48,35 @@ class HomeSeller extends StatelessWidget {
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: Wrap(
-            children: [
-              CardSeller(
-                label: "Anunciar",
-                icon: Icon(
-                  Icons.shopping_bag_sharp,
-                  size: 150,
-                  color: AppColors.blue,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, isMobile ? 15 : 0),
+            child: Wrap(
+              children: [
+                CardSeller(
+                  label: "Anunciar",
+                  icon: Icon(
+                    Icons.shopping_bag_sharp,
+                    size: 150,
+                    color: AppColors.blue,
+                  ),
+                  routeName: AppRoute.newProduct,
                 ),
-                routeName: AppRoute.newProduct,
-              ),
-              CardSeller(
-                label: "Produtos",
-                icon: Icon(Icons.storefront, size: 150, color: AppColors.blue),
-                routeName: AppRoute.products,
-              ),
-              CardSeller(
-                label: "Vendas",
-                icon: Icon(Icons.sell, size: 150, color: AppColors.blue),
-                routeName: AppRoute.sales,
-              ),
-            ],
+                CardSeller(
+                  label: "Produtos",
+                  icon: Icon(
+                    Icons.storefront,
+                    size: 150,
+                    color: AppColors.blue,
+                  ),
+                  routeName: AppRoute.products,
+                ),
+                CardSeller(
+                  label: "Vendas",
+                  icon: Icon(Icons.sell, size: 150, color: AppColors.blue),
+                  routeName: AppRoute.sales,
+                ),
+              ],
+            ),
           ),
         ),
       ),
