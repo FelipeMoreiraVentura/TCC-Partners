@@ -66,13 +66,13 @@ class CardProduct extends StatelessWidget {
                   height != 0
                       ? height / 1.8
                       : isMobile
-                      ? 60
+                      ? 70
                       : 90,
               width:
                   width != 0
                       ? width / 1.8
                       : isMobile
-                      ? 60.0
+                      ? 70.0
                       : 90.0,
             ),
             Expanded(
@@ -86,8 +86,10 @@ class CardProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(product.price.toString(), style: AppText.md),
-                ],
+                  Text(
+                    'R\$ ${product.price.toString()}',
+                    style: AppText.md,
+                  )                ],
               ),
             ),
           ],

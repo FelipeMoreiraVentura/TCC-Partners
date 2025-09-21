@@ -3,8 +3,13 @@ import 'package:market_partners/utils/style.dart';
 
 class StarRating extends StatelessWidget {
   final double rating;
+  final int? totalComments; // Agora é opcional
 
-  const StarRating({super.key, required this.rating});
+  const StarRating({
+    super.key,
+    required this.rating,
+    this.totalComments, // Não é obrigatório
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,12 @@ class StarRating extends StatelessWidget {
             return Icon(Icons.star_border, color: AppColors.blue);
           }
         }),
-        Text(rating.toString()),
+        Text(
+          totalComments != null
+              ? "${rating.toStringAsFixed(1)} ($totalComments)"
+              : rating.toStringAsFixed(1),
+          style: TextStyle(color: AppColors.blue),
+        ),
       ],
     );
   }

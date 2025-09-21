@@ -45,20 +45,23 @@ class _ProductsState extends State<Products> {
           return CardProduct(product: product);
         }).toList();
 
-    return Column(
-      children: [
-        TranslatedText(text: "Mais comprados", style: AppText.titleMedium),
-        products.isEmpty
-            ? widgetLoading()
-            : ProductCarousel(cardProducts: widgetsProductsMostPurchased),
-        SizedBox(height: 20),
-
-        TranslatedText(
-          text: "Recomendado para você",
-          style: AppText.titleMedium,
-        ),
-        products.isEmpty ? widgetLoading() : WrapProduct(products: products),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Column(
+        children: [
+          TranslatedText(text: "Mais comprados", style: AppText.titleMedium),
+          products.isEmpty
+              ? widgetLoading()
+              : ProductCarousel(cardProducts: widgetsProductsMostPurchased),
+          SizedBox(height: 20),
+      
+          TranslatedText(
+            text: "Recomendado para você",
+            style: AppText.titleMedium,
+          ),
+          products.isEmpty ? widgetLoading() : WrapProduct(products: products),
+        ],
+      ),
     );
   }
 }

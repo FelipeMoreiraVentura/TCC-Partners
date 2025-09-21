@@ -69,9 +69,10 @@ class _ProductState extends State<Product> {
                         ProductInfo(product: product!, reviews: review),
 
                         SizedBox(height: 10),
-                        ProductSpecifications(
-                          specifications: product!.specifications,
-                        ),
+                        if(product!.specifications.isNotEmpty)
+                          ProductSpecifications(
+                            specifications: product!.specifications,
+                          ),
 
                         SizedBox(height: 10),
                         TranslatedText(

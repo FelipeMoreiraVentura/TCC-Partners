@@ -12,7 +12,11 @@ class HistoryCard extends StatefulWidget {
   final PurchaseModel purchase;
   final bool isBuyer;
 
-  const HistoryCard({super.key, required this.purchase, required this.isBuyer});
+  const HistoryCard({
+    super.key,
+    required this.purchase,
+    required this.isBuyer,
+  });
 
   @override
   State<HistoryCard> createState() => _HistoryCardState();
@@ -38,23 +42,13 @@ class _HistoryCardState extends State<HistoryCard> {
   Widget build(BuildContext context) {
     final date = widget.purchase.createdAt;
 
-    Column historyInfo = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "${date?.day.toString().padLeft(2, '0')}/"
-          "${date?.month.toString().padLeft(2, '0')}/"
-          "${date?.year} - "
-          "${date?.hour.toString().padLeft(2, '0')}:"
-          "${date?.minute.toString().padLeft(2, '0')}",
-          style: AppText.titleInfoTiny,
-        ),
-        SizedBox(height: 4),
-        TranslatedText(text: "Id da Compra: ${widget.purchase.id}"),
-        SizedBox(height: 8),
-        Text("Valor Total: R\$ ${widget.purchase.price.toStringAsFixed(2)}"),
-      ],
-    );
+    final String formattedDate =
+        "${date?.day.toString().padLeft(2, '0')}/"
+        "${date?.month.toString().padLeft(2, '0')}/"
+        "${date?.year} - "
+        "${date?.hour.toString().padLeft(2, '0')}:"
+        "${date?.minute.toString().padLeft(2, '0')}";
+
     return InkWell(
       onTap: () {
         if (widget.isBuyer) {
@@ -71,32 +65,43 @@ class _HistoryCardState extends State<HistoryCard> {
           );
         }
       },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: AppColors.menu,
-          boxShadow: [
-            BoxShadow(color: Colors.black, spreadRadius: 0.2, blurRadius: 8),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            historyInfo,
-            SizedBox(height: 8),
-            if (product != null) ...[
-              Image.memory(
-                base64Decode(product!.images[0]),
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (product != null)
+                Image.memory(
+                  base64Decode(product!.images[0]),
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              if (product != null) const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(formattedDate, style: AppText.titleInfoTiny),
+                    if (product != null) ...[
+                      Text(
+                        product!.name,
+                        style: AppText.titleInfoTiny,
+                      ),
+                    ],
+                    const SizedBox(height: 4),
+                    TranslatedText(
+                        text: "Id da Compra: ${widget.purchase.id}"),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Valor Total: R\$ ${widget.purchase.price.toStringAsFixed(2)}",
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 8),
-              Text(product!.name, style: AppText.titleInfoTiny),
             ],
-          ],
+          ),
         ),
       ),
     );
