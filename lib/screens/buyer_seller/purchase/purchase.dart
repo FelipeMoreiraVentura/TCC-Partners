@@ -100,7 +100,6 @@ class _PurchaseState extends State<Purchase> {
         return const Text("Sem resposta do comprador.");
       }
     } else {
-      // Modo comprador
       return review != null
           ? ViewReview(review: review!)
           : Review(review: review, addReview: addReview);
