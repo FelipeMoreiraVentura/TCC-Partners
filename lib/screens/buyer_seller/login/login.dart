@@ -173,7 +173,7 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: sizeBoxheigth),
                     Input(
-                      type: InputType.email,
+                      type: InputType.telefone,
                       label: "Telefone",
                       controller: phone,
                       validation: true,
