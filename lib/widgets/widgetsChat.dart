@@ -59,20 +59,24 @@ class _ChatViewState extends State<ChatView> {
     Response dataChat = await Api.post("/chat", {
       "prompt": prompt,
       "image": imageFile != null ? base64Encode(imageFile!) : "",
+      "history": chatHistoryText,
     });
 
     setState(() {
       loadingResp = false;
     });
-
     if (dataChat.statusCode == 200) {
       final responseBody = utf8.decode(dataChat.bodyBytes);
       final dynamic jsonResponse = jsonDecode(responseBody);
 
       final String chatResponse =
           jsonResponse is Map
-              ? jsonResponse['response'] ?? responseBody
+              ? jsonResponse['output'] ?? responseBody
               : responseBody;
+
+      if (jsonResponse is Map && jsonResponse.containsKey('history')) {
+        chatHistoryText = jsonResponse['history'] ?? chatHistoryText;
+      }
 
       setState(() {
         chatHistory.add({"sender": "bot", "message": chatResponse});
