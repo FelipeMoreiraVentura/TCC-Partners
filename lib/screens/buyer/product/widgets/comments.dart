@@ -38,7 +38,7 @@ class Comments extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                StarRating(rating: 0.0),
+                StarRating(rating: 0.0,),
                 const SizedBox(width: 8),
                 TranslatedText(text: "Sem avaliações", style: AppText.base),
               ],
@@ -55,17 +55,7 @@ class Comments extends StatelessWidget {
     Column avalityStatus = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StarRating(rating: average),
-            const SizedBox(width: 8),
-            TranslatedText(
-              text: "${average.toStringAsFixed(1)} ($totalComments)",
-              style: AppText.base,
-            ),
-          ],
-        ),
+        StarRating(rating: average, totalComments: totalComments,),
         const SizedBox(height: 12),
         ...List.generate(5, (i) {
           final int stars = 5 - i;
@@ -77,9 +67,9 @@ class Comments extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
               children: [
-                SizedBox(width: 28, child: Text("$stars", style: AppText.base)),
+                SizedBox(width: 20, child: Text("$stars", style: AppText.base)),
                 const Icon(Icons.star, size: 18, color: Colors.grey),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(6),
@@ -91,7 +81,7 @@ class Comments extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
                 SizedBox(
                   width: 40,
                   child: TranslatedText(
@@ -129,7 +119,7 @@ class Comments extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  StarRating(rating: r.rating.toDouble()),
+                  StarRating(rating: r.rating.toDouble(),),
                   const SizedBox(height: 8),
                   Container(
                     width: double.infinity,

@@ -26,16 +26,16 @@ class WrapProduct extends StatelessWidget {
             },
             child: Container(
               padding: EdgeInsets.all(isMobile ? 5 : 10),
-              height: isMobile ? 180 : 210,
-              width: isMobile ? 180 : 210,
+              height: isMobile ? 150 : 210,
+              width: isMobile ? 150 : 210,
               color: AppColors.menu,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.memory(
                     base64Decode(product.images[0]),
-                    height: isMobile ? 70 : 100,
-                    width: isMobile ? 70 : 100,
+                    height: isMobile ? 80 : 100,
+                    width: isMobile ? 80 : 100,
                   ),
                   Expanded(
                     child: SingleChildScrollView(
@@ -45,7 +45,10 @@ class WrapProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(product.price.toString(), style: AppText.md),
+                  Text(
+                    'R\$ ${product.price.toString()}',
+                    style: AppText.md,
+                  )
                 ],
               ),
             ),
