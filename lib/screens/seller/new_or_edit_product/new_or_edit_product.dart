@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/firebase/user.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/screens/seller/new_or_edit_product/categories.dart';
 import 'package:market_partners/screens/seller/new_or_edit_product/widget/carousel_image.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
@@ -43,6 +44,8 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
   TextEditingController stock = TextEditingController();
   TextEditingController specification = TextEditingController();
   TextEditingController specificationValue = TextEditingController();
+  String? selectedCategory;
+  String? selectedSubCategory;
 
   bool get isEditing => widget.productId != null;
 
@@ -66,6 +69,8 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
         stock.text = product.stock.toString();
         specifications = Map.from(product.specifications);
         images = product.images.map((b64) => base64Decode(b64)).toList();
+        selectedCategory = product.category;
+        selectedSubCategory = product.subCategory;
       });
     } catch (_) {
       ToastService.error("Erro ao carregar produto.");
@@ -113,7 +118,11 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
   }
 
   Future<void> postProduct() async {
-    if (name.text.isEmpty || price.text.isEmpty || images.isEmpty) {
+    if (name.text.isEmpty ||
+        price.text.isEmpty ||
+        images.isEmpty ||
+        selectedCategory == null ||
+        selectedSubCategory == null) {
       ToastService.error("Preencha todos os campos obrigatórios!");
       return;
     }
@@ -122,8 +131,8 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
       id: widget.productId,
       name: name.text,
       description: description.text,
-      category: "none",
-      subCategory: "none",
+      category: selectedCategory ?? "",
+      subCategory: selectedSubCategory ?? "",
       price: double.tryParse(price.text.replaceAll(',', '.')) ?? 0.0,
       stock: int.tryParse(stock.text) ?? 0,
       specifications: specifications,
@@ -145,6 +154,8 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
         images = [];
         specifications = {};
         imagesPrev = [];
+        selectedCategory = null;
+        selectedSubCategory = null;
       });
     }
   }
@@ -336,7 +347,85 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              labelText: "Categoria",
+                              border: OutlineInputBorder(),
+                            ),
+                            menuMaxHeight: 200,
+                            value: selectedCategory,
+                            items:
+                                categories.keys.map((String cat) {
+                                  return DropdownMenuItem<String>(
+                                    value: cat,
+                                    child: TranslatedText(
+                                      text: cat,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  );
+                                }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedCategory = value;
+                                selectedSubCategory = null;
+                              });
+                            },
+                            validator:
+                                (value) =>
+                                    value == null
+                                        ? "Selecione uma categoria"
+                                        : null,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              labelText: "Subcategoria",
+                              border: OutlineInputBorder(),
+                            ),
+                            menuMaxHeight: 200,
+                            value: selectedSubCategory,
+                            items:
+                                selectedCategory == null
+                                    ? []
+                                    : categories[selectedCategory]!.map((
+                                      String sub,
+                                    ) {
+                                      return DropdownMenuItem<String>(
+                                        value: sub,
+                                        child: Text(
+                                          sub,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      );
+                                    }).toList(),
+                            onChanged:
+                                selectedCategory == null
+                                    ? null
+                                    : (value) {
+                                      setState(() {
+                                        selectedSubCategory = value;
+                                      });
+                                    },
+                            validator:
+                                (value) =>
+                                    value == null
+                                        ? "Selecione uma subcategoria"
+                                        : null,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 15),
+
                     TranslatedText(
                       text: "Especificações",
                       style: AppText.titleInfoTiny,
@@ -355,7 +444,7 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
                         Expanded(
                           child: Input(
                             type: InputType.text,
-                            label: "Categoria",
+                            label: "Valor",
                             controller: specificationValue,
                             validation: false,
                           ),

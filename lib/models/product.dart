@@ -42,6 +42,21 @@ class ProductModel {
     );
   }
 
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      category: json['category'],
+      subCategory: json['subCategory'],
+      price: (json['price'] as num).toDouble(),
+      stock: json['stock'] ?? 0,
+      specifications: Map<String, String>.from(json['specifications'] ?? {}),
+      images: List<String>.from(json['images'] ?? []),
+      sellerUid: json['sellerUid'] ?? '',
+    );
+  }
+
   Map<String, dynamic> toFirebase() {
     return {
       "name": name,

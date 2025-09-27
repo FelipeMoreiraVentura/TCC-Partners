@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:market_partners/device/api.dart';
+import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/widgets/card_product.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:market_partners/utils/global.dart';
@@ -74,12 +77,21 @@ class _ChatViewState extends State<ChatView> {
               ? jsonResponse['output'] ?? responseBody
               : responseBody;
 
+      final List<dynamic>? products =
+          jsonResponse is Map && jsonResponse.containsKey('products')
+              ? jsonResponse["products"]
+              : null;
+
       if (jsonResponse is Map && jsonResponse.containsKey('history')) {
         chatHistoryText = jsonResponse['history'] ?? chatHistoryText;
       }
 
       setState(() {
-        chatHistory.add({"sender": "bot", "message": chatResponse});
+        chatHistory.add({
+          "sender": "bot",
+          "message": chatResponse,
+          "products": products,
+        });
       });
     } else {
       setState(() {
@@ -151,21 +163,47 @@ class _ChatViewState extends State<ChatView> {
                 String sender = isUser ? "Você" : "PartnersBot";
                 String text = message["message"] as String;
                 Uint8List? image = message["image"] as Uint8List?;
-                return ListTile(
-                  title: Text(sender),
-                  subtitle: Column(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(sender, style: AppText.sm),
+                      const SizedBox(height: 4),
                       Text(text, softWrap: true),
                       if (image != null && isUser)
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Image.memory(image, width: 200),
                         ),
+                      if (message.containsKey("products") &&
+                          message["products"] != null)
+                        SizedBox(
+                          height: 200,
+                          child: CarouselSlider(
+                            items:
+                                (message["products"] as List).map<Widget>((
+                                  productData,
+                                ) {
+                                  final product = ProductModel.fromJson(
+                                    productData,
+                                  );
+                                  return CardProduct(product: product);
+                                }).toList(),
+                            options: CarouselOptions(
+                              height: 200,
+                              enableInfiniteScroll: false,
+                              viewportFraction: 0.5,
+                              padEnds: false,
+                            ),
+                          ),
+                        ),
+                      const Divider(),
                     ],
                   ),
-                  leading: isUser ? null : Icon(Icons.chat),
-                  isThreeLine: true,
                 );
               },
             ),
