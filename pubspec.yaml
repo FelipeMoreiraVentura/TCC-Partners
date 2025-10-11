@@ -40,6 +40,8 @@ dependencies:
   carousel_slider: ^5.0.0
   speech_to_text: ^7.0.0
   cpf_cnpj_validator: ^2.0.0
+  algoliasearch: ^1.38.0
+  algolia_helper_flutter: ^1.4.0
   file_selector: ^1.0.3
   flutter_launcher_icons: ^0.14.3
   
@@ -50,6 +52,7 @@ dependencies:
   get_storage: ^2.1.1
   diacritic: ^0.1.6
   flutter_native_splash: ^2.4.0
+  flutter_typeahead: ^4.3.7
 
 
 

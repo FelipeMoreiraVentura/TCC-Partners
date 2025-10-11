@@ -10,12 +10,14 @@ class ViewReview extends StatefulWidget {
   final ReviewsModels? review;
   final bool showSellerResponseField;
   final void Function(String)? onRespond;
+  final bool isSeller;
 
   const ViewReview({
     super.key,
     required this.review,
     this.showSellerResponseField = false,
     this.onRespond,
+    required this.isSeller,
   });
 
   @override
@@ -85,7 +87,12 @@ class _ViewReviewState extends State<ViewReview> {
                   children: [
                     StarRating(rating: review.rating.toDouble()),
                     const SizedBox(height: 6),
-                    Text(review.buyerComment, style: AppText.base),
+                    !widget.isSeller
+                        ? Text(review.buyerComment, style: AppText.base)
+                        : TranslatedText(
+                          text: review.buyerComment,
+                          style: AppText.base,
+                        ),
                   ],
                 ),
               ),
@@ -122,10 +129,13 @@ class _ViewReviewState extends State<ViewReview> {
                     horizontal: 12,
                     vertical: 8,
                   ),
-                  child: TranslatedText(
-                    text: review.sellerComment,
-                    style: AppText.base,
-                  ),
+                  child:
+                      !widget.isSeller
+                          ? TranslatedText(
+                            text: review.sellerComment,
+                            style: AppText.base,
+                          )
+                          : Text(review.sellerComment, style: AppText.base),
                 )
               else if (widget.showSellerResponseField)
                 Column(
@@ -173,7 +183,7 @@ class _ViewReviewState extends State<ViewReview> {
                     horizontal: 12,
                     vertical: 8,
                   ),
-                  child: const TranslatedText(text: "—", style: AppText.base),
+                  child: const Text("—", style: AppText.base),
                 ),
             ],
           ),

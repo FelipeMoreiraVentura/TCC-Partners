@@ -92,6 +92,7 @@ class _PurchaseState extends State<Purchase> {
       // Modo vendedor
       if (review != null && review!.buyerComment.isNotEmpty) {
         return ViewReview(
+          isSeller: widget.isSeller,
           review: review!,
           showSellerResponseField: true,
           onRespond: respondToReview,
@@ -101,7 +102,7 @@ class _PurchaseState extends State<Purchase> {
       }
     } else {
       return review != null
-          ? ViewReview(review: review!)
+          ? ViewReview(review: review!, isSeller: widget.isSeller)
           : Review(review: review, addReview: addReview);
     }
   }

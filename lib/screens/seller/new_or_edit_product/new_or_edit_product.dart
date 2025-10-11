@@ -105,16 +105,19 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
     Response data = await Api.post("/set_product", {"product": product});
 
     if (data.statusCode == 200) {
-      final infoJson = jsonDecode(data.body);
+      final responseBody = utf8.decode(data.bodyBytes);
+      final dynamic infoJson = jsonDecode(responseBody);
       setState(() {
         name.text = infoJson["name"] ?? "";
         description.text = infoJson["description"] ?? "";
         specifications = Map<String, String>.from(
           infoJson["specifications"] ?? {},
         );
-        isLoading = false;
       });
+    } else {
+      ToastService.error("Erro ao gerar descrição do produto.");
     }
+    setState(() => isLoading = false);
   }
 
   Future<void> postProduct() async {
@@ -263,17 +266,51 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
                 ],
               ),
               if (!isEditing)
-                ...imagesPrev.map((imagePrev) {
-                  return Row(
-                    children: [
-                      TextButton(
-                        onPressed: () => setText(imagePrev["classe"]),
-                        child: Text(imagePrev["classe"]),
-                      ),
-                      Text(imagePrev["score"]),
-                    ],
-                  );
-                }),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 8,
+                    children:
+                        imagesPrev.map((imagePrev) {
+                          final classeOriginal = imagePrev["classe"] ?? "";
+                          final classeFormatada = classeOriginal
+                              .toString()
+                              .replaceAll("_", " ")
+                              .split(" ")
+                              .map(
+                                (word) =>
+                                    word.isEmpty
+                                        ? ""
+                                        : "${word[0].toUpperCase()}${word.substring(1).toLowerCase()}",
+                              )
+                              .join(" ");
+
+                          final score = imagePrev["score"] ?? "";
+
+                          return ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              // ignore: deprecated_member_use
+                              backgroundColor: AppColors.blue.withOpacity(0.1),
+                              foregroundColor: AppColors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                            ),
+                            onPressed: () => setText(classeOriginal),
+                            icon: Icon(Icons.bolt, size: 16),
+                            label: Text(
+                              "$classeFormatada ($score)",
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(12),

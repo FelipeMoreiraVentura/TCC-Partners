@@ -59,6 +59,36 @@ class ProductService {
     }
   }
 
+  Future<List<String>> getProductNameSuggestions(String query) async {
+    try {
+      final normalized = query.trim().toLowerCase();
+
+      if (normalized.isEmpty) return [];
+
+      final result =
+          await _db
+              .collection("products")
+              .orderBy("name")
+              .startAt([query])
+              .endAt(["$query\uf8ff"])
+              .limit(20)
+              .get();
+
+      final filtered =
+          result.docs
+              .map((doc) => doc['name'] as String)
+              .where((name) => name.toLowerCase().startsWith(normalized))
+              .toSet()
+              .take(10)
+              .toList();
+
+      return filtered;
+    } catch (e) {
+      ToastService.error("Erro ao buscar sugestões: $e");
+      return [];
+    }
+  }
+
   Future<ProductModel> getProduct(String productId) async {
     try {
       final doc = await _db.collection("products").doc(productId).get();
@@ -87,14 +117,12 @@ class ProductService {
         final snap = await _db.collection("products").get();
         return snap.docs.map((doc) => ProductModel.fromFirebase(doc)).toList();
       }
-
       final doc =
           await _db
               .collection("products")
               .where("name", isGreaterThanOrEqualTo: name)
               .where("name", isLessThanOrEqualTo: '$name\uf8ff')
               .get();
-
       return doc.docs.map((doc) => ProductModel.fromFirebase(doc)).toList();
     } catch (e) {
       ToastService.error("Erro ao buscar produtos por nome: $e");

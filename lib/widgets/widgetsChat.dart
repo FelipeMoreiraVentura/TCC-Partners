@@ -8,6 +8,7 @@ import 'package:market_partners/models/product.dart';
 import 'package:market_partners/utils/is_mobile.dart';
 import 'package:market_partners/utils/pick_image.dart';
 import 'package:market_partners/utils/style.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/card_product.dart';
 import 'package:market_partners/widgets/loading.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -44,6 +45,10 @@ class _ChatViewState extends State<ChatView> {
   Future<void> sendMessage(prompt) async {
     if (prompt == "") return;
 
+    if (isListening) {
+      speech.stop();
+      setState(() => isListening = false);
+    }
     setState(() {
       chatHistory.add({
         "sender": "user",
@@ -92,6 +97,13 @@ class _ChatViewState extends State<ChatView> {
           "products": products,
         });
       });
+
+      if (products != null && products.isNotEmpty) {
+        setState(() {
+          chatHistory.add({"sender": "divider", "message": "Nova seção"});
+          chatHistoryText = "";
+        });
+      }
     } else {
       setState(() {
         chatHistory.add({"sender": "bot", "message": "Ocorreu algum erro."});
@@ -108,14 +120,12 @@ class _ChatViewState extends State<ChatView> {
     if (isListening) {
       bool available = await speech.initialize(
         onStatus: (status) {
-          setState(() {
-            isListening = status == "listening";
-          });
+          if (status == "notListening") {
+            setState(() => isListening = false);
+          }
         },
         onError: (error) {
-          setState(() {
-            isListening = false;
-          });
+          setState(() => isListening = false);
         },
       );
 
@@ -124,6 +134,15 @@ class _ChatViewState extends State<ChatView> {
           onResult: (result) {
             setState(() {
               promptController.text = result.recognizedWords;
+            });
+
+            // Se nenhum texto novo por 3 segundos, para de ouvir
+            Future.delayed(const Duration(seconds: 3), () {
+              if (!speech.isListening) return;
+              if (promptController.text == result.recognizedWords) {
+                speech.stop();
+                setState(() => isListening = false);
+              }
             });
           },
           localeId: 'pt_BR',
@@ -160,30 +179,59 @@ class _ChatViewState extends State<ChatView> {
                 String text = message["message"] as String;
                 Uint8List? image = message["image"] as Uint8List?;
 
+                if (message["sender"] == "divider") {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      children: const [
+                        Expanded(child: Divider(thickness: 1)),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: TranslatedText(
+                            text: "Nova seção",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black26,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(thickness: 1, color: Colors.black26),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
                   child: Align(
                     alignment:
                         isUser ? Alignment.centerRight : Alignment.centerLeft,
                     child: Column(
-                      crossAxisAlignment: isUser
-                          ? CrossAxisAlignment.end
-                          : CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          isUser
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: isUser
-                                ? const Color(0xFFDCF8C6)
-                                : Colors.white,
+                            color:
+                                isUser ? const Color(0xFFDCF8C6) : Colors.white,
                             borderRadius: BorderRadius.only(
                               topLeft: const Radius.circular(16),
                               topRight: const Radius.circular(16),
-                              bottomLeft: isUser
-                                  ? const Radius.circular(16)
-                                  : const Radius.circular(0),
-                              bottomRight: isUser
-                                  ? const Radius.circular(0)
-                                  : const Radius.circular(16),
+                              bottomLeft:
+                                  isUser
+                                      ? const Radius.circular(16)
+                                      : const Radius.circular(0),
+                              bottomRight:
+                                  isUser
+                                      ? const Radius.circular(0)
+                                      : const Radius.circular(16),
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -198,19 +246,13 @@ class _ChatViewState extends State<ChatView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                text,
-                                style: const TextStyle(fontSize: 15),
-                              ),
+                              Text(text, style: const TextStyle(fontSize: 15)),
                               if (image != null && isUser)
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
-                                    child: Image.memory(
-                                      image,
-                                      width: 150,
-                                    ),
+                                    child: Image.memory(image, width: 150),
                                   ),
                                 ),
                             ],
@@ -225,13 +267,13 @@ class _ChatViewState extends State<ChatView> {
                               child: CarouselSlider(
                                 items:
                                     (message["products"] as List).map<Widget>((
-                                  productData,
-                                ) {
-                                  final product = ProductModel.fromJson(
-                                    productData,
-                                  );
-                                  return CardProduct(product: product);
-                                }).toList(),
+                                      productData,
+                                    ) {
+                                      final product = ProductModel.fromJson(
+                                        productData,
+                                      );
+                                      return CardProduct(product: product);
+                                    }).toList(),
                                 options: CarouselOptions(
                                   height: 200,
                                   enableInfiniteScroll: false,
@@ -284,8 +326,10 @@ class _ChatViewState extends State<ChatView> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
                     ),
                     onSubmitted: (value) {
                       sendMessage(value);
