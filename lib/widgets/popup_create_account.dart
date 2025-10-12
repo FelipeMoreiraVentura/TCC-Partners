@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:market_partners/router/app_router.dart';
-import 'package:market_partners/utils/go_or_push_named.dart';
 import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/popup.dart';
 
@@ -13,7 +13,7 @@ class PopupCreateAccount extends StatelessWidget {
       title: "Criar Conta",
       actionButtons: true,
       confirmAction: () {
-        navNamed(context, AppRoute.login);
+        GoRouter.of(context).goNamed(AppRoute.login);
       },
       child: TranslatedText(
         text: "Você ainda não possui uma conta, deseja criar uma?",
