@@ -2,9 +2,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/models/user.dart';
+import 'package:market_partners/utils/style.dart';
 import 'package:market_partners/utils/toast.dart';
+import 'package:market_partners/utils/translate.dart';
 import 'package:market_partners/widgets/input.dart';
 import 'package:market_partners/widgets/loading.dart';
+import 'package:market_partners/widgets/my_outlined_button.dart';
 import 'package:market_partners/widgets/popup.dart';
 import 'package:market_partners/firebase/user.dart';
 
@@ -28,7 +31,7 @@ class _PopupUserInfoState extends State<PopupUserInfo> {
       TextEditingController();
 
   bool isEditing = false;
-  String editMode = "none"; // "none", "phone", "password"
+  String editMode = "none";
 
   @override
   void initState() {
@@ -140,16 +143,33 @@ class _PopupUserInfoState extends State<PopupUserInfo> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
-                      ElevatedButton.icon(
+                      MyOutlinedButton(
+                        child: Row(
+                          children: [
+                            Icon(Icons.phone, color: AppColors.blue),
+                            const SizedBox(width: 5),
+                            TranslatedText(
+                              text: "Editar Telefone",
+                              style: TextStyle(color: AppColors.blue),
+                            ),
+                          ],
+                        ),
                         onPressed: () => setState(() => editMode = "phone"),
-                        icon: Icon(Icons.phone),
-                        label: Text("Editar Telefone"),
                       ),
                       const SizedBox(height: 10),
-                      ElevatedButton.icon(
+
+                      MyOutlinedButton(
+                        child: Row(
+                          children: [
+                            Icon(Icons.lock, color: AppColors.blue),
+                            const SizedBox(width: 5),
+                            TranslatedText(
+                              text: "Alterar Senha",
+                              style: TextStyle(color: AppColors.blue),
+                            ),
+                          ],
+                        ),
                         onPressed: () => setState(() => editMode = "password"),
-                        icon: Icon(Icons.lock),
-                        label: Text("Alterar Senha"),
                       ),
                     ] else if (editMode == "phone") ...[
                       Input(

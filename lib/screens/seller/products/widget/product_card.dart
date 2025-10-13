@@ -34,22 +34,32 @@ class ProductCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Image.memory(base64Decode(product.images[0]), width: 100),
-                SizedBox(width: 10),
-                Column(
-                  children: [
-                    Text(product.name),
-                    Text("R\$ ${product.price}"),
-                    Text(product.stock.toString()),
-                  ],
-                ),
-              ],
+            Image.memory(
+              base64Decode(product.images[0]),
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    product.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text("R\$ ${product.price}"),
+                  Text(product.stock.toString()),
+                ],
+              ),
             ),
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                   onPressed: () {
@@ -66,9 +76,7 @@ class ProductCard extends StatelessWidget {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) {
-                        return popupDelete;
-                      },
+                      builder: (context) => popupDelete,
                     );
                   },
                   icon: const Icon(Icons.delete),

@@ -36,7 +36,7 @@ class _NavBarState extends State<NavBar> {
                   navNamed(context, AppRoute.homeBuyer);
                 },
         icon: Icon(
-          Icons.home_filled,
+          Icons.home,
           color:
               currentRouteName == AppRoute.homeBuyer
                   ? Colors.grey

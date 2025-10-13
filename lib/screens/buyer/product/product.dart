@@ -35,9 +35,8 @@ class _ProductState extends State<Product> {
 
   void loadProduct() async {
     ProductModel productData = await ProductService().getProduct(widget.id);
-    List<ProductModel> productsData = await ProductService().getRandomProducts(
-      16,
-    );
+    List<ProductModel> productsData = await ProductService()
+        .getRandomProductsByCategory(productData.category);
     List<ReviewsModels> reviewData = await ReviewsService().getReviews(
       widget.id,
       "productId",
@@ -69,7 +68,7 @@ class _ProductState extends State<Product> {
                         ProductInfo(product: product!, reviews: review),
 
                         SizedBox(height: 10),
-                        if(product!.specifications.isNotEmpty)
+                        if (product!.specifications.isNotEmpty)
                           ProductSpecifications(
                             specifications: product!.specifications,
                           ),

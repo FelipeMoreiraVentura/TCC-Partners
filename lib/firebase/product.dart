@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:market_partners/models/product.dart';
+import 'package:market_partners/models/purchase.dart';
 import 'package:market_partners/utils/toast.dart';
 
 class ProductService {
@@ -55,6 +56,143 @@ class ProductService {
       return all.take(quantidade).toList();
     } catch (e) {
       ToastService.error("Erro ao pegar produtos aleatorios: $e");
+      rethrow;
+    }
+  }
+
+  Future<List<ProductModel>> getTopPurchasedProducts() async {
+    try {
+      final purchasesSnapshot = await _db.collection('purchases').get();
+
+      final Map<String, int> productCount = {};
+
+      for (var doc in purchasesSnapshot.docs) {
+        final purchase = PurchaseModel.fromFirestore(doc);
+        productCount[purchase.productId] =
+            (productCount[purchase.productId] ?? 0) + 1;
+      }
+
+      final topProductIds =
+          productCount.entries.toList()
+            ..sort((a, b) => b.value.compareTo(a.value));
+      final List<String> topIds =
+          topProductIds.take(12).map((entry) => entry.key).toList();
+
+      final List<ProductModel> topProducts = [];
+
+      for (String productId in topIds) {
+        final productDoc =
+            await _db.collection('products').doc(productId).get();
+        if (productDoc.exists) {
+          topProducts.add(ProductModel.fromFirebase(productDoc));
+        }
+      }
+
+      if (topProducts.length < 12) {
+        final allProductsSnapshot = await _db.collection('products').get();
+        final allProducts =
+            allProductsSnapshot.docs
+                .map((doc) => ProductModel.fromFirebase(doc))
+                .where((p) => !topIds.contains(p.id))
+                .toList();
+
+        allProducts.shuffle();
+
+        final needed = 12 - topProducts.length;
+        topProducts.addAll(allProducts.take(needed));
+      }
+
+      return topProducts;
+    } catch (e) {
+      ToastService.error("Erro ao buscar produtos mais comprados: $e");
+      rethrow;
+    }
+  }
+
+  Future<List<ProductModel>> getRecommendedProductsForUser(
+    String userId,
+  ) async {
+    try {
+      // 1. Busca todas as compras feitas pelo usuário
+      final purchasesSnapshot =
+          await _db
+              .collection('purchases')
+              .where('buyerId', isEqualTo: userId)
+              .get();
+
+      // 2. Verifica se o usuário ainda não fez nenhuma compra
+      if (purchasesSnapshot.docs.isEmpty) {
+        // Retorna 12 produtos aleatórios
+        final allProductsSnapshot = await _db.collection('products').get();
+        final allProducts =
+            allProductsSnapshot.docs
+                .map((doc) => ProductModel.fromFirebase(doc))
+                .toList();
+
+        allProducts.shuffle();
+        return allProducts.take(12).toList();
+      }
+
+      // 3. Extrai os IDs dos produtos comprados
+      final boughtProductIds =
+          purchasesSnapshot.docs
+              .map((doc) => PurchaseModel.fromFirestore(doc).productId)
+              .toSet();
+
+      // 4. Busca os produtos comprados para obter as categorias
+      final Set<String> categories = {};
+      for (String productId in boughtProductIds) {
+        final productDoc =
+            await _db.collection('products').doc(productId).get();
+        if (productDoc.exists) {
+          final product = ProductModel.fromFirebase(productDoc);
+          categories.add(product.category);
+        }
+      }
+
+      // 5. Busca todos os produtos das categorias compradas
+      final categoryProductsSnapshot =
+          await _db
+              .collection('products')
+              .where('category', whereIn: categories.toList())
+              .get();
+
+      // 6. Filtra os produtos que o usuário ainda não comprou
+      final filteredProducts =
+          categoryProductsSnapshot.docs
+              .map((doc) => ProductModel.fromFirebase(doc))
+              .where((product) => !boughtProductIds.contains(product.id))
+              .toList();
+
+      // 7. Embaralha e retorna até 12 produtos
+      filteredProducts.shuffle();
+      return filteredProducts.take(12).toList();
+    } catch (e) {
+      ToastService.error("Erro ao buscar recomendações: $e");
+      rethrow;
+    }
+  }
+
+  Future<List<ProductModel>> getRandomProductsByCategory(
+    String category,
+  ) async {
+    try {
+      final querySnapshot =
+          await _db
+              .collection('products')
+              .where('category', isEqualTo: category)
+              .get();
+
+      final products =
+          querySnapshot.docs
+              .map((doc) => ProductModel.fromFirebase(doc))
+              .toList();
+
+      products.shuffle();
+
+      return products.take(16).toList();
+    } catch (e) {
+      ToastService.error("Erro ao pegar produtos da categoria '$category': $e");
       rethrow;
     }
   }

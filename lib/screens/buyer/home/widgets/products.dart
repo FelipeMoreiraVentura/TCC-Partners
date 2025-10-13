@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:market_partners/firebase/product.dart';
 import 'package:market_partners/models/product.dart';
@@ -21,7 +22,11 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  List<ProductModel> products = [];
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+
+  List<ProductModel> topPurchaseProducts = [];
+  List<ProductModel> recommendedProducts = [];
+  List<ProductModel> randomProduts = [];
 
   final CarouselSliderController controller = CarouselSliderController();
 
@@ -32,16 +37,25 @@ class _ProductsState extends State<Products> {
   }
 
   void loadProducts() async {
-    final loadedProducts = await ProductService().getRandomProducts(12);
+    final topPurchaseProductsData =
+        await ProductService().getTopPurchasedProducts();
+
+    final recommendedProductsData = await ProductService()
+        .getRecommendedProductsForUser(uid ?? "");
+
+    final randomProdutsData = await ProductService().getRandomProducts(12);
+
     setState(() {
-      products = loadedProducts;
+      topPurchaseProducts = topPurchaseProductsData;
+      recommendedProducts = recommendedProductsData;
+      randomProduts = randomProdutsData;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     List<CardProduct> widgetsProductsMostPurchased =
-        products.map((product) {
+        topPurchaseProducts.map((product) {
           return CardProduct(product: product);
         }).toList();
 
@@ -50,16 +64,22 @@ class _ProductsState extends State<Products> {
       child: Column(
         children: [
           TranslatedText(text: "Mais comprados", style: AppText.titleMedium),
-          products.isEmpty
+          topPurchaseProducts.isEmpty
               ? widgetLoading()
               : ProductCarousel(cardProducts: widgetsProductsMostPurchased),
           SizedBox(height: 20),
-      
-          TranslatedText(
-            text: "Recomendado para você",
-            style: AppText.titleMedium,
-          ),
-          products.isEmpty ? widgetLoading() : WrapProduct(products: products),
+
+          if (uid != null && uid!.isNotEmpty) ...[
+            TranslatedText(text: "Recomendado", style: AppText.titleMedium),
+            recommendedProducts.isEmpty
+                ? widgetLoading()
+                : WrapProduct(products: recommendedProducts),
+            SizedBox(height: 20),
+          ],
+          TranslatedText(text: "Descubra", style: AppText.titleMedium),
+          randomProduts.isEmpty
+              ? widgetLoading()
+              : WrapProduct(products: randomProduts),
         ],
       ),
     );

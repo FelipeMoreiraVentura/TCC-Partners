@@ -91,6 +91,7 @@ class Carousel extends StatelessWidget {
           children: [
             TranslatedText(
               text: "SEJA UM VENDEDOR NA MARKET PARTNERS!",
+              textAlign: TextAlign.center,
               style:
                   isMobile
                       ? AppText.titleTiny.apply(fontFamily: "Mayak_Extended")
@@ -103,6 +104,7 @@ class Carousel extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             TranslatedText(
+              textAlign: TextAlign.center,
               text:
                   "Envie uma foto e a IA preenche o anúncio pra você!\nSeja um vendedor agora mesmo!",
               style:
