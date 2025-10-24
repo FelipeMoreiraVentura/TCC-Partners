@@ -102,22 +102,29 @@ class _NewOrEditProductState extends State<NewOrEditProduct> {
     if (product == "" || isEditing) return;
 
     setState(() => isLoading = true);
-    Response data = await Api.post("/set_product", {"product": product});
 
-    if (data.statusCode == 200) {
-      final responseBody = utf8.decode(data.bodyBytes);
-      final dynamic infoJson = jsonDecode(responseBody);
-      setState(() {
-        name.text = infoJson["name"] ?? "";
-        description.text = infoJson["description"] ?? "";
-        specifications = Map<String, String>.from(
-          infoJson["specifications"] ?? {},
-        );
-      });
-    } else {
-      ToastService.error("Erro ao gerar descrição do produto.");
+    try {
+      Response data = await Api.post("/set_product", {"product": product});
+
+      if (data.statusCode == 200) {
+        final responseBody = utf8.decode(data.bodyBytes);
+        final dynamic infoJson = jsonDecode(responseBody);
+
+        setState(() {
+          name.text = infoJson["name"] ?? "";
+          description.text = infoJson["description"] ?? "";
+          specifications = Map<String, String>.from(
+            infoJson["specifications"] ?? {},
+          );
+        });
+      } else {
+        ToastService.error("Erro ao gerar descrição do produto.");
+      }
+    } catch (e) {
+      // ToastService.error("Erro inesperado ao gerar descrição.");
+    } finally {
+      setState(() => isLoading = false);
     }
-    setState(() => isLoading = false);
   }
 
   Future<void> postProduct() async {
